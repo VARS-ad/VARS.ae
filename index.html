@@ -48,14 +48,16 @@
             z-index: 1000;
             padding: 1.5rem 2rem;
             background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(10px);
-            transition: background 0.3s ease;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         nav.scrolled {
             background: rgba(10, 10, 10, 0.95);
             border-bottom-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
         }
 
         nav-content {
@@ -78,7 +80,7 @@
             width: 32px;
             height: 32px;
             background: white;
-            border-radius: 4px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -126,7 +128,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             opacity: 0;
             transform: translateY(60px) scale(0.97);
             filter: blur(8px);
@@ -146,7 +148,7 @@
         /* Staggered child animations */
         section .split-text,
         section .laptop-mockup,
-        section .phone-mockup,
+        section .iphone-mockup,
         section .cta-content,
         section .apps-container,
         section .doc-cards {
@@ -168,7 +170,7 @@
             transition-delay: 0.35s;
         }
 
-        section.visible .phone-mockup {
+        section.visible .iphone-mockup {
             opacity: 1;
             transform: translateY(0);
             transition-delay: 0.3s;
@@ -192,15 +194,6 @@
             transition-delay: 0.3s;
         }
 
-        /* Parallax-style depth for alternating sections */
-        section:nth-child(even) {
-            transform: translateY(60px) scale(0.97);
-        }
-
-        section:nth-child(odd):not(#hero) {
-            transform: translateY(60px) scale(0.97);
-        }
-
         /* Smooth reveal for split-layout mockups from the side */
         section.visible .split-layout > :last-child {
             animation: slideInFromRight 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
@@ -219,14 +212,14 @@
         /* Hero Section */
         #hero {
             text-align: center;
-            padding-top: 8rem;
+            padding-top: 10rem;
         }
 
         .logo-large {
             display: inline-flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             opacity: 0;
             animation: fadeInDown 0.8s ease 0.2s forwards;
         }
@@ -235,7 +228,7 @@
             width: 64px;
             height: 64px;
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -247,13 +240,15 @@
         .logo-text {
             font-size: 1.75rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
-            line-height: 1.2;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
             opacity: 0;
             animation: fadeInDown 0.8s ease 0.4s forwards;
         }
@@ -263,6 +258,8 @@
             color: var(--text-secondary);
             max-width: 700px;
             margin: 0 auto 3rem;
+            font-weight: 400;
+            line-height: 1.7;
             opacity: 0;
             animation: fadeInDown 0.8s ease 0.6s forwards;
         }
@@ -278,10 +275,10 @@
         }
 
         .pill {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            border-radius: 100px;
             font-size: 0.9rem;
             color: var(--text-secondary);
             backdrop-filter: blur(10px);
@@ -289,11 +286,11 @@
         }
 
         .pill:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
             color: var(--text-primary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.06);
         }
 
         .scroll-indicator {
@@ -302,25 +299,38 @@
             margin-top: 3rem;
         }
 
-        .scroll-dot {
-            width: 8px;
-            height: 12px;
-            border: 2px solid var(--text-secondary);
-            border-radius: 4px;
+        .scroll-mouse {
+            width: 24px;
+            height: 38px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
             margin: 0 auto;
-            animation: bounce 2s infinite;
+            position: relative;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
+        .scroll-mouse::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 8px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 2px;
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
         }
 
         /* Split Layout */
         .split-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: center;
         }
 
@@ -333,10 +343,11 @@
         }
 
         .split-text h2 {
-            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-size: clamp(1.75rem, 5vw, 2.75rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
-            line-height: 1.2;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
         }
 
         .split-text p {
@@ -383,232 +394,588 @@
             margin-top: 0.5rem;
         }
 
-        /* Laptop Mockup */
+        /* ==================== */
+        /* MACBOOK LAPTOP MOCKUP */
+        /* ==================== */
         .laptop-mockup {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
             margin: 0 auto;
         }
 
-        .laptop-frame {
-            background: var(--bg-dark);
-            border: 2px solid var(--border-dark);
-            border-radius: 12px 12px 0 0;
-            padding: 30px;
+        .laptop-screen {
+            background: #1c1c1e;
+            border-radius: 12px;
+            padding: 0;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7),
+                        0 0 0 1px rgba(255,255,255,0.08);
+            overflow: hidden;
             transition: box-shadow 0.4s ease, transform 0.4s ease;
         }
 
-        .laptop-mockup:hover .laptop-frame {
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+        .laptop-mockup:hover .laptop-screen {
+            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.8),
+                        0 0 0 1px rgba(255,255,255,0.12);
             transform: translateY(-4px);
         }
 
-        .laptop-dots {
-            position: absolute;
-            top: 12px;
-            left: 12px;
+        .laptop-topbar {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            padding: 10px 14px;
+            background: #2c2c2e;
+            gap: 7px;
         }
 
-        .dot {
-            width: 12px;
-            height: 12px;
+        .laptop-topbar .dot {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
 
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #febc2e; }
+        .dot-green { background: #28c840; }
 
-        .laptop-content {
-            background: #f5f5f5;
-            border-radius: 8px;
-            padding: 20px;
-            color: #1a1a1a;
+        .laptop-topbar-url {
+            flex: 1;
+            text-align: center;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.35);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .laptop-body {
+            background: #ffffff;
+            padding: 0;
             min-height: 300px;
-            font-size: 0.85rem;
+            color: #1a1a1a;
+            font-size: 0.8rem;
         }
 
-        .laptop-base {
-            height: 12px;
-            background: var(--bg-dark);
-            margin-top: -2px;
-            border: 2px solid var(--border-dark);
-            border-radius: 0 0 20px 20px;
+        .laptop-hinge {
+            height: 14px;
+            background: linear-gradient(180deg, #3a3a3c 0%, #2c2c2e 40%, #48484a 100%);
+            border-radius: 0 0 4px 4px;
+            margin: 0 -2px;
+            position: relative;
         }
 
-        /* Phone Mockup */
-        .phone-mockup {
+        .laptop-hinge::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18%;
+            height: 3px;
+            background: #636366;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .laptop-base-plate {
+            height: 4px;
+            background: linear-gradient(180deg, #48484a, #3a3a3c);
+            margin: 0 10%;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* App-like sidebar layout inside laptop */
+        .app-layout {
+            display: flex;
+            min-height: 300px;
+        }
+
+        .app-sidebar {
+            width: 180px;
+            background: #f0f0f5;
+            padding: 14px 10px;
+            border-right: 1px solid #e5e5ea;
+            flex-shrink: 0;
+        }
+
+        .app-sidebar-brand {
+            font-weight: 800;
+            font-size: 0.75rem;
+            color: #1a1a1a;
+            padding: 0 6px 12px;
+            border-bottom: 1px solid #e5e5ea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .app-sidebar-brand .brand-dot {
+            width: 18px;
+            height: 18px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.55rem;
+            font-weight: 900;
+        }
+
+        .sidebar-item {
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.68rem;
+            color: #666;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-item.active {
+            background: #1a1a1a;
+            color: white;
+            font-weight: 600;
+        }
+
+        .sidebar-icon {
+            width: 14px;
+            height: 14px;
+            opacity: 0.6;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-item.active .sidebar-icon {
+            opacity: 1;
+        }
+
+        .app-main {
+            flex: 1;
+            padding: 16px 20px;
+            overflow: hidden;
+        }
+
+        .app-main-header {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .app-main-sub {
+            font-size: 0.68rem;
+            color: #999;
+            margin-bottom: 14px;
+        }
+
+        /* KPI Cards inside laptop */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .kpi-card {
+            background: #f8f8fa;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+
+        .kpi-value {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+        }
+
+        .kpi-label {
+            font-size: 0.6rem;
+            color: #999;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .kpi-change {
+            font-size: 0.55rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .kpi-change.up { color: #28c840; }
+        .kpi-change.down { color: #ff5f57; }
+
+        /* Chart inside laptop */
+        .mini-chart {
+            background: #f8f8fa;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .mini-chart-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 50px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            border-radius: 3px 3px 0 0;
+            min-height: 4px;
+            transition: height 0.3s ease;
+        }
+
+        .chart-bar.dark { background: #1a1a1a; }
+        .chart-bar.light { background: #e0e0e5; }
+        .chart-bar.accent { background: #4285f4; }
+
+        /* Table inside laptop */
+        .app-table {
+            width: 100%;
+            font-size: 0.65rem;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .app-table thead th {
+            background: #f8f8fa;
+            padding: 7px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 0.58rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .app-table tbody td {
+            padding: 8px 8px;
+            border-bottom: 1px solid #f5f5f5;
+            color: #333;
+        }
+
+        .app-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-dot.green { background: #28c840; }
+        .status-dot.yellow { background: #febc2e; }
+        .status-dot.blue { background: #4285f4; }
+        .status-dot.red { background: #ff5f57; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.58rem;
+        }
+
+        .badge-success { background: #dcf5e0; color: #1a7a2e; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-pending { background: #d1ecf1; color: #0c5460; }
+        .badge-active { background: #e8eaf6; color: #1a237e; }
+
+        /* ================== */
+        /* iPHONE 16 MOCKUP   */
+        /* ================== */
+        .iphone-mockup {
             position: relative;
             width: 100%;
             max-width: 280px;
             margin: 0 auto;
         }
 
-        .phone-mockup.small {
-            transform: scale(0.85);
-        }
-
-        .phone-mockup.rotated {
-            transform: rotate(-5deg) scale(0.85);
-        }
-
-        .phone-mockup.rotated-right {
-            transform: rotate(5deg) scale(0.85);
-        }
-
-        .phone-frame {
-            background: var(--bg-dark);
-            border: 3px solid var(--border-dark);
-            border-radius: 40px;
-            padding: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        .iphone-frame {
+            background: #1c1c1e;
+            border: 2.5px solid #3a3a3c;
+            border-radius: 46px;
+            padding: 10px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7),
+                        inset 0 0 0 1px rgba(255,255,255,0.05);
             position: relative;
             transition: box-shadow 0.4s ease, transform 0.4s ease;
         }
 
-        .phone-mockup:hover .phone-frame {
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+        .iphone-mockup:hover .iphone-frame {
+            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.8),
+                        inset 0 0 0 1px rgba(255,255,255,0.08);
             transform: translateY(-4px);
         }
 
-        .phone-notch {
+        /* Dynamic Island */
+        .dynamic-island {
             position: absolute;
-            top: 8px;
+            top: 14px;
             left: 50%;
             transform: translateX(-50%);
-            width: 150px;
-            height: 24px;
-            background: #1a1a1a;
-            border-radius: 0 0 20px 20px;
+            width: 100px;
+            height: 28px;
+            background: #000;
+            border-radius: 20px;
             z-index: 10;
         }
 
-        .phone-content {
-            background: #f5f5f5;
-            border-radius: 35px;
-            padding: 20px;
-            aspect-ratio: 9/16;
-            color: #1a1a1a;
-            font-size: 0.75rem;
+        .iphone-screen {
+            background: #ffffff;
+            border-radius: 40px;
             overflow: hidden;
+            aspect-ratio: 9/19.5;
             display: flex;
             flex-direction: column;
         }
 
-        /* KPI Cards */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+        /* iPhone status bar */
+        .iphone-statusbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px 6px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #1a1a1a;
         }
 
-        .kpi-card {
-            background: #e8e8e8;
-            border-radius: 8px;
+        .iphone-statusbar-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .battery-icon {
+            width: 20px;
+            height: 9px;
+            border: 1.5px solid #333;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 4px;
+            background: #333;
+            border-radius: 0 1px 1px 0;
+        }
+
+        .battery-icon::before {
+            content: '';
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            bottom: 1px;
+            right: 3px;
+            background: #333;
+            border-radius: 1px;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 1px;
+            align-items: flex-end;
+            height: 9px;
+        }
+
+        .signal-bar {
+            width: 2.5px;
+            background: #333;
+            border-radius: 1px;
+        }
+
+        /* iPhone app content */
+        .iphone-content {
+            flex: 1;
+            padding: 4px 16px 16px;
+            font-size: 0.72rem;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .iphone-app-header {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+            letter-spacing: -0.02em;
+        }
+
+        .iphone-app-sub {
+            font-size: 0.65rem;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .iphone-card {
+            background: #f5f5f7;
+            border-radius: 12px;
             padding: 12px;
-            border: 1px solid #ddd;
+            margin-bottom: 8px;
         }
 
-        .kpi-value {
+        .iphone-card-title {
             font-weight: 700;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+
+        .iphone-card-value {
+            font-weight: 800;
             font-size: 1rem;
         }
 
-        .kpi-label {
-            font-size: 0.7rem;
-            color: #666;
-            margin-top: 4px;
+        .iphone-card-label {
+            font-size: 0.6rem;
+            color: #999;
         }
 
-        /* Chart */
-        .chart {
-            width: 100%;
-            height: 60px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            background: #e8e8e8;
-            border: 1px solid #ddd;
-            padding: 8px;
+        .iphone-row {
             display: flex;
-            align-items: flex-end;
-            gap: 4px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
-        .chart-bar {
+        .iphone-row > * {
             flex: 1;
-            background: #ddd;
-            border-radius: 3px;
-            min-height: 4px;
         }
 
-        .chart-bar.active {
-            background: #1a1a1a;
-        }
-
-        /* Table */
-        .mini-table {
-            width: 100%;
-            font-size: 0.7rem;
-            border-collapse: collapse;
-        }
-
-        .mini-table th {
-            background: #e8e8e8;
-            padding: 6px 4px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .mini-table td {
-            padding: 6px 4px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: 600;
-            font-size: 0.65rem;
-        }
-
-        .badge-success {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge-warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .badge-pending {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        /* Three Apps Section */
-        .apps-container {
+        .iphone-list-item {
             display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.68rem;
+        }
+
+        .iphone-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .iphone-nav-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 6px;
+            border-top: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        .iphone-nav-item {
+            text-align: center;
+            font-size: 0.5rem;
+            color: #999;
+        }
+
+        .iphone-nav-item.active {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .iphone-nav-icon {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .iphone-home-indicator {
+            width: 120px;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 2px;
+            margin: 6px auto 4px;
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .message {
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 0.68rem;
+            max-width: 85%;
+            line-height: 1.4;
+        }
+
+        .message.sent {
+            background: #007AFF;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received {
+            background: #e9e9eb;
+            color: #1a1a1a;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        /* =================== */
+        /* THREE APPS SECTION  */
+        /* =================== */
+        .apps-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 2rem;
             margin-top: 3rem;
+            align-items: start;
+        }
+
+        .app-card {
+            text-align: center;
+        }
+
+        .app-card .laptop-mockup {
+            max-width: 420px;
         }
 
         .app-label {
             text-align: center;
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .app-sublabel {
+            text-align: center;
+            font-size: 0.85rem;
             color: var(--text-secondary);
+            margin-top: 0.25rem;
         }
 
         /* Gradient Backgrounds */
@@ -628,23 +995,23 @@
         .location-pills {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 2rem;
         }
 
         .location-pill {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.6rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             transition: all 0.3s ease;
         }
 
         .location-pill:hover {
             background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
             color: var(--text-primary);
         }
 
@@ -657,19 +1024,19 @@
         }
 
         .doc-card {
-            width: 150px;
-            height: 200px;
-            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
+            width: 160px;
+            height: 210px;
+            background: linear-gradient(145deg, #ffffff 0%, #f5f5f7 100%);
+            border: 1px solid #e5e5ea;
+            border-radius: 12px;
+            padding: 1.25rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
             opacity: 0;
-            transform: translateY(40px) scale(0.85) perspective(800px);
+            transform: translateY(40px) scale(0.85);
             filter: blur(4px);
             transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                         transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
@@ -678,7 +1045,7 @@
 
         section.visible .doc-card {
             opacity: 1;
-            transform: translateY(0) scale(1) perspective(800px);
+            transform: translateY(0) scale(1);
             filter: blur(0);
         }
 
@@ -686,61 +1053,67 @@
         section.visible .doc-card:nth-child(2) { transition-delay: 0.5s; }
         section.visible .doc-card:nth-child(3) { transition-delay: 0.7s; }
 
+        .doc-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
         .doc-title {
-            font-weight: 600;
+            font-weight: 700;
             color: #1a1a1a;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .doc-type {
-            font-size: 0.75rem;
-            color: #666;
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 0.25rem;
         }
 
         .doc-badge {
             display: inline-block;
-            background: #d4edda;
-            color: #155724;
+            background: #dcf5e0;
+            color: #1a7a2e;
             padding: 3px 8px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
         }
 
         /* Announcement Cards */
         .announcement-cards {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .announcement {
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border-radius: 10px;
             font-size: 0.8rem;
             border-left: 4px solid;
         }
 
         .announcement-urgent {
-            background: rgba(255, 87, 51, 0.1);
-            border-left-color: #ff5f56;
+            background: rgba(255, 87, 51, 0.08);
+            border-left-color: #ff5f57;
             color: #fff;
         }
 
         .announcement-info {
-            background: rgba(66, 133, 244, 0.1);
+            background: rgba(66, 133, 244, 0.08);
             border-left-color: #4285f4;
             color: #fff;
         }
 
         .announcement-community {
-            background: rgba(39, 201, 63, 0.1);
-            border-left-color: #27c93f;
+            background: rgba(39, 201, 63, 0.08);
+            border-left-color: #28c840;
             color: #fff;
         }
 
         .announcement-title {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 4px;
         }
 
@@ -764,8 +1137,8 @@
         .cta-stats {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 3rem;
+            margin: 2.5rem 0;
             flex-wrap: wrap;
         }
 
@@ -774,14 +1147,15 @@
         }
 
         .cta-stat-value {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         .cta-stat-label {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
         }
 
         /* Buttons */
@@ -790,11 +1164,11 @@
             color: #0a0a0a;
             border: none;
             padding: 1rem 2.5rem;
-            border-radius: 8px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-block;
             text-decoration: none;
             font-family: 'Inter', sans-serif;
@@ -802,13 +1176,13 @@
 
         button:hover, .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15);
         }
 
         /* Feature Items */
         .feature-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -834,80 +1208,30 @@
         section.visible .feature-item:nth-child(3) { transition-delay: 0.6s; }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1rem;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .feature-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            font-weight: 700;
         }
 
         .feature-item p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
-        /* Chat Messages */
-        .chat-messages {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .message {
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            max-width: 90%;
-        }
-
-        .message.sent {
-            background: #1a1a1a;
-            color: #fff;
-            align-self: flex-end;
-        }
-
-        .message.received {
-            background: #e8e8e8;
-            color: #1a1a1a;
-            align-self: flex-start;
-        }
-
-        /* Property Cards in Mockup */
-        .property-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .property-card {
-            background: #e8e8e8;
-            border-radius: 6px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .property-name {
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-
-        .property-units {
-            font-size: 0.7rem;
-            color: #666;
-            margin-top: 2px;
-        }
-
-        /* Guard Roster in Mockup */
+        /* Guard Roster */
         .guard-header {
             font-weight: 700;
             font-size: 0.85rem;
@@ -918,121 +1242,81 @@
         .guard-row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            align-items: center;
+            padding: 8px 0;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
         }
 
-        .guard-name {
-            font-weight: 600;
+        .guard-row:last-child { border-bottom: none; }
+
+        .guard-name { font-weight: 600; }
+        .guard-shift { color: #999; }
+
+        /* Property cards in mockup */
+        .property-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
-        .guard-shift {
-            color: #666;
+        .property-card {
+            background: #f5f5f7;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .property-name {
+            font-weight: 700;
+            font-size: 0.72rem;
+        }
+
+        .property-units {
+            font-size: 0.62rem;
+            color: #999;
+            margin-top: 2px;
         }
 
         /* Animations */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.95);
-                filter: blur(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
+            from { opacity: 0; transform: translateY(-30px) scale(0.95); filter: blur(4px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-                filter: blur(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px) scale(0.95);
-                filter: blur(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-                filter: blur(0);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(4px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(80px) scale(0.9);
-                filter: blur(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-                filter: blur(0);
-            }
+            from { opacity: 0; transform: translateX(80px) scale(0.9); filter: blur(6px); }
+            to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
         }
 
         @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-80px) scale(0.9);
-                filter: blur(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-                filter: blur(6px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0); }
+            from { opacity: 0; transform: translateX(-80px) scale(0.9); filter: blur(6px); }
+            to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .apps-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .app-card .laptop-mockup {
+                max-width: 500px;
+            }
+        }
+
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
+            nav { padding: 1rem; }
 
-            .nav-links {
-                gap: 1.5rem;
-            }
+            .hamburger { display: flex; }
 
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none;
-            }
+            .nav-links { display: none; }
 
             .nav-links.active {
                 display: flex;
@@ -1047,116 +1331,52 @@
             }
 
             section {
-                padding: 2rem 1rem;
+                padding: 3rem 1rem;
                 min-height: auto;
             }
 
             .split-layout {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 2.5rem;
             }
 
             .split-layout.reverse {
                 direction: ltr;
             }
 
-            h1 {
-                font-size: 2rem;
-            }
+            h1 { font-size: 2rem; }
 
-            .hero-subtext {
-                font-size: 1rem;
-            }
+            .hero-subtext { font-size: 1rem; }
 
-            .feature-pills {
-                gap: 0.5rem;
-            }
+            .feature-pills { gap: 0.5rem; }
 
-            .pill {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.8rem;
-            }
+            .pill { padding: 0.6rem 1.2rem; font-size: 0.8rem; }
 
             .apps-container {
-                gap: 1rem;
-                flex-wrap: wrap;
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
 
-            .phone-mockup.small,
-            .phone-mockup.rotated,
-            .phone-mockup.rotated-right {
-                transform: scale(0.7);
-            }
+            .app-sidebar { width: 140px; }
 
-            .split-text h2 {
-                font-size: 1.5rem;
-            }
+            .split-text h2 { font-size: 1.5rem; }
 
-            .stats-row {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
+            .stats-row { flex-wrap: wrap; gap: 1rem; }
 
-            .cta-stats {
-                gap: 1rem;
-            }
-
-            .feature-pills {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pill {
-                width: 100%;
-                max-width: 300px;
-            }
+            .cta-stats { gap: 1.5rem; }
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero-subtext {
-                font-size: 0.95rem;
-            }
-
-            .split-text h2 {
-                font-size: 1.25rem;
-            }
-
-            .split-text p {
-                font-size: 1rem;
-            }
-
-            .logo-box-large {
-                width: 48px;
-                height: 48px;
-                font-size: 1.5rem;
-            }
-
-            .logo-text {
-                font-size: 1.25rem;
-            }
-
-            .laptop-mockup {
-                max-width: 100%;
-            }
-
-            .phone-mockup {
-                max-width: 200px;
-            }
-
-            .phone-mockup.small,
-            .phone-mockup.rotated,
-            .phone-mockup.rotated-right {
-                transform: scale(0.6);
-            }
-
-            button {
-                padding: 0.75rem 2rem;
-                font-size: 0.95rem;
-            }
+            h1 { font-size: 1.5rem; }
+            .hero-subtext { font-size: 0.95rem; }
+            .split-text h2 { font-size: 1.25rem; }
+            .split-text p { font-size: 1rem; }
+            .logo-box-large { width: 48px; height: 48px; font-size: 1.5rem; }
+            .logo-text { font-size: 1.25rem; }
+            .laptop-mockup { max-width: 100%; }
+            .iphone-mockup { max-width: 240px; }
+            .app-sidebar { display: none; }
+            button { padding: 0.75rem 2rem; font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -1174,7 +1394,7 @@
                 <span></span>
             </div>
             <ul class="nav-links" id="navLinks">
-                <li><a onclick="scrollToSection('features')">Features</a></li>
+                <li><a onclick="scrollToSection('dashboard')">Features</a></li>
                 <li><a onclick="scrollToSection('apps')">Apps</a></li>
                 <li><a onclick="scrollToSection('properties')">Properties</a></li>
                 <li><a onclick="scrollToSection('cta')">Contact</a></li>
@@ -1189,7 +1409,7 @@
                 <div class="logo-box-large">V</div>
                 <div class="logo-text">VARS PM</div>
             </div>
-            <h1>Property Management. Simplified.</h1>
+            <h1>Property Management.<br>Simplified.</h1>
             <p class="hero-subtext">One unified platform for managing properties, visitors, guards, and residents across Abu Dhabi.</p>
             <div class="feature-pills">
                 <div class="pill">Visitor Tracking</div>
@@ -1198,7 +1418,7 @@
                 <div class="pill">Real-time Analytics</div>
             </div>
             <div class="scroll-indicator">
-                <div class="scroll-dot"></div>
+                <div class="scroll-mouse"></div>
             </div>
         </div>
     </section>
@@ -1208,62 +1428,115 @@
         <div class="container">
             <div class="split-layout">
                 <div class="split-text">
-                    <h2>Your entire portfolio. One dashboard.</h2>
-                    <p>Monitor occupancy rates, revenue, visitor traffic, and guard assignments across all your properties in real time. KPIs at a glance.</p>
+                    <h2>Your entire portfolio.<br>One dashboard.</h2>
+                    <p>Monitor occupancy rates, revenue, visitor traffic, and guard assignments across all your properties in real time.</p>
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="stat-number">4,780</div>
+                            <div class="stat-label">Total Units</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">94%</div>
+                            <div class="stat-label">Occupancy</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">AED 2.4M</div>
+                            <div class="stat-label">Revenue</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="laptop-mockup">
-                    <div class="laptop-frame">
-                        <div class="laptop-dots">
+                    <div class="laptop-screen">
+                        <div class="laptop-topbar">
                             <div class="dot dot-red"></div>
                             <div class="dot dot-yellow"></div>
                             <div class="dot dot-green"></div>
+                            <div class="laptop-topbar-url">varspm.app/dashboard</div>
                         </div>
-                        <div class="laptop-content">
-                            <div class="kpi-grid">
-                                <div class="kpi-card">
-                                    <div class="kpi-value">4,780</div>
-                                    <div class="kpi-label">Total Units</div>
+                        <div class="laptop-body">
+                            <div class="app-layout">
+                                <div class="app-sidebar">
+                                    <div class="app-sidebar-brand">
+                                        <div class="brand-dot">V</div>
+                                        VARS PM
+                                    </div>
+                                    <div class="sidebar-item active"><span class="sidebar-icon">&#9632;</span> Dashboard</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9679;</span> Visitors</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9670;</span> Guards</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Properties</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9679;</span> Residents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9670;</span> Documents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Reports</div>
                                 </div>
-                                <div class="kpi-card">
-                                    <div class="kpi-value">94%</div>
-                                    <div class="kpi-label">Occupancy</div>
-                                </div>
-                                <div class="kpi-card">
-                                    <div class="kpi-value">156</div>
-                                    <div class="kpi-label">Visitors Today</div>
-                                </div>
-                                <div class="kpi-card">
-                                    <div class="kpi-value">23</div>
-                                    <div class="kpi-label">Pending Tasks</div>
+                                <div class="app-main">
+                                    <div class="app-main-header">Dashboard</div>
+                                    <div class="app-main-sub">Monday, April 6, 2026</div>
+                                    <div class="kpi-row">
+                                        <div class="kpi-card">
+                                            <div class="kpi-value">4,780</div>
+                                            <div class="kpi-label">Units</div>
+                                            <div class="kpi-change up">+2.3%</div>
+                                        </div>
+                                        <div class="kpi-card">
+                                            <div class="kpi-value">94%</div>
+                                            <div class="kpi-label">Occupancy</div>
+                                            <div class="kpi-change up">+1.2%</div>
+                                        </div>
+                                        <div class="kpi-card">
+                                            <div class="kpi-value">156</div>
+                                            <div class="kpi-label">Visitors</div>
+                                            <div class="kpi-change up">+8%</div>
+                                        </div>
+                                        <div class="kpi-card">
+                                            <div class="kpi-value">23</div>
+                                            <div class="kpi-label">Tasks</div>
+                                            <div class="kpi-change down">-5</div>
+                                        </div>
+                                    </div>
+                                    <div class="mini-chart">
+                                        <div class="mini-chart-title">Revenue (AED) — Last 7 Days</div>
+                                        <div class="chart-bars">
+                                            <div class="chart-bar dark" style="height: 60%"></div>
+                                            <div class="chart-bar dark" style="height: 75%"></div>
+                                            <div class="chart-bar dark" style="height: 45%"></div>
+                                            <div class="chart-bar dark" style="height: 90%"></div>
+                                            <div class="chart-bar dark" style="height: 65%"></div>
+                                            <div class="chart-bar accent" style="height: 100%"></div>
+                                            <div class="chart-bar light" style="height: 30%"></div>
+                                        </div>
+                                    </div>
+                                    <table class="app-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Recent Activity</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Guard shift started — Al Reem</td>
+                                                <td>6:00 AM</td>
+                                                <td><span class="status-dot green"></span>Active</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Visitor checked in — Unit 501</td>
+                                                <td>10:30 AM</td>
+                                                <td><span class="status-dot blue"></span>Logged</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Invoice generated — Tower B</td>
+                                                <td>11:15 AM</td>
+                                                <td><span class="status-dot yellow"></span>Pending</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div class="chart">
-                                <div class="chart-bar"></div>
-                                <div class="chart-bar active"></div>
-                                <div class="chart-bar active"></div>
-                                <div class="chart-bar"></div>
-                                <div class="chart-bar active"></div>
-                                <div class="chart-bar"></div>
-                                <div class="chart-bar active"></div>
-                            </div>
-                            <div style="font-size: 0.75rem; margin-bottom: 8px; font-weight: 600;">Revenue: AED 2.4M <span style="color: #27c93f;">+12%</span></div>
-                            <table class="mini-table">
-                                <tr>
-                                    <td style="font-weight: 600;">Recent Activity</td>
-                                </tr>
-                                <tr>
-                                    <td>Guard shift started</td>
-                                </tr>
-                                <tr>
-                                    <td>Visitor checked in</td>
-                                </tr>
-                                <tr>
-                                    <td>Invoice generated</td>
-                                </tr>
-                            </table>
                         </div>
                     </div>
-                    <div class="laptop-base"></div>
+                    <div class="laptop-hinge"></div>
+                    <div class="laptop-base-plate"></div>
                 </div>
             </div>
         </div>
@@ -1274,68 +1547,89 @@
         <div class="container">
             <div class="split-layout reverse">
                 <div class="split-text">
-                    <h2>Track every visitor. In real time.</h2>
-                    <p>Pre-registration, digital check-in, and complete digital trail. Know exactly who's in your properties at all times.</p>
+                    <h2>Track every visitor.<br>In real time.</h2>
+                    <p>Pre-registration, digital check-in, and a complete audit trail. Know exactly who's in your properties at all times.</p>
                 </div>
                 <div class="laptop-mockup">
-                    <div class="laptop-frame">
-                        <div class="laptop-dots">
+                    <div class="laptop-screen">
+                        <div class="laptop-topbar">
                             <div class="dot dot-red"></div>
                             <div class="dot dot-yellow"></div>
                             <div class="dot dot-green"></div>
+                            <div class="laptop-topbar-url">varspm.app/visitors</div>
                         </div>
-                        <div class="laptop-content">
-                            <table class="mini-table">
-                                <thead>
-                                    <tr>
-                                        <th>Visitor</th>
-                                        <th>Host</th>
-                                        <th>Type</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Ahmed Al Mazrouei</td>
-                                        <td>Unit 501</td>
-                                        <td>Family</td>
-                                        <td>10:30 AM</td>
-                                        <td><span class="badge badge-success">Checked In</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fatima Al Neyadi</td>
-                                        <td>Unit 302</td>
-                                        <td>Delivery</td>
-                                        <td>11:15 AM</td>
-                                        <td><span class="badge badge-success">Checked In</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hassan Al Kaabi</td>
-                                        <td>Unit 701</td>
-                                        <td>Maintenance</td>
-                                        <td>9:45 AM</td>
-                                        <td><span class="badge badge-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Layla Al Daheri</td>
-                                        <td>Unit 405</td>
-                                        <td>Guest</td>
-                                        <td>2:20 PM</td>
-                                        <td><span class="badge badge-pending">Waiting</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mohammed Al Ketbi</td>
-                                        <td>Unit 603</td>
-                                        <td>Delivery</td>
-                                        <td>3:00 PM</td>
-                                        <td><span class="badge badge-success">Checked In</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="laptop-body">
+                            <div class="app-layout">
+                                <div class="app-sidebar">
+                                    <div class="app-sidebar-brand">
+                                        <div class="brand-dot">V</div>
+                                        VARS PM
+                                    </div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Dashboard</div>
+                                    <div class="sidebar-item active"><span class="sidebar-icon">&#9679;</span> Visitors</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9670;</span> Guards</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Properties</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9679;</span> Residents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9670;</span> Documents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Reports</div>
+                                </div>
+                                <div class="app-main">
+                                    <div class="app-main-header">Visitor Management</div>
+                                    <div class="app-main-sub">156 visitors today &middot; 12 pending approval</div>
+                                    <table class="app-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Visitor</th>
+                                                <th>Host</th>
+                                                <th>Type</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight:600;">Ahmed Al Mazrouei</td>
+                                                <td>Unit 501</td>
+                                                <td>Family</td>
+                                                <td>10:30 AM</td>
+                                                <td><span class="badge badge-success">Checked In</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Fatima Al Neyadi</td>
+                                                <td>Unit 302</td>
+                                                <td>Delivery</td>
+                                                <td>11:15 AM</td>
+                                                <td><span class="badge badge-success">Checked In</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Hassan Al Kaabi</td>
+                                                <td>Unit 701</td>
+                                                <td>Maintenance</td>
+                                                <td>9:45 AM</td>
+                                                <td><span class="badge badge-warning">Pending</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Layla Al Daheri</td>
+                                                <td>Unit 405</td>
+                                                <td>Guest</td>
+                                                <td>2:20 PM</td>
+                                                <td><span class="badge badge-pending">Waiting</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Mohammed Al Ketbi</td>
+                                                <td>Unit 603</td>
+                                                <td>Delivery</td>
+                                                <td>3:00 PM</td>
+                                                <td><span class="badge badge-success">Checked In</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="laptop-base"></div>
+                    <div class="laptop-hinge"></div>
+                    <div class="laptop-base-plate"></div>
                 </div>
             </div>
         </div>
@@ -1346,41 +1640,82 @@
         <div class="container">
             <div class="split-layout">
                 <div class="split-text">
-                    <h2>Manage your security team.</h2>
-                    <p>Guard profiles, shift schedules, real-time communication, and document verification all in one place.</p>
+                    <h2>Manage your<br>security team.</h2>
+                    <p>Guard profiles, shift schedules, real-time communication, and document verification — all in one place.</p>
                 </div>
                 <div class="laptop-mockup">
-                    <div class="laptop-frame">
-                        <div class="laptop-dots">
+                    <div class="laptop-screen">
+                        <div class="laptop-topbar">
                             <div class="dot dot-red"></div>
                             <div class="dot dot-yellow"></div>
                             <div class="dot dot-green"></div>
+                            <div class="laptop-topbar-url">varspm.app/guards</div>
                         </div>
-                        <div class="laptop-content">
-                            <div class="guard-header">Guard Roster</div>
-                            <div class="guard-row">
-                                <span class="guard-name">Ahmed Al Mansouri</span>
-                                <span class="guard-shift">6 AM - 2 PM</span>
-                            </div>
-                            <div class="guard-row">
-                                <span class="guard-name">Omar Al Suwaidi</span>
-                                <span class="guard-shift">2 PM - 10 PM</span>
-                            </div>
-                            <div class="guard-row">
-                                <span class="guard-name">Salem Al Shammari</span>
-                                <span class="guard-shift">10 PM - 6 AM</span>
-                            </div>
-                            <div class="guard-row">
-                                <span class="guard-name">Khalid Al Qubaisi</span>
-                                <span class="guard-shift">6 AM - 2 PM</span>
-                            </div>
-                            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd;">
-                                <div style="font-weight: 600; font-size: 0.8rem; margin-bottom: 6px;">Entries (Today)</div>
-                                <div style="font-size: 0.75rem; color: #666;">43 visitors logged</div>
+                        <div class="laptop-body">
+                            <div class="app-layout">
+                                <div class="app-sidebar">
+                                    <div class="app-sidebar-brand">
+                                        <div class="brand-dot">V</div>
+                                        VARS PM
+                                    </div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Dashboard</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9679;</span> Visitors</div>
+                                    <div class="sidebar-item active"><span class="sidebar-icon">&#9670;</span> Guards</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Properties</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9679;</span> Residents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9670;</span> Documents</div>
+                                    <div class="sidebar-item"><span class="sidebar-icon">&#9632;</span> Reports</div>
+                                </div>
+                                <div class="app-main">
+                                    <div class="app-main-header">Guard Management</div>
+                                    <div class="app-main-sub">8 guards on duty &middot; 3 shifts active</div>
+                                    <table class="app-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Guard</th>
+                                                <th>Location</th>
+                                                <th>Shift</th>
+                                                <th>Entries</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight:600;">Ahmed Al Mansouri</td>
+                                                <td>Al Reem Island</td>
+                                                <td>6 AM – 2 PM</td>
+                                                <td>23</td>
+                                                <td><span class="badge badge-active">On Duty</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Omar Al Suwaidi</td>
+                                                <td>Saadiyat Gate</td>
+                                                <td>2 PM – 10 PM</td>
+                                                <td>18</td>
+                                                <td><span class="badge badge-active">On Duty</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Salem Al Shammari</td>
+                                                <td>Yas Village</td>
+                                                <td>10 PM – 6 AM</td>
+                                                <td>7</td>
+                                                <td><span class="badge badge-pending">Upcoming</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:600;">Khalid Al Qubaisi</td>
+                                                <td>Al Maryah</td>
+                                                <td>6 AM – 2 PM</td>
+                                                <td>31</td>
+                                                <td><span class="badge badge-active">On Duty</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="laptop-base"></div>
+                    <div class="laptop-hinge"></div>
+                    <div class="laptop-base-plate"></div>
                 </div>
             </div>
         </div>
@@ -1389,73 +1724,182 @@
     <!-- Three Apps Section -->
     <section id="apps">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h2>Three apps. One ecosystem.</h2>
-                <p class="hero-subtext">PMC dashboard, Resident app, and Security Guard app — all sharing real-time data.</p>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <h2 style="font-size: clamp(1.75rem, 5vw, 2.75rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;">Three apps. One ecosystem.</h2>
+                <p class="hero-subtext" style="margin-bottom: 0;">PMC dashboard, Resident app, and Security Guard app — all sharing real-time data.</p>
             </div>
             <div class="apps-container">
-                <div>
-                    <div class="phone-mockup small rotated">
-                        <div class="phone-frame">
-                            <div class="phone-notch"></div>
-                            <div class="phone-content">
-                                <div style="padding: 10px 0; border-bottom: 1px solid #ddd; margin-bottom: 10px;">
-                                    <div style="font-weight: 700; font-size: 0.85rem;">Shift: Al Reem Island</div>
-                                    <div style="font-size: 0.7rem; color: #666; margin-top: 3px;">6 AM - 2 PM</div>
+                <!-- Security Guard App — Laptop -->
+                <div class="app-card">
+                    <div class="laptop-mockup">
+                        <div class="laptop-screen">
+                            <div class="laptop-topbar">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                                <div class="laptop-topbar-url">varspm.app/security</div>
+                            </div>
+                            <div class="laptop-body" style="padding: 16px 20px; min-height: 220px;">
+                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 2px;">Security Console</div>
+                                <div style="font-size: 0.6rem; color: #999; margin-bottom: 12px;">Al Reem Island &middot; Shift: 6 AM – 2 PM</div>
+                                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                                    <div class="kpi-card" style="flex:1;">
+                                        <div class="kpi-value" style="font-size: 0.85rem;">23</div>
+                                        <div class="kpi-label">Entries</div>
+                                    </div>
+                                    <div class="kpi-card" style="flex:1;">
+                                        <div class="kpi-value" style="font-size: 0.85rem;">2</div>
+                                        <div class="kpi-label">Pending</div>
+                                    </div>
+                                    <div class="kpi-card" style="flex:1;">
+                                        <div class="kpi-value" style="font-size: 0.85rem;">0</div>
+                                        <div class="kpi-label">Alerts</div>
+                                    </div>
                                 </div>
-                                <div style="margin-bottom: 10px;">
-                                    <div style="font-size: 0.7rem; font-weight: 600; color: #666;">Entries</div>
-                                    <div style="font-size: 1.2rem; font-weight: 700; color: #1a1a1a;">23</div>
-                                </div>
-                                <button style="width: 100%; padding: 6px; font-size: 0.7rem; margin-top: 5px;">Check In Entry</button>
+                                <table class="app-table">
+                                    <thead><tr><th>Visitor</th><th>Unit</th><th>Action</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Ahmed M.</td><td>501</td><td><span class="badge badge-success">Allow</span></td></tr>
+                                        <tr><td>DHL Delivery</td><td>302</td><td><span class="badge badge-warning">Verify</span></td></tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        <div class="laptop-hinge"></div>
+                        <div class="laptop-base-plate"></div>
                     </div>
                     <div class="app-label">Security Guard App</div>
+                    <div class="app-sublabel">Gate management & visitor check-in</div>
                 </div>
 
-                <div>
-                    <div class="phone-mockup">
-                        <div class="phone-frame">
-                            <div class="phone-notch"></div>
-                            <div class="phone-content">
-                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Dashboard</div>
-                                <div style="margin-bottom: 8px;">
-                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Properties</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">5</div>
+                <!-- Resident App — iPhone 16 -->
+                <div class="app-card">
+                    <div class="iphone-mockup" style="margin: 0 auto;">
+                        <div class="iphone-frame">
+                            <div class="dynamic-island"></div>
+                            <div class="iphone-screen">
+                                <div class="iphone-statusbar">
+                                    <span>9:41</span>
+                                    <div class="iphone-statusbar-right">
+                                        <div class="signal-bars">
+                                            <div class="signal-bar" style="height: 3px;"></div>
+                                            <div class="signal-bar" style="height: 5px;"></div>
+                                            <div class="signal-bar" style="height: 7px;"></div>
+                                            <div class="signal-bar" style="height: 9px;"></div>
+                                        </div>
+                                        <div class="battery-icon"></div>
+                                    </div>
                                 </div>
-                                <div style="margin-bottom: 8px;">
-                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Units</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">4,780</div>
+                                <div class="iphone-content">
+                                    <div class="iphone-app-header">My Home</div>
+                                    <div class="iphone-app-sub">Unit 501 &middot; Al Reem Island</div>
+                                    <div class="iphone-row">
+                                        <div class="iphone-card">
+                                            <div class="iphone-card-label">Visitors</div>
+                                            <div class="iphone-card-value">2</div>
+                                            <div style="font-size:0.55rem; color:#28c840; font-weight:600;">Today</div>
+                                        </div>
+                                        <div class="iphone-card">
+                                            <div class="iphone-card-label">Parcels</div>
+                                            <div class="iphone-card-value">1</div>
+                                            <div style="font-size:0.55rem; color:#febc2e; font-weight:600;">Waiting</div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-card">
+                                        <div class="iphone-card-title">Upcoming Visitor</div>
+                                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                                            <div>
+                                                <div style="font-weight:600; font-size:0.72rem;">Sarah Johnson</div>
+                                                <div style="font-size:0.6rem; color:#999;">Friend &middot; 3:00 PM</div>
+                                            </div>
+                                            <span class="badge badge-active">Pre-registered</span>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-card" style="background:#1a1a1a; color:white;">
+                                        <div style="font-weight:700; font-size:0.7rem; margin-bottom:4px;">Announcement</div>
+                                        <div style="font-size:0.62rem; opacity:0.7;">Pool maintenance scheduled for tomorrow 8–12 AM.</div>
+                                    </div>
+                                    <div style="margin-top:8px;">
+                                        <div class="iphone-list-item">
+                                            <span style="font-weight:600;">Request Visitor</span>
+                                            <span style="color:#999;">&#8250;</span>
+                                        </div>
+                                        <div class="iphone-list-item">
+                                            <span style="font-weight:600;">My Documents</span>
+                                            <span style="color:#999;">&#8250;</span>
+                                        </div>
+                                        <div class="iphone-list-item">
+                                            <span style="font-weight:600;">Contact PMC</span>
+                                            <span style="color:#999;">&#8250;</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style="margin-bottom: 8px;">
-                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Visitors Today</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">156</div>
+                                <div class="iphone-nav-bar">
+                                    <div class="iphone-nav-item active">
+                                        <div class="iphone-nav-icon">&#9632;</div>
+                                        Home
+                                    </div>
+                                    <div class="iphone-nav-item">
+                                        <div class="iphone-nav-icon">&#9679;</div>
+                                        Visitors
+                                    </div>
+                                    <div class="iphone-nav-item">
+                                        <div class="iphone-nav-icon">&#9670;</div>
+                                        Docs
+                                    </div>
+                                    <div class="iphone-nav-item">
+                                        <div class="iphone-nav-icon">&#9632;</div>
+                                        Profile
+                                    </div>
                                 </div>
-                                <button style="width: 100%; padding: 6px; font-size: 0.7rem; margin-top: 10px;">View All</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="app-label">PMC Dashboard App</div>
-                </div>
-
-                <div>
-                    <div class="phone-mockup small rotated-right">
-                        <div class="phone-frame">
-                            <div class="phone-notch"></div>
-                            <div class="phone-content">
-                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;">My Unit</div>
-                                <div style="background: #e8e8e8; padding: 8px; border-radius: 6px; margin-bottom: 10px;">
-                                    <div style="font-size: 0.7rem; color: #666;">Unit 501</div>
-                                    <div style="font-weight: 600; font-size: 0.85rem; color: #1a1a1a;">Al Reem Island</div>
-                                </div>
-                                <div style="font-size: 0.7rem; font-weight: 600; margin-bottom: 3px;">Upcoming Visitors</div>
-                                <div style="font-size: 0.75rem; color: #666; margin-bottom: 10px;">None today</div>
-                                <button style="width: 100%; padding: 6px; font-size: 0.7rem;">Request Visitor</button>
+                                <div class="iphone-home-indicator"></div>
                             </div>
                         </div>
                     </div>
                     <div class="app-label">Resident App</div>
+                    <div class="app-sublabel">iPhone &middot; Pre-register visitors & manage unit</div>
+                </div>
+
+                <!-- PMC Dashboard App — Laptop -->
+                <div class="app-card">
+                    <div class="laptop-mockup">
+                        <div class="laptop-screen">
+                            <div class="laptop-topbar">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                                <div class="laptop-topbar-url">varspm.app/pmc</div>
+                            </div>
+                            <div class="laptop-body" style="padding: 16px 20px; min-height: 220px;">
+                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 2px;">PMC Overview</div>
+                                <div style="font-size: 0.6rem; color: #999; margin-bottom: 12px;">5 properties &middot; 4,780 units &middot; 94% occupancy</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                                    <div class="kpi-card">
+                                        <div class="kpi-value" style="font-size: 0.85rem;">AED 2.4M</div>
+                                        <div class="kpi-label">Revenue</div>
+                                        <div class="kpi-change up">+12%</div>
+                                    </div>
+                                    <div class="kpi-card">
+                                        <div class="kpi-value" style="font-size: 0.85rem;">156</div>
+                                        <div class="kpi-label">Visitors Today</div>
+                                        <div class="kpi-change up">+8%</div>
+                                    </div>
+                                </div>
+                                <table class="app-table">
+                                    <thead><tr><th>Property</th><th>Units</th><th>Occupancy</th></tr></thead>
+                                    <tbody>
+                                        <tr><td style="font-weight:600;">Al Reem Island</td><td>1,200</td><td><span class="badge badge-success">96%</span></td></tr>
+                                        <tr><td style="font-weight:600;">Saadiyat Gate</td><td>850</td><td><span class="badge badge-success">93%</span></td></tr>
+                                        <tr><td style="font-weight:600;">Yas Village</td><td>980</td><td><span class="badge badge-warning">89%</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="laptop-hinge"></div>
+                        <div class="laptop-base-plate"></div>
+                    </div>
+                    <div class="app-label">PMC Dashboard</div>
+                    <div class="app-sublabel">Portfolio analytics & property management</div>
                 </div>
             </div>
         </div>
@@ -1466,37 +1910,60 @@
         <div class="container">
             <div class="split-layout reverse">
                 <div class="split-text">
-                    <h2>Real-time communication.</h2>
+                    <h2>Real-time<br>communication.</h2>
                     <p>Instant messaging, one-tap calling, and push notifications. Keep your entire team connected.</p>
                     <div class="feature-items">
                         <div class="feature-item">
-                            <div class="feature-icon">💬</div>
+                            <div class="feature-icon">&#128172;</div>
                             <h3>Chat</h3>
                             <p>PMC to Guards</p>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">📞</div>
+                            <div class="feature-icon">&#128222;</div>
                             <h3>Call</h3>
                             <p>One-tap dialing</p>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">🔔</div>
+                            <div class="feature-icon">&#128276;</div>
                             <h3>Alerts</h3>
                             <p>Push notifications</p>
                         </div>
                     </div>
                 </div>
-                <div class="phone-mockup">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-content">
-                            <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Ahmed Al Mansouri</div>
-                            <div class="chat-messages">
-                                <div class="message received">Hi, delivery at Unit 501</div>
-                                <div class="message received">Package from Amazon</div>
-                                <div class="message sent">Got it, sending guard now</div>
-                                <div class="message sent">ETA 2 minutes</div>
+                <div class="iphone-mockup">
+                    <div class="iphone-frame">
+                        <div class="dynamic-island"></div>
+                        <div class="iphone-screen">
+                            <div class="iphone-statusbar">
+                                <span>9:41</span>
+                                <div class="iphone-statusbar-right">
+                                    <div class="signal-bars">
+                                        <div class="signal-bar" style="height: 3px;"></div>
+                                        <div class="signal-bar" style="height: 5px;"></div>
+                                        <div class="signal-bar" style="height: 7px;"></div>
+                                        <div class="signal-bar" style="height: 9px;"></div>
+                                    </div>
+                                    <div class="battery-icon"></div>
+                                </div>
                             </div>
+                            <div class="iphone-content">
+                                <div style="font-size:0.62rem; color:#999; margin-bottom: 2px;">&#8249; Messages</div>
+                                <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">Ahmed Al Mansouri</div>
+                                <div class="chat-messages">
+                                    <div class="message received">Hi, delivery at Unit 501</div>
+                                    <div class="message received">Package from Amazon</div>
+                                    <div class="message sent">Got it, sending guard now</div>
+                                    <div class="message sent">ETA 2 minutes</div>
+                                    <div class="message received">Thanks!</div>
+                                </div>
+                                <div style="margin-top: auto; padding-top: 12px;">
+                                    <div style="display:flex; gap: 8px; align-items: center;">
+                                        <div style="flex:1; background: #f0f0f0; border-radius: 20px; padding: 8px 14px; font-size: 0.65rem; color: #999;">Type a message...</div>
+                                        <div style="width: 28px; height: 28px; background: #007AFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem;">&#8593;</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="iphone-home-indicator"></div>
                         </div>
                     </div>
                 </div>
@@ -1509,67 +1976,79 @@
         <div class="container">
             <div class="split-layout">
                 <div class="split-text">
-                    <h2>Multi-property portfolio.</h2>
-                    <p>Manage all your properties across Abu Dhabi from a single unified interface. Scale your operations effortlessly.</p>
+                    <h2>All your properties.<br>At a glance.</h2>
+                    <p>Manage multiple buildings and locations across Abu Dhabi with centralized control.</p>
                     <div class="location-pills">
                         <div class="location-pill">Al Reem Island</div>
+                        <div class="location-pill">Saadiyat Gate</div>
+                        <div class="location-pill">Yas Village</div>
+                        <div class="location-pill">Al Maryah</div>
                         <div class="location-pill">Al Raha Beach</div>
-                        <div class="location-pill">Saadiyat Island</div>
-                        <div class="location-pill">Yas Island</div>
-                        <div class="location-pill">Bloom Living</div>
                     </div>
                 </div>
-                <div class="laptop-mockup">
-                    <div class="laptop-frame">
-                        <div class="laptop-dots">
-                            <div class="dot dot-red"></div>
-                            <div class="dot dot-yellow"></div>
-                            <div class="dot dot-green"></div>
-                        </div>
-                        <div class="laptop-content">
-                            <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 10px;">My Properties</div>
-                            <div class="property-grid">
-                                <div class="property-card">
-                                    <div class="property-name">Al Reem Island</div>
-                                    <div class="property-units">1,200 units</div>
-                                </div>
-                                <div class="property-card">
-                                    <div class="property-name">Al Raha Beach</div>
-                                    <div class="property-units">890 units</div>
-                                </div>
-                                <div class="property-card">
-                                    <div class="property-name">Saadiyat Island</div>
-                                    <div class="property-units">756 units</div>
-                                </div>
-                                <div class="property-card">
-                                    <div class="property-name">Yas Island</div>
-                                    <div class="property-units">934 units</div>
+                <div class="iphone-mockup">
+                    <div class="iphone-frame">
+                        <div class="dynamic-island"></div>
+                        <div class="iphone-screen">
+                            <div class="iphone-statusbar">
+                                <span>9:41</span>
+                                <div class="iphone-statusbar-right">
+                                    <div class="signal-bars">
+                                        <div class="signal-bar" style="height: 3px;"></div>
+                                        <div class="signal-bar" style="height: 5px;"></div>
+                                        <div class="signal-bar" style="height: 7px;"></div>
+                                        <div class="signal-bar" style="height: 9px;"></div>
+                                    </div>
+                                    <div class="battery-icon"></div>
                                 </div>
                             </div>
-                            <table class="mini-table">
-                                <thead>
-                                    <tr>
-                                        <th>Resident</th>
-                                        <th>Unit</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Mohammed Al Kaabi</td>
-                                        <td>501</td>
-                                        <td><span class="badge badge-success">Active</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hana Al Mansouri</td>
-                                        <td>302</td>
-                                        <td><span class="badge badge-success">Active</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="iphone-content">
+                                <div class="iphone-app-header">Properties</div>
+                                <div class="iphone-app-sub">5 locations &middot; Abu Dhabi</div>
+                                <div class="property-grid">
+                                    <div class="property-card">
+                                        <div class="property-name">Al Reem Island</div>
+                                        <div class="property-units">1,200 units &middot; 96%</div>
+                                    </div>
+                                    <div class="property-card">
+                                        <div class="property-name">Saadiyat Gate</div>
+                                        <div class="property-units">850 units &middot; 93%</div>
+                                    </div>
+                                    <div class="property-card">
+                                        <div class="property-name">Yas Village</div>
+                                        <div class="property-units">980 units &middot; 89%</div>
+                                    </div>
+                                    <div class="property-card">
+                                        <div class="property-name">Al Maryah</div>
+                                        <div class="property-units">1,000 units &middot; 95%</div>
+                                    </div>
+                                </div>
+                                <div class="property-card" style="grid-column: span 2;">
+                                    <div class="property-name">Al Raha Beach</div>
+                                    <div class="property-units">750 units &middot; 91%</div>
+                                </div>
+                            </div>
+                            <div class="iphone-nav-bar">
+                                <div class="iphone-nav-item">
+                                    <div class="iphone-nav-icon">&#9632;</div>
+                                    Home
+                                </div>
+                                <div class="iphone-nav-item active">
+                                    <div class="iphone-nav-icon">&#9679;</div>
+                                    Properties
+                                </div>
+                                <div class="iphone-nav-item">
+                                    <div class="iphone-nav-icon">&#9670;</div>
+                                    Docs
+                                </div>
+                                <div class="iphone-nav-item">
+                                    <div class="iphone-nav-icon">&#9632;</div>
+                                    Profile
+                                </div>
+                            </div>
+                            <div class="iphone-home-indicator"></div>
                         </div>
                     </div>
-                    <div class="laptop-base"></div>
                 </div>
             </div>
         </div>
@@ -1578,50 +2057,34 @@
     <!-- Documents Section -->
     <section id="documents">
         <div class="container">
-            <div class="split-layout reverse">
-                <div class="split-text">
-                    <h2>Documents. Verified & stored.</h2>
-                    <p>Upload, verify, and securely store all resident and guard documents. Automated verification with cloud backup.</p>
-                    <div class="feature-items">
-                        <div class="feature-item">
-                            <div class="feature-icon">📄</div>
-                            <h3>PDF Preview</h3>
-                            <p>Instant document view</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <h3>Auto Verification</h3>
-                            <p>Smart validation</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">☁</div>
-                            <h3>Cloud Storage</h3>
-                            <p>Secure backup</p>
-                        </div>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: clamp(1.75rem, 5vw, 2.75rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;">Documents. Organized.</h2>
+                <p class="hero-subtext">Lease agreements, guard IDs, and compliance documents — securely stored and instantly accessible.</p>
+            </div>
+            <div class="doc-cards">
+                <div class="doc-card">
+                    <div>
+                        <div class="doc-icon">&#128196;</div>
+                        <div class="doc-title">Lease Agreement</div>
+                        <div class="doc-type">PDF &middot; 2.4 MB</div>
                     </div>
+                    <div class="doc-badge">Verified</div>
                 </div>
-                <div class="doc-cards">
-                    <div class="doc-card">
-                        <div>
-                            <div class="doc-title">National ID</div>
-                            <div class="doc-type">Identification</div>
-                        </div>
-                        <div class="doc-badge">Verified</div>
+                <div class="doc-card">
+                    <div>
+                        <div class="doc-icon">&#128466;</div>
+                        <div class="doc-title">Guard ID Card</div>
+                        <div class="doc-type">PDF &middot; 1.1 MB</div>
                     </div>
-                    <div class="doc-card">
-                        <div>
-                            <div class="doc-title">Guard Licence</div>
-                            <div class="doc-type">Certification</div>
-                        </div>
-                        <div class="doc-badge">Verified</div>
+                    <div class="doc-badge">Verified</div>
+                </div>
+                <div class="doc-card">
+                    <div>
+                        <div class="doc-icon">&#128203;</div>
+                        <div class="doc-title">Safety Compliance</div>
+                        <div class="doc-type">PDF &middot; 3.8 MB</div>
                     </div>
-                    <div class="doc-card">
-                        <div>
-                            <div class="doc-title">Work Permit</div>
-                            <div class="doc-type">Authorization</div>
-                        </div>
-                        <div class="doc-badge">Verified</div>
-                    </div>
+                    <div class="doc-badge">Verified</div>
                 </div>
             </div>
         </div>
@@ -1632,28 +2095,22 @@
         <div class="container">
             <div class="split-layout reverse">
                 <div class="split-text">
-                    <h2>Keep everyone informed.</h2>
-                    <p>Broadcast announcements to residents, guards, or specific properties. Targeted messaging that reaches the right people instantly.</p>
+                    <h2>Keep residents<br>informed.</h2>
+                    <p>Push announcements to all residents instantly. Urgent alerts, community updates, and maintenance schedules.</p>
                 </div>
-                <div class="phone-mockup">
-                    <div class="phone-frame">
-                        <div class="phone-notch"></div>
-                        <div class="phone-content">
-                            <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;">Announcements</div>
-                            <div class="announcement-cards">
-                                <div class="announcement announcement-urgent">
-                                    <div class="announcement-title">Urgent Maintenance</div>
-                                    <div style="font-size: 0.7rem;">Water supply offline for maintenance tomorrow 2-4 PM</div>
-                                </div>
-                                <div class="announcement announcement-info">
-                                    <div class="announcement-title">System Update</div>
-                                    <div style="font-size: 0.7rem;">New security features rolling out this weekend</div>
-                                </div>
-                                <div class="announcement announcement-community">
-                                    <div class="announcement-title">Community Event</div>
-                                    <div style="font-size: 0.7rem;">Summer gathering at community center next Friday</div>
-                                </div>
-                            </div>
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <div class="announcement-cards">
+                        <div class="announcement announcement-urgent">
+                            <div class="announcement-title">Water Maintenance</div>
+                            <div>Water supply disruption tomorrow 8 AM – 12 PM in Tower A. Please store water.</div>
+                        </div>
+                        <div class="announcement announcement-info">
+                            <div class="announcement-title">New Parking Policy</div>
+                            <div>Starting next week, all vehicles must display resident stickers. Pick up at lobby.</div>
+                        </div>
+                        <div class="announcement announcement-community">
+                            <div class="announcement-title">Community BBQ</div>
+                            <div>Join us this Friday 6 PM at the poolside area. All residents welcome!</div>
                         </div>
                     </div>
                 </div>
@@ -1668,8 +2125,8 @@
                 <div class="logo-box-large">V</div>
                 <div class="logo-text">VARS PM</div>
             </div>
-            <h1>Property Management. Simplified.</h1>
-            <p class="hero-subtext" style="margin-bottom: 2rem;">The unified platform for Abu Dhabi property management companies.</p>
+            <h1>Ready to simplify<br>property management?</h1>
+            <p class="hero-subtext" style="margin-bottom: 2rem;">The unified platform built for Abu Dhabi property management companies.</p>
             <div class="cta-stats">
                 <div class="cta-stat">
                     <div class="cta-stat-value">5</div>
@@ -1688,8 +2145,7 @@
                     <div class="cta-stat-label">Security</div>
                 </div>
             </div>
-            <button onclick="window.open('mailto:hello@varspy.com?subject=VARS%20PM%20Demo%20Request', 'blank')">Request a Demo</button>
-            <p class="hero-subtext" style="margin-top: 2rem; font-size: 0.95rem;">Built for Abu Dhabi property management companies</p>
+            <button onclick="window.open('mailto:hello@varspy.com?subject=VARS%20PM%20Demo%20Request', '_blank')">Request a Demo</button>
         </div>
     </section>
 
@@ -1710,7 +2166,7 @@
             navLinks.classList.toggle('active');
         });
 
-        // Update nav background on scroll
+        // Update nav on scroll
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
@@ -1736,18 +2192,17 @@
             sectionObserver.observe(section);
         });
 
-        // Smooth parallax-like effect on scroll
+        // Subtle parallax on scroll
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
                     const sections = document.querySelectorAll('section.visible');
                     sections.forEach((section) => {
                         const rect = section.getBoundingClientRect();
                         const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
                         const parallax = centerOffset * 0.03;
-                        const mockup = section.querySelector('.laptop-mockup, .phone-mockup:not(.small)');
+                        const mockup = section.querySelector('.laptop-mockup, .iphone-mockup:not(.small)');
                         if (mockup && Math.abs(centerOffset) < window.innerHeight) {
                             mockup.style.transform = `translateY(${parallax}px)`;
                         }
@@ -1758,7 +2213,7 @@
             }
         });
 
-        // Prevent body scroll when nav menu is open on mobile
+        // Close mobile nav on link click
         navLinks.addEventListener('click', () => {
             navLinks.classList.remove('active');
         });
