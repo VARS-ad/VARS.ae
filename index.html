@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARS PM - Property Management Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #0d1b3e;
+            --bg-light: #f5f5f5;
+            --bg-dark: #1a1a1a;
+            --border-light: #e8e8e8;
+            --border-dark: #333;
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent-blue: #1a237e;
+            --gradient-1: linear-gradient(135deg, #1a1a2e 0%, #0d1b3e 100%);
+            --gradient-2: linear-gradient(135deg, #0d1b3e 0%, #1a237e 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .nav-logo-box {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0a;
+            font-weight: 900;
+            font-size: 1.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            opacity: 0;
+            transform: translateY(60px) scale(0.97);
+            filter: blur(8px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            will-change: opacity, transform, filter;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        /* Staggered child animations */
+        section .split-text,
+        section .laptop-mockup,
+        section .phone-mockup,
+        section .cta-content,
+        section .apps-container,
+        section .doc-cards {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.visible .split-text {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.15s;
+        }
+
+        section.visible .laptop-mockup {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.35s;
+        }
+
+        section.visible .phone-mockup {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        section.visible .cta-content {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.2s;
+        }
+
+        section.visible .apps-container {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        section.visible .doc-cards {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        /* Parallax-style depth for alternating sections */
+        section:nth-child(even) {
+            transform: translateY(60px) scale(0.97);
+        }
+
+        section:nth-child(odd):not(#hero) {
+            transform: translateY(60px) scale(0.97);
+        }
+
+        /* Smooth reveal for split-layout mockups from the side */
+        section.visible .split-layout > :last-child {
+            animation: slideInFromRight 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        section.visible .split-layout.reverse > :last-child {
+            animation: slideInFromLeft 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            padding-top: 8rem;
+        }
+
+        .logo-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.2s forwards;
+        }
+
+        .logo-box-large {
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0a;
+            font-weight: 900;
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.4s forwards;
+        }
+
+        .hero-subtext {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.6s forwards;
+        }
+
+        .feature-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.8s forwards;
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.08);
+        }
+
+        .scroll-indicator {
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 1s forwards;
+            margin-top: 3rem;
+        }
+
+        .scroll-dot {
+            width: 8px;
+            height: 12px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 4px;
+            margin: 0 auto;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Split Layout */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .split-layout.reverse {
+            direction: rtl;
+        }
+
+        .split-layout.reverse > * {
+            direction: ltr;
+        }
+
+        .split-text h2 {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .split-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            flex: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.visible .stat-box {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section.visible .stat-box:nth-child(1) { transition-delay: 0.3s; }
+        section.visible .stat-box:nth-child(2) { transition-delay: 0.45s; }
+        section.visible .stat-box:nth-child(3) { transition-delay: 0.6s; }
+        section.visible .stat-box:nth-child(4) { transition-delay: 0.75s; }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Laptop Mockup */
+        .laptop-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .laptop-frame {
+            background: var(--bg-dark);
+            border: 2px solid var(--border-dark);
+            border-radius: 12px 12px 0 0;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .laptop-mockup:hover .laptop-frame {
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            transform: translateY(-4px);
+        }
+
+        .laptop-dots {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .laptop-content {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            color: #1a1a1a;
+            min-height: 300px;
+            font-size: 0.85rem;
+        }
+
+        .laptop-base {
+            height: 12px;
+            background: var(--bg-dark);
+            margin-top: -2px;
+            border: 2px solid var(--border-dark);
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Phone Mockup */
+        .phone-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .phone-mockup.small {
+            transform: scale(0.85);
+        }
+
+        .phone-mockup.rotated {
+            transform: rotate(-5deg) scale(0.85);
+        }
+
+        .phone-mockup.rotated-right {
+            transform: rotate(5deg) scale(0.85);
+        }
+
+        .phone-frame {
+            background: var(--bg-dark);
+            border: 3px solid var(--border-dark);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            position: relative;
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .phone-mockup:hover .phone-frame {
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            transform: translateY(-4px);
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 24px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-content {
+            background: #f5f5f5;
+            border-radius: 35px;
+            padding: 20px;
+            aspect-ratio: 9/16;
+            color: #1a1a1a;
+            font-size: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .kpi-card {
+            background: #e8e8e8;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .kpi-value {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .kpi-label {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Chart */
+        .chart {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            background: #e8e8e8;
+            border: 1px solid #ddd;
+            padding: 8px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: #ddd;
+            border-radius: 3px;
+            min-height: 4px;
+        }
+
+        .chart-bar.active {
+            background: #1a1a1a;
+        }
+
+        /* Table */
+        .mini-table {
+            width: 100%;
+            font-size: 0.7rem;
+            border-collapse: collapse;
+        }
+
+        .mini-table th {
+            background: #e8e8e8;
+            padding: 6px 4px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mini-table td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.65rem;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-pending {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Three Apps Section */
+        .apps-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .app-label {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Gradient Backgrounds */
+        #guards {
+            background: var(--gradient-2);
+        }
+
+        #announcements {
+            background: var(--gradient-2);
+        }
+
+        #properties {
+            background: var(--gradient-1);
+        }
+
+        /* Location Pills */
+        .location-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .location-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .location-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: var(--text-primary);
+        }
+
+        /* Document Cards */
+        .doc-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .doc-card {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(40px) scale(0.85) perspective(800px);
+            filter: blur(4px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.visible .doc-card {
+            opacity: 1;
+            transform: translateY(0) scale(1) perspective(800px);
+            filter: blur(0);
+        }
+
+        section.visible .doc-card:nth-child(1) { transition-delay: 0.3s; }
+        section.visible .doc-card:nth-child(2) { transition-delay: 0.5s; }
+        section.visible .doc-card:nth-child(3) { transition-delay: 0.7s; }
+
+        .doc-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+        }
+
+        .doc-type {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .doc-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.65rem;
+        }
+
+        /* Announcement Cards */
+        .announcement-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .announcement {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            border-left: 4px solid;
+        }
+
+        .announcement-urgent {
+            background: rgba(255, 87, 51, 0.1);
+            border-left-color: #ff5f56;
+            color: #fff;
+        }
+
+        .announcement-info {
+            background: rgba(66, 133, 244, 0.1);
+            border-left-color: #4285f4;
+            color: #fff;
+        }
+
+        .announcement-community {
+            background: rgba(39, 201, 63, 0.1);
+            border-left-color: #27c93f;
+            color: #fff;
+        }
+
+        .announcement-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        /* CTA Section */
+        #cta {
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .cta-content {
+            text-align: center;
+        }
+
+        .cta-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-stat {
+            text-align: center;
+        }
+
+        .cta-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .cta-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Buttons */
+        button, .btn {
+            background: white;
+            color: #0a0a0a;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        button:hover, .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Feature Items */
+        .feature-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            filter: blur(4px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.visible .feature-item {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        section.visible .feature-item:nth-child(1) { transition-delay: 0.2s; }
+        section.visible .feature-item:nth-child(2) { transition-delay: 0.4s; }
+        section.visible .feature-item:nth-child(3) { transition-delay: 0.6s; }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message {
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            max-width: 90%;
+        }
+
+        .message.sent {
+            background: #1a1a1a;
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        .message.received {
+            background: #e8e8e8;
+            color: #1a1a1a;
+            align-self: flex-start;
+        }
+
+        /* Property Cards in Mockup */
+        .property-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .property-card {
+            background: #e8e8e8;
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .property-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .property-units {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* Guard Roster in Mockup */
+        .guard-header {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .guard-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.7rem;
+        }
+
+        .guard-name {
+            font-weight: 600;
+        }
+
+        .guard-shift {
+            color: #666;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px) scale(0.95);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(80px) scale(0.9);
+                filter: blur(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-80px) scale(0.9);
+                filter: blur(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+                filter: blur(6px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+            }
+
+            section {
+                padding: 2rem 1rem;
+                min-height: auto;
+            }
+
+            .split-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .split-layout.reverse {
+                direction: ltr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtext {
+                font-size: 1rem;
+            }
+
+            .feature-pills {
+                gap: 0.5rem;
+            }
+
+            .pill {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            .apps-container {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .phone-mockup.small,
+            .phone-mockup.rotated,
+            .phone-mockup.rotated-right {
+                transform: scale(0.7);
+            }
+
+            .split-text h2 {
+                font-size: 1.5rem;
+            }
+
+            .stats-row {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .cta-stats {
+                gap: 1rem;
+            }
+
+            .feature-pills {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pill {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtext {
+                font-size: 0.95rem;
+            }
+
+            .split-text h2 {
+                font-size: 1.25rem;
+            }
+
+            .split-text p {
+                font-size: 1rem;
+            }
+
+            .logo-box-large {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.25rem;
+            }
+
+            .laptop-mockup {
+                max-width: 100%;
+            }
+
+            .phone-mockup {
+                max-width: 200px;
+            }
+
+            .phone-mockup.small,
+            .phone-mockup.rotated,
+            .phone-mockup.rotated-right {
+                transform: scale(0.6);
+            }
+
+            button {
+                padding: 0.75rem 2rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <nav-content>
+            <div class="nav-logo">
+                <div class="nav-logo-box">V</div>
+                <span>VARS PM</span>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="scrollToSection('features')">Features</a></li>
+                <li><a onclick="scrollToSection('apps')">Apps</a></li>
+                <li><a onclick="scrollToSection('properties')">Properties</a></li>
+                <li><a onclick="scrollToSection('cta')">Contact</a></li>
+            </ul>
+        </nav-content>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <div class="logo-large">
+                <div class="logo-box-large">V</div>
+                <div class="logo-text">VARS PM</div>
+            </div>
+            <h1>Property Management. Simplified.</h1>
+            <p class="hero-subtext">One unified platform for managing properties, visitors, guards, and residents across Abu Dhabi.</p>
+            <div class="feature-pills">
+                <div class="pill">Visitor Tracking</div>
+                <div class="pill">Guard Management</div>
+                <div class="pill">Resident Portal</div>
+                <div class="pill">Real-time Analytics</div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+        <div class="container">
+            <div class="split-layout">
+                <div class="split-text">
+                    <h2>Your entire portfolio. One dashboard.</h2>
+                    <p>Monitor occupancy rates, revenue, visitor traffic, and guard assignments across all your properties in real time. KPIs at a glance.</p>
+                </div>
+                <div class="laptop-mockup">
+                    <div class="laptop-frame">
+                        <div class="laptop-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="laptop-content">
+                            <div class="kpi-grid">
+                                <div class="kpi-card">
+                                    <div class="kpi-value">4,780</div>
+                                    <div class="kpi-label">Total Units</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">94%</div>
+                                    <div class="kpi-label">Occupancy</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">156</div>
+                                    <div class="kpi-label">Visitors Today</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">23</div>
+                                    <div class="kpi-label">Pending Tasks</div>
+                                </div>
+                            </div>
+                            <div class="chart">
+                                <div class="chart-bar"></div>
+                                <div class="chart-bar active"></div>
+                                <div class="chart-bar active"></div>
+                                <div class="chart-bar"></div>
+                                <div class="chart-bar active"></div>
+                                <div class="chart-bar"></div>
+                                <div class="chart-bar active"></div>
+                            </div>
+                            <div style="font-size: 0.75rem; margin-bottom: 8px; font-weight: 600;">Revenue: AED 2.4M <span style="color: #27c93f;">+12%</span></div>
+                            <table class="mini-table">
+                                <tr>
+                                    <td style="font-weight: 600;">Recent Activity</td>
+                                </tr>
+                                <tr>
+                                    <td>Guard shift started</td>
+                                </tr>
+                                <tr>
+                                    <td>Visitor checked in</td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice generated</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visitors Section -->
+    <section id="visitors">
+        <div class="container">
+            <div class="split-layout reverse">
+                <div class="split-text">
+                    <h2>Track every visitor. In real time.</h2>
+                    <p>Pre-registration, digital check-in, and complete digital trail. Know exactly who's in your properties at all times.</p>
+                </div>
+                <div class="laptop-mockup">
+                    <div class="laptop-frame">
+                        <div class="laptop-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="laptop-content">
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Visitor</th>
+                                        <th>Host</th>
+                                        <th>Type</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ahmed Al Mazrouei</td>
+                                        <td>Unit 501</td>
+                                        <td>Family</td>
+                                        <td>10:30 AM</td>
+                                        <td><span class="badge badge-success">Checked In</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fatima Al Neyadi</td>
+                                        <td>Unit 302</td>
+                                        <td>Delivery</td>
+                                        <td>11:15 AM</td>
+                                        <td><span class="badge badge-success">Checked In</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hassan Al Kaabi</td>
+                                        <td>Unit 701</td>
+                                        <td>Maintenance</td>
+                                        <td>9:45 AM</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Layla Al Daheri</td>
+                                        <td>Unit 405</td>
+                                        <td>Guest</td>
+                                        <td>2:20 PM</td>
+                                        <td><span class="badge badge-pending">Waiting</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mohammed Al Ketbi</td>
+                                        <td>Unit 603</td>
+                                        <td>Delivery</td>
+                                        <td>3:00 PM</td>
+                                        <td><span class="badge badge-success">Checked In</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guards Section -->
+    <section id="guards">
+        <div class="container">
+            <div class="split-layout">
+                <div class="split-text">
+                    <h2>Manage your security team.</h2>
+                    <p>Guard profiles, shift schedules, real-time communication, and document verification all in one place.</p>
+                </div>
+                <div class="laptop-mockup">
+                    <div class="laptop-frame">
+                        <div class="laptop-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="laptop-content">
+                            <div class="guard-header">Guard Roster</div>
+                            <div class="guard-row">
+                                <span class="guard-name">Ahmed Al Mansouri</span>
+                                <span class="guard-shift">6 AM - 2 PM</span>
+                            </div>
+                            <div class="guard-row">
+                                <span class="guard-name">Omar Al Suwaidi</span>
+                                <span class="guard-shift">2 PM - 10 PM</span>
+                            </div>
+                            <div class="guard-row">
+                                <span class="guard-name">Salem Al Shammari</span>
+                                <span class="guard-shift">10 PM - 6 AM</span>
+                            </div>
+                            <div class="guard-row">
+                                <span class="guard-name">Khalid Al Qubaisi</span>
+                                <span class="guard-shift">6 AM - 2 PM</span>
+                            </div>
+                            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd;">
+                                <div style="font-weight: 600; font-size: 0.8rem; margin-bottom: 6px;">Entries (Today)</div>
+                                <div style="font-size: 0.75rem; color: #666;">43 visitors logged</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three Apps Section -->
+    <section id="apps">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2>Three apps. One ecosystem.</h2>
+                <p class="hero-subtext">PMC dashboard, Resident app, and Security Guard app — all sharing real-time data.</p>
+            </div>
+            <div class="apps-container">
+                <div>
+                    <div class="phone-mockup small rotated">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-content">
+                                <div style="padding: 10px 0; border-bottom: 1px solid #ddd; margin-bottom: 10px;">
+                                    <div style="font-weight: 700; font-size: 0.85rem;">Shift: Al Reem Island</div>
+                                    <div style="font-size: 0.7rem; color: #666; margin-top: 3px;">6 AM - 2 PM</div>
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div style="font-size: 0.7rem; font-weight: 600; color: #666;">Entries</div>
+                                    <div style="font-size: 1.2rem; font-weight: 700; color: #1a1a1a;">23</div>
+                                </div>
+                                <button style="width: 100%; padding: 6px; font-size: 0.7rem; margin-top: 5px;">Check In Entry</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-label">Security Guard App</div>
+                </div>
+
+                <div>
+                    <div class="phone-mockup">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-content">
+                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Dashboard</div>
+                                <div style="margin-bottom: 8px;">
+                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Properties</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">5</div>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Units</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">4,780</div>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <div style="font-size: 0.7rem; color: #666; font-weight: 600;">Visitors Today</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #1a1a1a;">156</div>
+                                </div>
+                                <button style="width: 100%; padding: 6px; font-size: 0.7rem; margin-top: 10px;">View All</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-label">PMC Dashboard App</div>
+                </div>
+
+                <div>
+                    <div class="phone-mockup small rotated-right">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-content">
+                                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;">My Unit</div>
+                                <div style="background: #e8e8e8; padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+                                    <div style="font-size: 0.7rem; color: #666;">Unit 501</div>
+                                    <div style="font-weight: 600; font-size: 0.85rem; color: #1a1a1a;">Al Reem Island</div>
+                                </div>
+                                <div style="font-size: 0.7rem; font-weight: 600; margin-bottom: 3px;">Upcoming Visitors</div>
+                                <div style="font-size: 0.75rem; color: #666; margin-bottom: 10px;">None today</div>
+                                <button style="width: 100%; padding: 6px; font-size: 0.7rem;">Request Visitor</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-label">Resident App</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Communication Section -->
+    <section id="communication">
+        <div class="container">
+            <div class="split-layout reverse">
+                <div class="split-text">
+                    <h2>Real-time communication.</h2>
+                    <p>Instant messaging, one-tap calling, and push notifications. Keep your entire team connected.</p>
+                    <div class="feature-items">
+                        <div class="feature-item">
+                            <div class="feature-icon">💬</div>
+                            <h3>Chat</h3>
+                            <p>PMC to Guards</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📞</div>
+                            <h3>Call</h3>
+                            <p>One-tap dialing</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔔</div>
+                            <h3>Alerts</h3>
+                            <p>Push notifications</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-content">
+                            <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Ahmed Al Mansouri</div>
+                            <div class="chat-messages">
+                                <div class="message received">Hi, delivery at Unit 501</div>
+                                <div class="message received">Package from Amazon</div>
+                                <div class="message sent">Got it, sending guard now</div>
+                                <div class="message sent">ETA 2 minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section id="properties">
+        <div class="container">
+            <div class="split-layout">
+                <div class="split-text">
+                    <h2>Multi-property portfolio.</h2>
+                    <p>Manage all your properties across Abu Dhabi from a single unified interface. Scale your operations effortlessly.</p>
+                    <div class="location-pills">
+                        <div class="location-pill">Al Reem Island</div>
+                        <div class="location-pill">Al Raha Beach</div>
+                        <div class="location-pill">Saadiyat Island</div>
+                        <div class="location-pill">Yas Island</div>
+                        <div class="location-pill">Bloom Living</div>
+                    </div>
+                </div>
+                <div class="laptop-mockup">
+                    <div class="laptop-frame">
+                        <div class="laptop-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="laptop-content">
+                            <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 10px;">My Properties</div>
+                            <div class="property-grid">
+                                <div class="property-card">
+                                    <div class="property-name">Al Reem Island</div>
+                                    <div class="property-units">1,200 units</div>
+                                </div>
+                                <div class="property-card">
+                                    <div class="property-name">Al Raha Beach</div>
+                                    <div class="property-units">890 units</div>
+                                </div>
+                                <div class="property-card">
+                                    <div class="property-name">Saadiyat Island</div>
+                                    <div class="property-units">756 units</div>
+                                </div>
+                                <div class="property-card">
+                                    <div class="property-name">Yas Island</div>
+                                    <div class="property-units">934 units</div>
+                                </div>
+                            </div>
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Resident</th>
+                                        <th>Unit</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mohammed Al Kaabi</td>
+                                        <td>501</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hana Al Mansouri</td>
+                                        <td>302</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documents Section -->
+    <section id="documents">
+        <div class="container">
+            <div class="split-layout reverse">
+                <div class="split-text">
+                    <h2>Documents. Verified & stored.</h2>
+                    <p>Upload, verify, and securely store all resident and guard documents. Automated verification with cloud backup.</p>
+                    <div class="feature-items">
+                        <div class="feature-item">
+                            <div class="feature-icon">📄</div>
+                            <h3>PDF Preview</h3>
+                            <p>Instant document view</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <h3>Auto Verification</h3>
+                            <p>Smart validation</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">☁</div>
+                            <h3>Cloud Storage</h3>
+                            <p>Secure backup</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-cards">
+                    <div class="doc-card">
+                        <div>
+                            <div class="doc-title">National ID</div>
+                            <div class="doc-type">Identification</div>
+                        </div>
+                        <div class="doc-badge">Verified</div>
+                    </div>
+                    <div class="doc-card">
+                        <div>
+                            <div class="doc-title">Guard Licence</div>
+                            <div class="doc-type">Certification</div>
+                        </div>
+                        <div class="doc-badge">Verified</div>
+                    </div>
+                    <div class="doc-card">
+                        <div>
+                            <div class="doc-title">Work Permit</div>
+                            <div class="doc-type">Authorization</div>
+                        </div>
+                        <div class="doc-badge">Verified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section id="announcements">
+        <div class="container">
+            <div class="split-layout reverse">
+                <div class="split-text">
+                    <h2>Keep everyone informed.</h2>
+                    <p>Broadcast announcements to residents, guards, or specific properties. Targeted messaging that reaches the right people instantly.</p>
+                </div>
+                <div class="phone-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-content">
+                            <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;">Announcements</div>
+                            <div class="announcement-cards">
+                                <div class="announcement announcement-urgent">
+                                    <div class="announcement-title">Urgent Maintenance</div>
+                                    <div style="font-size: 0.7rem;">Water supply offline for maintenance tomorrow 2-4 PM</div>
+                                </div>
+                                <div class="announcement announcement-info">
+                                    <div class="announcement-title">System Update</div>
+                                    <div style="font-size: 0.7rem;">New security features rolling out this weekend</div>
+                                </div>
+                                <div class="announcement announcement-community">
+                                    <div class="announcement-title">Community Event</div>
+                                    <div style="font-size: 0.7rem;">Summer gathering at community center next Friday</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="cta-content">
+            <div class="cta-logo">
+                <div class="logo-box-large">V</div>
+                <div class="logo-text">VARS PM</div>
+            </div>
+            <h1>Property Management. Simplified.</h1>
+            <p class="hero-subtext" style="margin-bottom: 2rem;">The unified platform for Abu Dhabi property management companies.</p>
+            <div class="cta-stats">
+                <div class="cta-stat">
+                    <div class="cta-stat-value">5</div>
+                    <div class="cta-stat-label">Properties</div>
+                </div>
+                <div class="cta-stat">
+                    <div class="cta-stat-value">4,780</div>
+                    <div class="cta-stat-label">Units</div>
+                </div>
+                <div class="cta-stat">
+                    <div class="cta-stat-value">3</div>
+                    <div class="cta-stat-label">Apps</div>
+                </div>
+                <div class="cta-stat">
+                    <div class="cta-stat-value">24/7</div>
+                    <div class="cta-stat-label">Security</div>
+                </div>
+            </div>
+            <button onclick="window.open('mailto:hello@varspy.com?subject=VARS%20PM%20Demo%20Request', 'blank')">Request a Demo</button>
+            <p class="hero-subtext" style="margin-top: 2rem; font-size: 0.95rem;">Built for Abu Dhabi property management companies</p>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll for nav links
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Update nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Modern Intersection Observer with staggered reveals
+        const sectionObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+        );
+
+        document.querySelectorAll('section').forEach((section) => {
+            sectionObserver.observe(section);
+        });
+
+        // Smooth parallax-like effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const sections = document.querySelectorAll('section.visible');
+                    sections.forEach((section) => {
+                        const rect = section.getBoundingClientRect();
+                        const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
+                        const parallax = centerOffset * 0.03;
+                        const mockup = section.querySelector('.laptop-mockup, .phone-mockup:not(.small)');
+                        if (mockup && Math.abs(centerOffset) < window.innerHeight) {
+                            mockup.style.transform = `translateY(${parallax}px)`;
+                        }
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Prevent body scroll when nav menu is open on mobile
+        navLinks.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
