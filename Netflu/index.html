@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARS - Property Management Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-warm: #c4b8b0;
+            --bg-warm-light: #d9cfc8;
+            --bg-warm-dark: #928989;
+            --bg-light: #f5f5f5;
+            --bg-dark: #1a1a1a;
+            --text-dark: #1a1a1a;
+            --text-dark-secondary: rgba(26, 26, 26, 0.55);
+            --text-light: #ffffff;
+            --text-light-secondary: rgba(255, 255, 255, 0.7);
+            --gradient-warm: linear-gradient(180deg, #d4c8c0 0%, #a89a92 50%, #928989 100%);
+            --gradient-warm-alt: linear-gradient(180deg, #bfb3aa 0%, #a89a92 100%);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.43;
+            overflow-x: hidden;
+        }
+
+        /* ========= PAGE LOAD ANIMATION ========= */
+        .page-loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 9999;
+            background: linear-gradient(180deg, #f5f1ed 0%, #d9cfc8 40%, #c4b8b0 70%, #928989 100%);
+            pointer-events: none;
+            animation: loaderFade 0.9s ease-out 0.3s forwards;
+        }
+        @keyframes loaderFade {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* Animate-in classes */
+        .anim-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll-triggered animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========= NAV ========= */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            opacity: 0; animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+        nav.scrolled { background: rgba(255,255,255,0.97); padding: 1rem 2rem; border-bottom-color: rgba(0,0,0,0.08); }
+        nav-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .nav-logo { display: flex; align-items: center; gap: 0.35rem; font-weight: 400; font-size: 1.15rem; color: var(--text-dark); letter-spacing: -0.04em; }
+        .nav-logo-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+        .nav-logo-box svg { display: block; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: var(--text-dark-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s ease; cursor: pointer; }
+        .nav-links a:hover { color: var(--text-dark); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+        .hamburger span { width: 22px; height: 1.5px; background: var(--text-dark); transition: all 0.3s ease; transform-origin: center; }
+        .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* ========= SECTIONS ========= */
+        section {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 6rem 2rem; position: relative;
+            opacity: 0; transform: translateY(60px) scale(0.97); filter: blur(8px);
+            transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1), filter 0.8s cubic-bezier(0.16,1,0.3,1);
+            will-change: opacity, transform, filter;
+        }
+        section.visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+
+        /* Staggered children */
+        section .split-text, section .laptop-mockup, section .iphone-mockup, section .cta-content, section .documents-left, section .documents-right {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+        }
+        section.visible .split-text { opacity:1; transform:translateY(0); transition-delay:0.15s; }
+        section.visible .laptop-mockup { opacity:1; transform:translateY(0); transition-delay:0.35s; }
+        section.visible .iphone-mockup { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+        section.visible .cta-content { opacity:1; transform:translateY(0); transition-delay:0.2s; }
+        section.visible .documents-left { opacity:1; transform:translateY(0); transition-delay:0.2s; }
+        section.visible .documents-right { opacity:1; transform:translateY(0); transition-delay:0.4s; }
+
+        section.visible .split-layout > :last-child { animation: slideInFromRight 1s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+        section.visible .split-layout.reverse > :last-child { animation: slideInFromLeft 1s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+
+        .container { max-width: 1400px; width: 100%; margin: 0 auto; }
+
+        /* ========= TYPOGRAPHY — door.com style ========= */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            line-height: 1.06;
+            letter-spacing: -0.053em;
+        }
+        h2 {
+            font-size: clamp(1.75rem, 5vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            line-height: 1.06;
+            letter-spacing: -0.053em;
+        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: -0.015em;
+        }
+
+        /* ========= HERO ========= */
+        #hero {
+            text-align: center; padding-top: 10rem; color: var(--text-light); position: relative; overflow: hidden;
+        }
+        .hero-bg-slider { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg-slide {
+            position: absolute; inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        .hero-bg-slide.active { opacity: 1; }
+        .hero-bg-smoke { background: linear-gradient(rgb(232,218,218), rgb(184,175,175) 32%, rgb(98,89,89)); }
+        .hero-bg-sand { background: linear-gradient(rgb(216,201,186), rgb(163,126,84) 37%, rgb(38,26,13)); }
+        .hero-bg-stone { background: linear-gradient(rgb(211,206,200), rgb(168,160,148) 35%, rgb(72,68,60)); }
+        .hero-bg-warm { background: linear-gradient(rgb(228,216,200), rgb(180,158,132) 34%, rgb(82,68,52)); }
+        #hero > .container { position: relative; z-index: 1; }
+        .logo-large { display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; opacity:0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+        .logo-box-large { width: 64px; height: 64px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #1a1a1a; font-weight: 600; font-size: 2rem; }
+        .logo-text { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.03em; }
+        #hero h1 { opacity:0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+        .hero-subtext { font-size: 1.25rem; color: var(--text-light-secondary); max-width: 700px; margin: 0 auto 3rem; font-weight: 400; line-height: 1.35; letter-spacing: -0.03em; opacity:0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards; }
+        .feature-pills { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 4rem; opacity:0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+        .pill { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); padding: 0.75rem 1.5rem; border-radius: 100px; font-size: 14px; font-weight: 400; color: var(--text-light-secondary); backdrop-filter: blur(10px); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .pill:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); color: var(--text-light); transform: translateY(-3px); }
+        .scroll-indicator { opacity:0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards; margin-top: 3rem; }
+        .scroll-mouse { width: 24px; height: 38px; border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; margin: 0 auto; position: relative; }
+        .scroll-mouse::after { content:''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 3px; height: 8px; background: rgba(255,255,255,0.6); border-radius: 2px; animation: scrollWheel 2s infinite; }
+        @keyframes scrollWheel { 0%{opacity:1;transform:translateX(-50%) translateY(0)} 100%{opacity:0;transform:translateX(-50%) translateY(12px)} }
+
+        /* ========= SPLIT LAYOUT ========= */
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+        .split-layout.reverse { direction: rtl; }
+        .split-layout.reverse > * { direction: ltr; }
+        .split-text h2 { color: var(--text-dark); }
+        .split-text p { font-size: 18px; color: var(--text-dark-secondary); margin-bottom: 2rem; line-height: 1.55; letter-spacing: -0.03em; font-weight: 400; }
+
+        /* ========= MACBOOK PRO MOCKUP ========= */
+        .laptop-mockup {
+            position: relative; width: 100%; max-width: 950px; margin: 0 auto;
+            transform: none;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .laptop-mockup:hover { transform: translateY(-12px) scale(1.02); }
+
+        /* Display lid — dark frame like phone */
+        .laptop-screen {
+            background: #2c2c2e;
+            border-radius: 12px 12px 0 0;
+            padding: 3px 3px 0;
+            position: relative;
+            box-shadow: 0 0 0 0.5px rgba(80,80,80,0.4), inset 0 0.5px 0 rgba(255,255,255,0.08);
+        }
+        /* Notch — hidden like Dynamic Island */
+        .laptop-notch { display: none; }
+        /* Screen area — 16:10 MacBook Pro ratio */
+        .laptop-display {
+            background: #ffffff; border-radius: 8px 8px 0 0; overflow: hidden;
+            aspect-ratio: 16 / 10; position: relative;
+            display: flex; flex-direction: column;
+        }
+        /* macOS title bar — warm tones */
+        .laptop-titlebar {
+            display: flex; align-items: center; padding: 7px 12px; background: #faf8f6;
+            border-bottom: 1px solid #ebe7e3; gap: 6px;
+        }
+        .laptop-titlebar .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot-red { background: #ff5f57; } .dot-yellow { background: #febc2e; } .dot-green { background: #28c840; }
+        .laptop-titlebar-title { flex:1; text-align: center; font-size: 0.6rem; color: var(--text-dark-secondary); font-weight: 400; letter-spacing: -0.02em; }
+        .laptop-body { background: #ffffff; padding: 0; color: var(--text-dark); font-size: 0.8rem; overflow: hidden; flex: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        .laptop-body, .laptop-body * { font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif; letter-spacing: -0.02em; }
+
+        /* Hinge gap */
+        .laptop-hinge {
+            height: 2px;
+            background: linear-gradient(180deg, #1a1a1e 0%, #2c2c2e 100%);
+            margin: 0;
+            position: relative;
+        }
+        /* Bottom deck edge */
+        .laptop-base {
+            height: 8px;
+            background: linear-gradient(180deg, #3a3a3e 0%, #2c2c2e 100%);
+            border-radius: 0 0 4px 4px;
+            margin: 0;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .laptop-base::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent 2%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 80%, transparent 98%);
+        }
+        .laptop-feet { display: none; }
+        .laptop-foot { display: none; }
+
+        /* ========= DASHBOARD INSIDE LAPTOP — warm palette ========= */
+        .dash { display: flex; flex-direction: column; height: 100%; background: #faf8f6; overflow: hidden; }
+        /* Top nav bar */
+        .dash-nav { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ebe7e3; flex-shrink: 0; }
+        .dash-nav-brand { font-weight: 400; font-size: 0.6rem; color: var(--text-dark); display: flex; align-items: center; gap: 4px; letter-spacing: -0.03em; }
+        .dash-nav-brand .brand-sq { width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; }
+        .dash-nav-brand .brand-sq svg { display: block; }
+        .dash-nav-right { display: flex; align-items: center; gap: 6px; }
+        .dash-nav-dot { width: 18px; height: 18px; border-radius: 50%; background: #e8e3de; }
+        .dash-nav-dot.avatar { background: linear-gradient(135deg, var(--bg-warm), var(--bg-warm-dark)); }
+        /* Hero banner with warm gradient */
+        .dash-hero {
+            padding: 12px 14px 10px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-warm-dark) 100%);
+            color: #fff; position: relative; overflow: hidden;
+        }
+        .dash-hero::after {
+            content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 50%;
+            background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,255,255,0.04) 3px, rgba(255,255,255,0.04) 4px);
+        }
+        .dash-hero-label { font-size: 0.5rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+        .dash-hero-value { font-size: 1.4rem; font-weight: 300; letter-spacing: -0.04em; }
+        .dash-hero-value span { color: rgba(255,255,255,0.5); }
+        .dash-hero-sub { font-size: 0.48rem; color: rgba(255,255,255,0.5); margin-top: 2px; letter-spacing: -0.01em; }
+        /* Scrollable card grid area */
+        .dash-content { flex: 1; padding: 8px 10px; overflow: hidden; }
+        .dash-section-title { font-size: 0.55rem; font-weight: 500; color: var(--text-dark-secondary); margin-bottom: 5px; letter-spacing: -0.01em; }
+        .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 8px; }
+        .dash-tile {
+            background: #fff; border-radius: 7px; padding: 7px 8px;
+            border: 1px solid #ebe7e3;
+        }
+        .dash-tile-label { font-size: 0.45rem; color: var(--text-dark-secondary); margin-bottom: 2px; }
+        .dash-tile-value { font-size: 0.85rem; font-weight: 400; color: var(--text-dark); letter-spacing: -0.03em; }
+        .dash-tile-badge { display: inline-block; font-size: 0.4rem; padding: 1px 4px; border-radius: 3px; font-weight: 500; margin-left: 3px; vertical-align: middle; }
+        .badge-red { background: #eddbd9; color: #8b4a42; }
+        .badge-green { background: #e0e5db; color: #5a6b4f; }
+        .badge-blue { background: #e0dde5; color: #5a5470; }
+        .badge-orange { background: #ebe3d9; color: #7a6040; }
+
+        /* ========= iPHONE 16 (realistic Apple-style) ========= */
+        .iphone-mockup { position: relative; width: 100%; max-width: 280px; margin: 0 auto; }
+        .iphone-frame {
+            background: #2c2c2e;
+            border-radius: 44px;
+            padding: 2px;
+            position: relative;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.3),
+                0 0 0 0.5px rgba(80,80,80,0.4),
+                inset 0 0.5px 0 rgba(255,255,255,0.1);
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+        }
+        .iphone-mockup:hover .iphone-frame {
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(80,80,80,0.4), inset 0 0.5px 0 rgba(255,255,255,0.1);
+            transform: translateY(-12px) scale(1.02);
+        }
+        /* Side buttons — thin metallic strips */
+        .iphone-frame::before {
+            content: ''; position: absolute; left: -1.5px; top: 22%; width: 1.5px; height: 26px;
+            background: linear-gradient(180deg, #555, #3a3a3a, #555);
+            border-radius: 1px 0 0 1px;
+        }
+        .iphone-frame::after {
+            content: ''; position: absolute; right: -1.5px; top: 28%; width: 1.5px; height: 38px;
+            background: linear-gradient(180deg, #555, #3a3a3a, #555);
+            border-radius: 0 1px 1px 0;
+        }
+        .iphone-inner {
+            background: #000;
+            border-radius: 42px;
+            padding: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dynamic-island { display: none; }
+        .iphone-screen {
+            background: #ffffff; border-radius: 39px; overflow: hidden;
+            aspect-ratio: 9/19.5; display: flex; flex-direction: column;
+        }
+        .iphone-screen, .iphone-screen * { font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif; letter-spacing: -0.02em; }
+        .iphone-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px 6px; font-size: 0.6rem; font-weight: 600; color: var(--text-dark); }
+        .iphone-statusbar-right { display: flex; gap: 4px; align-items: center; }
+        .battery-icon { width: 18px; height: 8px; border: 1.5px solid var(--text-dark); border-radius: 2px; position: relative; }
+        .battery-icon::after { content:''; position: absolute; right: -3px; top: 50%; transform: translateY(-50%); width: 1.5px; height: 3px; background: var(--text-dark); border-radius: 0 1px 1px 0; }
+        .battery-icon::before { content:''; position: absolute; left: 1px; top: 1px; bottom: 1px; right: 2px; background: var(--text-dark); border-radius: 0.5px; }
+        .signal-bars { display: flex; gap: 1px; align-items: flex-end; height: 8px; }
+        .signal-bar { width: 2px; background: var(--text-dark); border-radius: 0.5px; }
+        .iphone-content { flex:1; padding: 4px 14px 14px; font-size: 0.72rem; color: var(--text-dark); overflow: hidden; }
+        .iphone-app-header { font-weight: 400; font-size: 1.05rem; color: var(--text-dark); margin-bottom: 3px; letter-spacing: -0.03em; }
+        .iphone-app-sub { font-size: 0.6rem; color: var(--text-dark-secondary); margin-bottom: 10px; letter-spacing: -0.01em; }
+        .iphone-card { background: #f2efec; border-radius: 10px; padding: 10px; margin-bottom: 6px; }
+        .iphone-card-title { font-weight: 500; font-size: 0.65rem; margin-bottom: 3px; color: var(--text-dark); }
+        .iphone-card-value { font-weight: 500; font-size: 0.9rem; color: var(--text-dark); }
+        .iphone-card-label { font-size: 0.55rem; color: var(--text-dark-secondary); }
+        .iphone-row { display: flex; gap: 6px; margin-bottom: 6px; }
+        .iphone-row > * { flex:1; }
+        .iphone-list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ebe7e3; font-size: 0.62rem; }
+        .iphone-list-item:last-child { border-bottom: none; }
+        .iphone-nav-bar { display: flex; justify-content: space-around; padding: 6px 0 4px; border-top: 1px solid #ebe7e3; background: #faf8f6; }
+        .iphone-nav-item { text-align: center; font-size: 0.45rem; color: var(--text-dark-secondary); }
+        .iphone-nav-item.active { color: var(--text-dark); font-weight: 500; }
+        .iphone-nav-icon { margin-bottom: 1px; display: flex; align-items: center; justify-content: center; }
+        .iphone-home-indicator { width: 100px; height: 3px; background: var(--text-dark); border-radius: 2px; margin: 4px auto 2px; }
+        /* Badges inside phones — warm palette */
+        .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-weight: 500; font-size: 0.55rem; letter-spacing: -0.01em; }
+        .badge-success { background: #e8e3de; color: #6b5d52; }
+        .badge-active { background: #e8e3de; color: #6b5d52; }
+        .badge-pending { background: #ebe7e3; color: #928989; }
+
+        /* ========= STACKED CARD SLIDER (door.com style) ========= */
+        .slider-section {
+            padding: 2rem 2rem 0;
+            position: relative;
+        }
+        .slider-header {
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto 2rem;
+            padding-top: 6rem;
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+        }
+        .slider-header.visible { opacity: 1; transform: translateY(0); }
+        .slider-header h2 { color: var(--text-dark); margin-bottom: 0.75rem; }
+        .slider-header p { font-size: 18px; color: var(--text-dark-secondary); max-width: 600px; margin: 0 auto; line-height: 1.55; letter-spacing: -0.03em; }
+
+        .card-stack {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .card-stack-item {
+            position: sticky;
+            top: 100px;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            padding: clamp(2rem, 4vw, 3rem);
+            min-height: 520px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            overflow: hidden;
+            opacity: 0; transform: translateY(50px) scale(0.96);
+            transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+        }
+        .card-stack-item.visible {
+            opacity: 1; transform: translateY(0) scale(1);
+        }
+        .card-stack-item:nth-child(1) { transition-delay: 0.1s; }
+        .card-stack-item:nth-child(2) { transition-delay: 0.2s; }
+        .card-stack-item:nth-child(3) { transition-delay: 0.3s; }
+
+        /* Card gradients — inspired by door.com */
+        .card-pmc { background: linear-gradient(180deg, #d0c6cd 0%, #9a8e97 55%, #302b35 100%); }
+        .card-security { background: linear-gradient(180deg, #d3dce0 0%, #b0bdc1 32%, #5b6468 80%, #283034 100%); }
+        .card-resident { background: linear-gradient(180deg, #e8dada 0%, #b8afaf 36%, #625959 100%); }
+
+        .card-text { color: var(--text-light); z-index: 2; }
+        .card-text h2 { color: var(--text-light); font-size: clamp(1.75rem, 4vw, 2.75rem); margin-bottom: 1rem; }
+        .card-text p { font-size: 18px; color: var(--text-light-secondary); line-height: 1.55; letter-spacing: -0.03em; max-width: 500px; }
+        .card-visual { z-index: 2; display: flex; justify-content: center; align-items: center; perspective: 1200px; }
+
+        /* Scale laptop inside card */
+        .card-visual .laptop-mockup { max-width: 1100px; }
+
+        /* ========= PHONE SHOWCASE (Apple-style multi-phone) ========= */
+        .phone-showcase {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .phone-showcase .iphone-mockup {
+            max-width: 200px;
+            flex-shrink: 0;
+        }
+        .phone-showcase .iphone-mockup:nth-child(1) { transform: translateY(-10px); }
+        .phone-showcase .iphone-mockup:nth-child(2) { max-width: 200px; transform: translateY(0); z-index: 2; }
+        .phone-showcase .iphone-mockup:nth-child(3) { transform: translateY(-10px); }
+        .phone-showcase .iphone-frame { box-shadow: 0 15px 50px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(0,0,0,0.08), inset 0 0.5px 0 rgba(255,255,255,0.5); }
+
+        /* Spacer after sticky cards */
+        .card-stack-spacer { height: 120px; }
+
+        /* Sections on white/light bg need dark text */
+        #why, #documents, #cta { color: var(--text-dark); }
+        #why h2, #documents h2, #cta h1 { color: var(--text-dark); }
+        #why .hero-subtext, #documents .hero-subtext, #cta .hero-subtext { color: var(--text-dark-secondary); }
+
+        /* ========= DIFFERENTIATORS ========= */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .diff-card {
+            background: var(--bg-light);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+        }
+        section.visible .diff-card { opacity:1; transform:translateY(0); }
+        section.visible .diff-card:nth-child(1) { transition-delay: 0.2s; }
+        section.visible .diff-card:nth-child(2) { transition-delay: 0.35s; }
+        section.visible .diff-card:nth-child(3) { transition-delay: 0.5s; }
+        .diff-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+        .diff-card h3 { margin-bottom: 0.75rem; color: var(--text-dark); }
+        .diff-card p { font-size: 16px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.02em; }
+
+        /* ========= DOCUMENTS ========= */
+        /* Documents — door.com split style */
+        /* Documents — door.com numbered rows style */
+        .documents-layout { display: grid; grid-template-columns: 380px 1fr; gap: 5rem; align-items: start; }
+        .documents-left { position: sticky; top: 100px; }
+        .documents-heading { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.053em; margin-bottom: 1.5rem; }
+        .doc-heading-dark { color: var(--text-dark); }
+        .doc-heading-light { color: #999; }
+        .documents-desc { font-size: 18px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.03em; margin-bottom: 2.5rem; max-width: 440px; }
+        .btn-dark-pill {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: #1a1a1a; color: #fff; padding: 1rem 2rem;
+            border-radius: 999px; font-size: 16px; font-weight: 500;
+            text-decoration: none; letter-spacing: -0.02em;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        .btn-dark-pill:hover { background: #333; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .documents-right { display: flex; flex-direction: column; gap: 0; }
+        .doc-row {
+            display: grid; grid-template-columns: 40px 1fr 1fr; gap: 1.5rem; align-items: start;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        .doc-row:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+        .doc-row-num { font-size: 14px; font-weight: 400; color: #999; letter-spacing: -0.02em; padding-top: 2px; }
+        .doc-row-title { font-size: 18px; font-weight: 400; color: var(--text-dark); letter-spacing: -0.03em; line-height: 1.3; }
+        .doc-row-desc { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.01em; }
+
+        /* ========= ANNOUNCEMENTS ========= */
+        #announcements { background: var(--bg-light); color: var(--text-dark); min-height: auto; padding: 5rem 2rem; }
+        .announcements-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .announcements-wrapper .split-text h2 { color: var(--text-dark); }
+        .announcements-wrapper .split-text p { color: var(--text-dark-secondary); }
+        .announcement-cards { display: flex; flex-direction: column; gap: 0; }
+        .announcement { padding: 18px 0; font-size: 16px; letter-spacing: -0.02em; line-height: 1.5; color: var(--text-dark-secondary); border-bottom: 1px solid rgba(0,0,0,0.08); }
+        .announcement:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+        .announcement-title { font-weight: 500; margin-bottom: 3px; color: var(--text-dark); font-size: 16px; }
+
+        /* ========= CTA ========= */
+        #cta { flex-direction: column; gap: 2rem; }
+        .cta-content { text-align: center; }
+        .cta-float {
+            position: absolute; border-radius: 20px;
+            background: rgba(180,170,160,0.08);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(180,170,160,0.12);
+        }
+        .cta-float-1 {
+            width: 180px; height: 180px; border-radius: 50%;
+            top: 8%; left: 6%;
+            animation: ctaFloat1 8s ease-in-out infinite;
+        }
+        .cta-float-2 {
+            width: 120px; height: 120px; border-radius: 16px;
+            top: 12%; right: 8%;
+            animation: ctaFloat2 10s ease-in-out infinite;
+        }
+        .cta-float-3 {
+            width: 90px; height: 90px; border-radius: 50%;
+            bottom: 15%; right: 15%;
+            animation: ctaFloat3 7s ease-in-out infinite;
+        }
+        .cta-float-4 {
+            width: 140px; height: 100px; border-radius: 24px;
+            bottom: 18%; left: 10%;
+            animation: ctaFloat4 9s ease-in-out infinite;
+        }
+        @keyframes ctaFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-15px)} }
+        @keyframes ctaFloat2 { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(-15px,20px) rotate(8deg)} }
+        @keyframes ctaFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,-10px)} }
+        @keyframes ctaFloat4 { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(15px,-20px) rotate(-5deg)} }
+        .cta-logo { display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+        .cta-stats { display: flex; justify-content: center; gap: 3rem; margin: 2.5rem 0; flex-wrap: wrap; }
+        .cta-stat { text-align: center; }
+        .cta-stat-value { font-size: 2rem; font-weight: 400; letter-spacing: -0.04em; color: var(--text-dark); }
+        .cta-stat-label { font-size: 14px; color: var(--text-dark-secondary); margin-top: 0.25rem; }
+
+        /* ========= BUTTONS ========= */
+        button, .btn {
+            background: var(--text-dark); color: white; border: none;
+            padding: 1rem 2.5rem; border-radius: 999px;
+            font-weight: 500; font-size: 14px;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            display: inline-block; text-decoration: none;
+            font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif;
+        }
+        button:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+
+        /* ========= ANIMATIONS ========= */
+        /* fadeInDown removed — replaced by slideUp */
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.95);filter:blur(4px)} to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)} }
+        @keyframes slideInFromRight { from{opacity:0;transform:translateX(80px) scale(0.9);filter:blur(6px)} to{opacity:1;transform:translateX(0) scale(1);filter:blur(0)} }
+        @keyframes slideInFromLeft { from{opacity:0;transform:translateX(-80px) scale(0.9);filter:blur(6px)} to{opacity:1;transform:translateX(0) scale(1);filter:blur(0)} }
+
+        /* ========= RESPONSIVE ========= */
+
+        /* --- Tablet (max 1024px) --- */
+        @media (max-width: 1024px) {
+            .card-stack-item { grid-template-columns: 1fr; min-height: auto; padding: 2rem; }
+            .card-visual { order: -1; }
+            .phone-showcase .iphone-mockup { max-width: 150px; }
+            .phone-showcase .iphone-mockup:nth-child(2) { max-width: 170px; }
+            .diff-grid { grid-template-columns: 1fr; }
+            .documents-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .documents-left { position: static; }
+            .announcements-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+            .doc-row { grid-template-columns: 30px 1fr; }
+            .doc-row-desc { grid-column: 2; }
+            /* Reduce floating elements on tablet */
+            .cta-float-3, .cta-float-4 { display: none; }
+            .cta-float-1 { width: 120px; height: 120px; }
+            .cta-float-2 { width: 80px; height: 80px; }
+        }
+
+        /* --- Mobile (max 768px) --- */
+        @media (max-width: 768px) {
+            /* Nav */
+            nav { padding: 1rem 1.25rem; }
+            nav.scrolled { padding: 0.75rem 1.25rem; }
+            .hamburger { display: flex; }
+            .nav-links { display: none; }
+            .nav-links.active {
+                display: flex; position: absolute; top: 100%; left: 0; right: 0;
+                flex-direction: column; background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                padding: 1.5rem 2rem; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.08);
+                box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            }
+            .nav-links.active li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            .nav-links.active li:last-child { border-bottom: none; }
+            .nav-links.active a { font-size: 16px; color: var(--text-dark); }
+
+            /* Sections */
+            section { padding: 3rem 1.25rem; min-height: auto; }
+            section#hero { padding: 5rem 1.25rem 3rem; }
+
+            /* Hero */
+            h1 { font-size: 2rem; }
+            .hero-subtext { font-size: 0.95rem; max-width: 100%; }
+            .feature-pills { gap: 0.5rem; }
+            .pill { padding: 0.5rem 1rem; font-size: 12px; }
+            .scroll-indicator { display: none; }
+
+            /* Card stack */
+            .slider-section { padding: 2rem 1.25rem; }
+            .slider-header h2 { font-size: 1.75rem; }
+            .slider-header p { font-size: 0.95rem; }
+            .card-stack-item { top: 70px; padding: 1.5rem; gap: 1.25rem; border-radius: 14px; }
+            .card-text h2 { font-size: 1.5rem !important; margin-bottom: 0.5rem; }
+            .card-text p { font-size: 15px; }
+            .card-stack-spacer { height: 40px; }
+
+            /* Hide laptop mockups & slide navs on mobile — show feature lists instead */
+            .card-pmc .card-visual > *:not(.mobile-feature-list),
+            .card-security .card-visual > *:not(.mobile-feature-list) { display: none !important; }
+            .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
+            .mobile-feature-item {
+                display: flex; align-items: center; gap: 0.75rem;
+                padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.12);
+                color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 400;
+                letter-spacing: -0.01em;
+            }
+            .mobile-feature-item:last-child { border-bottom: none; }
+            .mobile-feature-item .mf-num {
+                font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.4);
+                min-width: 20px;
+            }
+            .mobile-feature-item .mf-title { font-weight: 500; color: #fff; }
+            .mobile-feature-item .mf-desc { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+            /* Phone showcase → carousel on mobile */
+            .phone-showcase { position: relative; overflow: hidden; }
+            .phone-showcase .iphone-mockup {
+                max-width: 220px !important; flex-shrink: 0;
+                transform: none !important;
+            }
+            .phone-showcase .iphone-mockup:nth-child(1),
+            .phone-showcase .iphone-mockup:nth-child(2),
+            .phone-showcase .iphone-mockup:nth-child(3) {
+                max-width: 220px !important; transform: none !important;
+            }
+
+            /* Carousel dots */
+            .phone-carousel-dots {
+                display: flex !important; justify-content: center; gap: 8px;
+                margin-top: 1rem;
+            }
+            .phone-carousel-dot {
+                width: 8px; height: 8px; border-radius: 50%;
+                background: rgba(255,255,255,0.3); border: none;
+                cursor: pointer; padding: 0;
+                transition: all 0.3s ease;
+            }
+            .phone-carousel-dot.active {
+                background: rgba(255,255,255,0.9); width: 24px; border-radius: 4px;
+            }
+
+            /* Splits */
+            .split-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .split-layout.reverse { direction: ltr; }
+
+            /* Diff cards */
+            .diff-grid { gap: 1rem; margin-top: 2rem; }
+            .diff-card { padding: 1.5rem; }
+
+            /* Documents */
+            .documents-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+            .documents-left { position: static; text-align: left; }
+            .documents-heading { font-size: 2.5rem; }
+            .documents-desc { font-size: 16px; }
+            .doc-row { grid-template-columns: 30px 1fr; gap: 0.75rem; padding: 16px 0; }
+            .doc-row-desc { grid-column: 2; }
+            .doc-row-title { font-size: 16px; }
+            .doc-row-desc { font-size: 13px; }
+
+            /* Announcements */
+            #announcements { padding: 3rem 1.25rem; }
+            .announcements-wrapper { grid-template-columns: 1fr; gap: 1.5rem; }
+            .announcement { font-size: 15px; padding: 14px 0; }
+
+            /* CTA */
+            #cta { padding: 4rem 1.25rem; }
+            #cta h1 { font-size: 1.75rem; }
+            .cta-stats { gap: 1.5rem; }
+            .cta-stat-value { font-size: 1.5rem; }
+            .cta-float { display: none; }
+
+        }
+
+        /* --- Small mobile (max 480px) --- */
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.35rem; }
+            .card-text h2 { font-size: 1.35rem !important; }
+            .logo-box-large { width: 48px; height: 48px; font-size: 1.5rem; }
+            .logo-text { font-size: 1.25rem; }
+            .app-sidebar { display: none; }
+            button { padding: 0.75rem 2rem; font-size: 14px; }
+            .card-stack-item { padding: 1.25rem; top: 65px; }
+            .phone-showcase .iphone-mockup,
+            .phone-showcase .iphone-mockup:nth-child(1),
+            .phone-showcase .iphone-mockup:nth-child(2),
+            .phone-showcase .iphone-mockup:nth-child(3) { max-width: 200px !important; }
+            .documents-heading { font-size: 2rem; }
+            .pill { padding: 0.45rem 0.9rem; font-size: 11px; }
+            .diff-card h3 { font-size: 1.1rem; }
+            .diff-card p { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page load overlay -->
+    <div class="page-loader"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <nav-content>
+            <div class="nav-logo">
+                <div class="nav-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                <span>VARS</span>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="scrollToSection('slider')">Platform</a></li>
+                <li><a onclick="scrollToSection('why')">Why VARS</a></li>
+                <li><a onclick="scrollToSection('documents')">Data Security</a></li>
+                <li><a onclick="scrollToSection('cta')">Contact</a></li>
+            </ul>
+        </nav-content>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero">
+        <div class="hero-bg-slider">
+            <div class="hero-bg-slide hero-bg-smoke active"></div>
+            <div class="hero-bg-slide hero-bg-sand"></div>
+            <div class="hero-bg-slide hero-bg-stone"></div>
+            <div class="hero-bg-slide hero-bg-warm"></div>
+        </div>
+        <div class="container" style="position:relative;z-index:1;">
+            <h1>Property Management.<br>Simplified.</h1>
+            <p class="hero-subtext">Three apps. One platform. Complete control over your properties, security, and residents across the UAE.</p>
+            <div class="feature-pills">
+                <div class="pill">PMC Dashboard</div>
+                <div class="pill">Security Guard App</div>
+                <div class="pill">Resident App</div>
+
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-mouse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STACKED CARD SLIDER (door.com style) ===== -->
+    <div class="slider-section" id="slider">
+        <div class="slider-header">
+            <h2>Three apps. One ecosystem.</h2>
+            <p>PMC dashboard, Resident app, and Security Guard app — all connected in real time.</p>
+        </div>
+
+        <div class="card-stack">
+            <!-- Card 1: PMC Dashboard -->
+            <div class="card-stack-item card-pmc reveal">
+                <div class="card-text">
+                    <h2>Your entire portfolio.<br>One dashboard.</h2>
+                    <p>Monitor occupancy rates, revenue, guard assignments, and property performance across all your buildings in real time.</p>
+                </div>
+                <div class="card-visual" style="flex-direction:column;">
+                    <div class="laptop-mockup">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <div class="laptop-display">
+                                <div class="laptop-body pmc-screen" id="pmcScreen1" style="flex:1;overflow:hidden;background:#f5f1ed;padding:20px 26px;">
+                                    <!-- Dashboard content only -->
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                        <div style="font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#1a1a1a;">PM Dashboard — Overview</div>
+                                        <div style="font-size:0.48rem;color:rgba(26,26,26,0.5)">UAE · GST+4 &nbsp; 08 Apr 2026, 11:26 PM</div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+                                        <span style="font-size:0.62rem;font-weight:600;color:rgba(26,26,26,0.85)">Key Performance Indicators</span>
+                                        <span style="font-size:0.44rem;background:#f0ebe6;padding:2px 8px;border-radius:10px;color:rgba(26,26,26,0.6)">Live · Updated 11:26 PM</span>
+                                    </div>
+                                    <!-- KPI Cards - 5 cards -->
+                                    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:12px;">
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:9px 10px;">
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.55);margin-bottom:2px">Total Residences</div>
+                                            <div style="display:flex;align-items:baseline;gap:3px;"><span style="font-size:1.2rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">1,240</span><span style="font-size:0.42rem;color:rgba(26,26,26,0.35)">→ 0</span></div>
+                                                                                        <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">View details →</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:9px 10px;">
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.55);margin-bottom:2px">Occupied Flats</div>
+                                            <div style="display:flex;align-items:baseline;gap:3px;"><span style="font-size:1.2rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">1,087</span><span style="font-size:0.42rem;color:rgba(26,26,26,0.4)">↗ +3</span></div>
+                                                                                        <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">View details →</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:9px 10px;">
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.55);margin-bottom:2px">Visitors Inside (Live)</div>
+                                            <div style="display:flex;align-items:baseline;gap:3px;"><span style="font-size:1.2rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">8</span><span style="font-size:0.42rem;color:rgba(26,26,26,0.4)">↗ +12</span></div>
+                                                                                        <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">View details →</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:9px 10px;">
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.55);margin-bottom:2px">Active Service Req.</div>
+                                            <div style="display:flex;align-items:baseline;gap:3px;"><span style="font-size:1.2rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">15</span><span style="font-size:0.42rem;color:rgba(26,26,26,0.4)">↗ +1</span></div>
+                                                                                        <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">View details →</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:9px 10px;">
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.55);margin-bottom:2px">Scheduled Visits Today</div>
+                                            <div style="display:flex;align-items:baseline;gap:3px;"><span style="font-size:1.2rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">25</span><span style="font-size:0.42rem;color:rgba(26,26,26,0.4)">↗ +4</span></div>
+                                                                                        <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">View details →</div>
+                                        </div>
+                                    </div>
+                                    <!-- Chart + Activity Feed -->
+                                    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:10px;flex:1;">
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;">
+                                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                                                <div style="font-size:0.72rem;font-weight:600;color:#1a1a1a">Service Requests — Last 7 Days</div>
+                                                <div style="border:1px solid #e0dbd6;border-radius:4px;padding:3px 9px;font-size:0.46rem;color:rgba(26,26,26,0.45)">▼ Filter</div>
+                                            </div>
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.4);margin-bottom:8px;">Stacked by type: Guest / Vendor / Contractor</div>
+                                            <div style="display:flex;gap:4px;flex:1;">
+                                                <div style="display:flex;flex-direction:column;justify-content:space-between;padding-right:4px;">
+                                                    <span style="font-size:0.38rem;color:rgba(26,26,26,0.3)">80</span>
+                                                    <span style="font-size:0.38rem;color:rgba(26,26,26,0.3)">60</span>
+                                                    <span style="font-size:0.38rem;color:rgba(26,26,26,0.3)">40</span>
+                                                    <span style="font-size:0.38rem;color:rgba(26,26,26,0.3)">20</span>
+                                                    <span style="font-size:0.38rem;color:rgba(26,26,26,0.3)">0</span>
+                                                </div>
+                                                <div style="flex:1;display:flex;align-items:flex-end;gap:6px;">
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:20px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:13px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:7px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:30px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:19px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:12px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:38px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:24px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:15px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:50px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:33px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:20px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:66px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:44px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:26px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:24px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:15px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:7px;"></div></div>
+                                                    <div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;background:#e0dbd6;border-radius:2px;height:14px;"></div><div style="flex:1;background:#c4b8b0;border-radius:2px;height:8px;"></div><div style="flex:1;background:#928989;border-radius:2px;height:4px;"></div></div>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex;justify-content:space-around;margin-top:5px;padding-left:20px;">
+                                                <span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Mon</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Tue</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Wed</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Thu</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Fri</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Sat</span><span style="font-size:0.44rem;color:rgba(26,26,26,0.4)">Sun</span>
+                                            </div>
+                                            <div style="display:flex;gap:10px;margin-top:6px;justify-content:center;">
+                                                <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#e0dbd6;border-radius:2px;"></div><span style="font-size:0.44rem;color:rgba(26,26,26,0.45)">Guests</span></div>
+                                                <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#c4b8b0;border-radius:2px;"></div><span style="font-size:0.44rem;color:rgba(26,26,26,0.45)">Vendors</span></div>
+                                                <div style="display:flex;align-items:center;gap:3px;"><div style="width:8px;height:8px;background:#928989;border-radius:2px;"></div><span style="font-size:0.44rem;color:rgba(26,26,26,0.45)">Contractors</span></div>
+                                            </div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;">
+                                            <div style="display:flex;justify-content:space-between;margin-bottom:12px"><div style="font-size:0.72rem;font-weight:600;color:#1a1a1a">Activity Feed</div><div style="font-size:0.48rem;color:rgba(26,26,26,0.4)">View all</div></div>
+                                            <div style="display:flex;flex-direction:column;gap:12px;">
+                                                <div style="display:flex;gap:7px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:#c4b8b0;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:0.56rem;color:rgba(26,26,26,0.85);line-height:1.3"><b>Visitor checked in</b> — Flat A-1204 (James Harrison)</div><div style="font-size:0.46rem;color:rgba(26,26,26,0.4);margin-top:2px">10:15</div></div></div>
+                                                <div style="display:flex;gap:7px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:#b0a89e;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:0.56rem;color:rgba(26,26,26,0.85);line-height:1.3"><b>Service request approved</b> — Flat B-0803 (AC Repair)</div><div style="font-size:0.46rem;color:rgba(26,26,26,0.4);margin-top:2px">10:08</div></div></div>
+                                                <div style="display:flex;gap:7px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:#9e9590;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:0.56rem;color:rgba(26,26,26,0.85);line-height:1.3"><b>Guard override used</b> — Flat C-0501</div><div style="font-size:0.46rem;color:rgba(26,26,26,0.4);margin-top:2px">09:58</div></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="laptop-body pmc-screen" id="pmcScreen2" style="flex:1;overflow:hidden;background:#f5f1ed;padding:20px 26px;display:none;">
+                                    <!-- Service Requests Screen -->
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                        <div style="font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#1a1a1a;">Service Requests</div>
+                                        <div style="display:flex;gap:6px;align-items:center;">
+                                            <span style="font-size:0.46rem;background:#f0ebe6;padding:3px 10px;border-radius:10px;color:rgba(26,26,26,0.6)">47 Open</span>
+                                            <span style="font-size:0.46rem;background:#e8e4e0;padding:3px 10px;border-radius:10px;color:rgba(26,26,26,0.5)">12 In Progress</span>
+                                        </div>
+                                    </div>
+                                    <!-- Filter bar -->
+                                    <div style="display:flex;gap:6px;margin-bottom:12px;align-items:center;">
+                                        <div style="background:#1a1a1a;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.46rem;font-weight:600">All</div>
+                                        <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:6px;font-size:0.46rem;color:rgba(26,26,26,0.5)">Plumbing</div>
+                                        <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:6px;font-size:0.46rem;color:rgba(26,26,26,0.5)">Electrical</div>
+                                        <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:6px;font-size:0.46rem;color:rgba(26,26,26,0.5)">HVAC</div>
+                                        <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:6px;font-size:0.46rem;color:rgba(26,26,26,0.5)">General</div>
+                                    </div>
+                                    <!-- Table header -->
+                                    <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:6px 10px;background:#f0ebe6;border-radius:6px;margin-bottom:6px;">
+                                        <div style="font-size:0.44rem;font-weight:600;color:rgba(26,26,26,0.5)">ID</div>
+                                        <div style="font-size:0.44rem;font-weight:600;color:rgba(26,26,26,0.5)">Description</div>
+                                        <div style="font-size:0.44rem;font-weight:600;color:rgba(26,26,26,0.5)">Location</div>
+                                        <div style="font-size:0.44rem;font-weight:600;color:rgba(26,26,26,0.5)">Assigned</div>
+                                        <div style="font-size:0.44rem;font-weight:600;color:rgba(26,26,26,0.5)">Status</div>
+                                    </div>
+                                    <!-- Rows -->
+                                    <div style="display:flex;flex-direction:column;gap:4px;">
+                                        <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e4e0;border-radius:6px;align-items:center;">
+                                            <div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">#SR-2841</div>
+                                            <div style="font-size:0.46rem;color:#1a1a1a">AC unit not cooling — bedroom</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.5)">Tower A · Flat B-0803</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.6)">Al Faris HVAC</div>
+                                            <div><span style="font-size:0.38rem;background:#fef3e2;color:#8a6d3b;padding:2px 8px;border-radius:4px;font-weight:500">In Progress</span></div>
+                                        </div>
+                                        <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e4e0;border-radius:6px;align-items:center;">
+                                            <div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">#SR-2840</div>
+                                            <div style="font-size:0.46rem;color:#1a1a1a">Water leak under kitchen sink</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.5)">Tower B · Flat C-1204</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.6)">Quick Fix Plumbing</div>
+                                            <div><span style="font-size:0.38rem;background:#f0ebe6;color:rgba(26,26,26,0.6);padding:2px 8px;border-radius:4px;font-weight:500">Open</span></div>
+                                        </div>
+                                        <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e4e0;border-radius:6px;align-items:center;">
+                                            <div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">#SR-2839</div>
+                                            <div style="font-size:0.46rem;color:#1a1a1a">Parking gate sensor malfunction</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.5)">Tower A · Basement P2</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.6)">Maintenance Team</div>
+                                            <div><span style="font-size:0.38rem;background:#fef3e2;color:#8a6d3b;padding:2px 8px;border-radius:4px;font-weight:500">In Progress</span></div>
+                                        </div>
+                                        <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e4e0;border-radius:6px;align-items:center;">
+                                            <div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">#SR-2838</div>
+                                            <div style="font-size:0.46rem;color:#1a1a1a">Elevator door not closing properly</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.5)">Tower B · Lobby</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.6)">KONE Elevators</div>
+                                            <div><span style="font-size:0.38rem;background:#e6f0e6;color:#4a7c4a;padding:2px 8px;border-radius:4px;font-weight:500">Resolved</span></div>
+                                        </div>
+                                        <div style="display:grid;grid-template-columns:0.6fr 1.2fr 1fr 0.8fr 0.6fr;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e4e0;border-radius:6px;align-items:center;">
+                                            <div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">#SR-2837</div>
+                                            <div style="font-size:0.46rem;color:#1a1a1a">Broken light fixture — hallway 3F</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.5)">Tower A · Floor 3</div>
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.6)">Spark Electric</div>
+                                            <div><span style="font-size:0.38rem;background:#f0ebe6;color:rgba(26,26,26,0.6);padding:2px 8px;border-radius:4px;font-weight:500">Open</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Screen 3: Managed Guards -->
+                                <div class="laptop-body pmc-screen" id="pmcScreen3" style="flex:1;overflow:hidden;background:#f5f1ed;padding:20px 26px;display:none;">
+                                    <!-- Header -->
+                                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                                        <div>
+                                            <div style="font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#1a1a1a;">Managed Guards</div>
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.5);margin-top:2px;">6 guards registered · 3 on duty · 2 pending verification</div>
+                                        </div>
+                                        <div style="background:#1a1a1a;color:#fff;padding:5px 14px;border-radius:6px;font-size:0.46rem;font-weight:600;cursor:pointer;">+ Add Guard</div>
+                                    </div>
+
+                                    <!-- Currently On Duty -->
+                                    <div style="margin-bottom:10px;">
+                                        <div style="font-size:0.42rem;font-weight:700;letter-spacing:0.02em;color:rgba(26,26,26,0.5);margin-bottom:5px;">CURRENTLY ON DUTY</div>
+                                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;">
+                                            <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:9px 11px;">
+                                                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+                                                    <div style="width:26px;height:26px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:0.38rem;font-weight:600;display:flex;align-items:center;justify-content:center;">AK</div>
+                                                    <div>
+                                                        <div style="font-weight:700;font-size:0.5rem;color:#1a1a1a;">Ahmed Khalil</div>
+                                                        <div style="font-size:0.36rem;color:rgba(26,26,26,0.45);">Senior Guard</div>
+                                                    </div>
+                                                </div>
+                                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.5);">Main Gate</div>
+                                                    <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+                                                </div>
+                                            </div>
+                                            <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:9px 11px;">
+                                                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+                                                    <div style="width:26px;height:26px;border-radius:50%;background:#c4b8b0;color:#fff;font-size:0.38rem;font-weight:600;display:flex;align-items:center;justify-content:center;">MA</div>
+                                                    <div>
+                                                        <div style="font-weight:700;font-size:0.5rem;color:#1a1a1a;">Mohammed Al-Said</div>
+                                                        <div style="font-size:0.36rem;color:rgba(26,26,26,0.45);">Senior Guard</div>
+                                                    </div>
+                                                </div>
+                                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.5);">Tower B Lobby</div>
+                                                    <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+                                                </div>
+                                            </div>
+                                            <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:9px 11px;">
+                                                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+                                                    <div style="width:26px;height:26px;border-radius:50%;background:#c4a87c;color:#fff;font-size:0.38rem;font-weight:600;display:flex;align-items:center;justify-content:center;">TB</div>
+                                                    <div>
+                                                        <div style="font-weight:700;font-size:0.5rem;color:#1a1a1a;">Tariq Bin Saeed</div>
+                                                        <div style="font-size:0.36rem;color:rgba(26,26,26,0.45);">Gate Captain</div>
+                                                    </div>
+                                                </div>
+                                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.5);">Delivery Gate</div>
+                                                    <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Two columns: KPI + Guard Roster / Shift Overview -->
+                                    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:10px;flex:1;">
+                                        <!-- Left column -->
+                                        <div style="display:flex;flex-direction:column;gap:7px;">
+                                            <!-- KPI cards -->
+                                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;">
+                                                <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:7px 11px;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.55);margin-bottom:2px;">Total Guards</div>
+                                                    <div style="font-size:0.9rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a;">6</div>
+                                                </div>
+                                                <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:7px 11px;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.55);margin-bottom:2px;">On Duty</div>
+                                                    <div style="font-size:0.9rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a;">3</div>
+                                                </div>
+                                                <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:7px 11px;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.55);margin-bottom:2px;">Verified</div>
+                                                    <div style="font-size:0.9rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a;">4</div>
+                                                </div>
+                                            </div>
+                                            <!-- Guard Roster Table -->
+                                            <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:8px 11px;flex:1;">
+                                                <div style="font-size:0.44rem;font-weight:700;letter-spacing:0.01em;color:#1a1a1a;margin-bottom:5px;">Guard Roster</div>
+                                                <table style="width:100%;border-collapse:collapse;font-size:0.38rem;">
+                                                    <thead>
+                                                        <tr style="border-bottom:1px solid #e0dbd6;">
+                                                            <th style="text-align:left;padding:3px 3px;font-weight:600;color:rgba(26,26,26,0.45);font-size:0.34rem;letter-spacing:0.03em;">NAME</th>
+                                                            <th style="text-align:left;padding:3px 3px;font-weight:600;color:rgba(26,26,26,0.45);font-size:0.34rem;">SHIFT</th>
+                                                            <th style="text-align:left;padding:3px 3px;font-weight:600;color:rgba(26,26,26,0.45);font-size:0.34rem;">POST</th>
+                                                            <th style="text-align:left;padding:3px 3px;font-weight:600;color:rgba(26,26,26,0.45);font-size:0.34rem;">COMPANY</th>
+                                                            <th style="text-align:left;padding:3px 3px;font-weight:600;color:rgba(26,26,26,0.45);font-size:0.34rem;">STATUS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="border-bottom:1px solid #f0ebe6;">
+                                                            <td style="padding:3px;font-weight:600;color:#1a1a1a;">Ahmed Khalil</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Morning</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Main Gate</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">SecureGuard</td>
+                                                            <td style="padding:3px;"><span style="background:#e6f0e6;color:#4a7c4a;padding:2px 6px;border-radius:4px;font-size:0.34rem;font-weight:500;">On Duty</span></td>
+                                                        </tr>
+                                                        <tr style="border-bottom:1px solid #f0ebe6;">
+                                                            <td style="padding:3px;font-weight:600;color:#1a1a1a;">M. Al-Said</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Morning</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Tower B</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">SecureGuard</td>
+                                                            <td style="padding:3px;"><span style="background:#e6f0e6;color:#4a7c4a;padding:2px 6px;border-radius:4px;font-size:0.34rem;font-weight:500;">On Duty</span></td>
+                                                        </tr>
+                                                        <tr style="border-bottom:1px solid #f0ebe6;">
+                                                            <td style="padding:3px;font-weight:600;color:#1a1a1a;">T. Bin Saeed</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Afternoon</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Delivery</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">SecureGuard</td>
+                                                            <td style="padding:3px;"><span style="background:#e6f0e6;color:#4a7c4a;padding:2px 6px;border-radius:4px;font-size:0.34rem;font-weight:500;">On Duty</span></td>
+                                                        </tr>
+                                                        <tr style="border-bottom:1px solid #f0ebe6;">
+                                                            <td style="padding:3px;font-weight:600;color:#1a1a1a;">Omar Hassan</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Night</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">Main Gate</td>
+                                                            <td style="padding:3px;color:rgba(26,26,26,0.55);">NightWatch</td>
+                                                            <td style="padding:3px;"><span style="background:#f0ebe6;color:rgba(26,26,26,0.5);padding:2px 6px;border-radius:4px;font-size:0.34rem;font-weight:500;">Off Duty</span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Right column: Shift Overview -->
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:10px 12px;">
+                                            <div style="font-size:0.44rem;font-weight:700;letter-spacing:0.01em;color:#1a1a1a;margin-bottom:8px;">Shift Overview</div>
+                                            <div style="display:flex;flex-direction:column;gap:8px;">
+                                                <div style="border-left:3px solid #c4a87c;padding-left:8px;">
+                                                    <div style="font-size:0.42rem;font-weight:700;color:#1a1a1a;">Morning</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.4);margin-bottom:2px;">06:00 – 14:00</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.55);line-height:1.5;">Main Gate<br>Tower B Lobby</div>
+                                                </div>
+                                                <div style="border-left:3px solid #c4b8b0;padding-left:8px;">
+                                                    <div style="font-size:0.42rem;font-weight:700;color:#1a1a1a;">Afternoon</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.4);margin-bottom:2px;">14:00 – 22:00</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.55);line-height:1.5;">Delivery Gate</div>
+                                                </div>
+                                                <div style="border-left:3px solid #e0dbd6;padding-left:8px;">
+                                                    <div style="font-size:0.42rem;font-weight:700;color:#1a1a1a;">Night</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.4);margin-bottom:2px;">22:00 – 06:00</div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.45);font-style:italic;">No guards on duty</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Screen 4: Reports & KPIs -->
+                                <div class="laptop-body pmc-screen" id="pmcScreen4" style="flex:1;overflow:hidden;background:#f5f1ed;padding:20px 26px;display:none;">
+                                    <!-- Header -->
+                                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+                                        <div>
+                                            <div style="font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#1a1a1a;">Reports & KPIs</div>
+                                            <div style="font-size:0.46rem;color:rgba(26,26,26,0.5);margin-top:2px;">Performance metrics and analytics</div>
+                                        </div>
+                                        <div style="display:flex;gap:6px;">
+                                            <div style="border:1px solid #e0dbd6;padding:5px 14px;border-radius:6px;font-size:0.44rem;font-weight:500;color:rgba(26,26,26,0.6);background:#fff;cursor:pointer;">↓ Export</div>
+                                            <div style="background:#1a1a1a;color:#fff;padding:5px 14px;border-radius:6px;font-size:0.44rem;font-weight:600;cursor:pointer;">↓ Export CSV</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Two panels: SLA Chart + Resolution Time -->
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                                        <!-- SLA Compliance Rate -->
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:14px 16px;">
+                                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                                <div style="font-size:0.56rem;font-weight:700;color:#1a1a1a;">SLA compliance rate</div>
+                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);cursor:pointer;">View all</div>
+                                            </div>
+                                            <!-- Y-axis labels + chart area -->
+                                            <div style="display:flex;gap:4px;height:80px;align-items:stretch;">
+                                                <div style="display:flex;flex-direction:column;justify-content:space-between;padding-right:2px;">
+                                                    <span style="font-size:0.34rem;color:rgba(26,26,26,0.3)">100%</span>
+                                                    <span style="font-size:0.34rem;color:rgba(26,26,26,0.3)">90%</span>
+                                                    <span style="font-size:0.34rem;color:rgba(26,26,26,0.3)">80%</span>
+                                                    <span style="font-size:0.34rem;color:rgba(26,26,26,0.3)">70%</span>
+                                                    <span style="font-size:0.34rem;color:rgba(26,26,26,0.3)">60%</span>
+                                                </div>
+                                                <div style="flex:1;position:relative;border-bottom:1px solid #e8e4e0;">
+                                                    <!-- Horizontal grid lines -->
+                                                    <div style="position:absolute;top:0;left:0;right:0;border-bottom:1px solid #f0ebe6;"></div>
+                                                    <div style="position:absolute;top:25%;left:0;right:0;border-bottom:1px solid #f0ebe6;"></div>
+                                                    <div style="position:absolute;top:50%;left:0;right:0;border-bottom:1px solid #f0ebe6;"></div>
+                                                    <div style="position:absolute;top:75%;left:0;right:0;border-bottom:1px solid #f0ebe6;"></div>
+                                                    <!-- Orange threshold line at ~70% -->
+                                                    <div style="position:absolute;top:75%;left:0;right:0;border-bottom:1.5px solid #d4a574;opacity:0.5;"></div>
+                                                    <!-- SVG line chart -->
+                                                    <svg viewBox="0 0 200 80" preserveAspectRatio="none" style="width:100%;height:100%;overflow:visible;">
+                                                        <polyline fill="none" stroke="#1a1a1a" stroke-width="1.5" points="0,12 28,16 57,24 85,22 114,30 142,36 170,28 200,20"/>
+                                                        <circle cx="0" cy="12" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="28" cy="16" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="57" cy="24" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="85" cy="22" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="114" cy="30" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="142" cy="36" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="170" cy="28" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                        <circle cx="200" cy="20" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!-- X-axis labels -->
+                                            <div style="display:flex;justify-content:space-between;margin-top:4px;padding-left:24px;">
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Oct</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Nov</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Dec</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Jan</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Feb</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Mar</span>
+                                                <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Apr</span>
+                                                <span style="font-size:0.36rem;font-weight:600;color:#1a1a1a">June</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Resolution Time by Type -->
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:14px 16px;">
+                                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                                <div style="font-size:0.56rem;font-weight:700;color:#1a1a1a;">Resolution time by type</div>
+                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);cursor:pointer;">View all</div>
+                                            </div>
+                                            <div style="display:flex;flex-direction:column;gap:10px;">
+                                                <!-- AC Repair -->
+                                                <div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                                                        <div style="font-size:0.48rem;font-weight:600;color:#1a1a1a;">AC Repair <span style="font-weight:400;color:rgba(26,26,26,0.4);font-size:0.4rem;">· Avg 4.1h · 9.2h</span></div>
+                                                        <div style="font-size:0.44rem;font-weight:700;color:#1a1a1a;">82% SLA</div>
+                                                    </div>
+                                                    <div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:82%;background:#1a1a1a;border-radius:3px"></div></div>
+                                                </div>
+                                                <!-- Handyman -->
+                                                <div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                                                        <div style="font-size:0.48rem;font-weight:600;color:#1a1a1a;">Handyman <span style="font-weight:400;color:rgba(26,26,26,0.4);font-size:0.4rem;">· Avg 5.4h · 11.0h</span></div>
+                                                        <div style="font-size:0.44rem;font-weight:700;color:#1a1a1a;">71% SLA</div>
+                                                    </div>
+                                                    <div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:71%;background:#1a1a1a;border-radius:3px"></div></div>
+                                                </div>
+                                                <!-- Installation -->
+                                                <div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                                                        <div style="font-size:0.48rem;font-weight:600;color:#1a1a1a;">Installation <span style="font-weight:400;color:rgba(26,26,26,0.4);font-size:0.4rem;">· Avg 3.0h · 6.5h</span></div>
+                                                        <div style="font-size:0.44rem;font-weight:700;color:#1a1a1a;">90% SLA</div>
+                                                    </div>
+                                                    <div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:90%;background:#1a1a1a;border-radius:3px"></div></div>
+                                                </div>
+                                                <!-- Move-In -->
+                                                <div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                                                        <div style="font-size:0.48rem;font-weight:600;color:#1a1a1a;">Move-In <span style="font-weight:400;color:rgba(26,26,26,0.4);font-size:0.4rem;">· Avg 1.8h · 3.5h</span></div>
+                                                        <div style="font-size:0.44rem;font-weight:700;color:#1a1a1a;">96% SLA</div>
+                                                    </div>
+                                                    <div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:96%;background:#1a1a1a;border-radius:3px"></div></div>
+                                                </div>
+                                                <!-- Pest Control -->
+                                                <div>
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                                                        <div style="font-size:0.48rem;font-weight:600;color:#1a1a1a;">Pest Control <span style="font-weight:400;color:rgba(26,26,26,0.4);font-size:0.4rem;">· Avg 6.2h · 14.1h</span></div>
+                                                        <div style="font-size:0.44rem;font-weight:700;color:#1a1a1a;">68% SLA</div>
+                                                    </div>
+                                                    <div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:68%;background:#1a1a1a;border-radius:3px"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- AI Insight cards -->
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:12px 16px;">
+                                            <div style="font-size:0.5rem;font-weight:700;color:#1a1a1a;margin-bottom:5px;">AI Insight</div>
+                                            <div style="font-size:0.42rem;color:rgba(26,26,26,0.6);line-height:1.5;">SLA compliance is declining over recent months, indicating potential delays in service resolution that need immediate attention.</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:12px 16px;">
+                                            <div style="font-size:0.5rem;font-weight:700;color:#1a1a1a;margin-bottom:5px;">AI Insight</div>
+                                            <div style="font-size:0.42rem;color:rgba(26,26,26,0.6);line-height:1.5;">Handyman and Pest Control services show lower SLA compliance due to higher resolution times, indicating a need for resource or process optimization.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="laptop-body pmc-screen" id="pmcScreen5" style="flex:1;overflow:hidden;background:#f5f1ed;padding:20px 26px;display:none;">
+                                    <!-- Screen 5: Financial Overview -->
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                        <div style="font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#1a1a1a;">Financial Overview</div>
+                                        <div style="font-size:0.46rem;color:rgba(26,26,26,0.5)">April 2026</div>
+                                    </div>
+                                    <!-- Revenue cards -->
+                                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;">
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:10px 12px;">
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.55);margin-bottom:3px">Monthly Revenue</div>
+                                            <div style="font-size:1.1rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">AED 4.2M</div>
+                                            <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">↗ +8.3% vs last month</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:10px 12px;">
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.55);margin-bottom:3px">Collection Rate</div>
+                                            <div style="font-size:1.1rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">94.7%</div>
+                                            <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">↗ +2.1% vs last month</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:10px 12px;">
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.55);margin-bottom:3px">Outstanding Balance</div>
+                                            <div style="font-size:1.1rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">AED 218K</div>
+                                            <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">↘ −12% vs last month</div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:10px 12px;">
+                                            <div style="font-size:0.44rem;color:rgba(26,26,26,0.55);margin-bottom:3px">Maintenance Costs</div>
+                                            <div style="font-size:1.1rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a">AED 340K</div>
+                                            <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">→ On budget</div>
+                                        </div>
+                                    </div>
+                                    <!-- Two panels: Revenue Chart + Top Properties -->
+                                    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:10px;flex:1;">
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;">
+                                            <div style="font-size:0.62rem;font-weight:600;color:#1a1a1a;margin-bottom:8px;">Revenue — Last 6 Months (AED)</div>
+                                            <div style="display:flex;gap:4px;flex:1;align-items:flex-end;">
+                                                <div style="display:flex;flex-direction:column;justify-content:space-between;padding-right:4px;height:100%;">
+                                                    <span style="font-size:0.36rem;color:rgba(26,26,26,0.3)">5M</span>
+                                                    <span style="font-size:0.36rem;color:rgba(26,26,26,0.3)">4M</span>
+                                                    <span style="font-size:0.36rem;color:rgba(26,26,26,0.3)">3M</span>
+                                                    <span style="font-size:0.36rem;color:rgba(26,26,26,0.3)">2M</span>
+                                                    <span style="font-size:0.36rem;color:rgba(26,26,26,0.3)">0</span>
+                                                </div>
+                                                <div style="flex:1;display:flex;align-items:flex-end;gap:8px;">
+                                                    <div style="flex:1;background:#e0dbd6;border-radius:3px;height:52px;"></div>
+                                                    <div style="flex:1;background:#e0dbd6;border-radius:3px;height:58px;"></div>
+                                                    <div style="flex:1;background:#e0dbd6;border-radius:3px;height:48px;"></div>
+                                                    <div style="flex:1;background:#e0dbd6;border-radius:3px;height:65px;"></div>
+                                                    <div style="flex:1;background:#c4b8b0;border-radius:3px;height:72px;"></div>
+                                                    <div style="flex:1;background:#1a1a1a;border-radius:3px;height:80px;"></div>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex;justify-content:space-around;margin-top:5px;padding-left:20px;">
+                                                <span style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Nov</span><span style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Dec</span><span style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Jan</span><span style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Feb</span><span style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Mar</span><span style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Apr</span>
+                                            </div>
+                                        </div>
+                                        <div style="background:#fff;border:1px solid #e0dbd6;border-radius:6px;padding:14px 16px;">
+                                            <div style="font-size:0.62rem;font-weight:600;color:#1a1a1a;margin-bottom:10px;">Top Properties by Revenue</div>
+                                            <div style="display:flex;flex-direction:column;gap:8px;">
+                                                <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.5rem;font-weight:600;color:#1a1a1a">Sky Tower</span><span style="font-size:0.46rem;color:rgba(26,26,26,0.5)">AED 1.4M</span></div><div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:85%;background:#1a1a1a;border-radius:3px"></div></div></div>
+                                                <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.5rem;font-weight:600;color:#1a1a1a">Marina Heights</span><span style="font-size:0.46rem;color:rgba(26,26,26,0.5)">AED 1.1M</span></div><div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:68%;background:#c4b8b0;border-radius:3px"></div></div></div>
+                                                <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.5rem;font-weight:600;color:#1a1a1a">Pearl Residence</span><span style="font-size:0.46rem;color:rgba(26,26,26,0.5)">AED 920K</span></div><div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:56%;background:#e0dbd6;border-radius:3px"></div></div></div>
+                                                <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.5rem;font-weight:600;color:#1a1a1a">Saadiyat Villas</span><span style="font-size:0.46rem;color:rgba(26,26,26,0.5)">AED 780K</span></div><div style="height:6px;background:#f0ebe6;border-radius:3px;overflow:hidden"><div style="height:100%;width:47%;background:#e0dbd6;border-radius:3px"></div></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="laptop-hinge"></div>
+                        <div class="laptop-base"></div>
+                        <div class="laptop-feet"><div class="laptop-foot"></div><div class="laptop-foot"></div></div>
+                    </div>
+                    <!-- Screen navigation -->
+                    <div style="display:flex;justify-content:center;margin-top:12px;">
+                        <div style="display:inline-flex;align-items:center;background:var(--bg-warm-dark);border-radius:10px;padding:3px 6px;">
+                            <button onclick="pmcSlide(-1)" style="padding:5px 10px;border:none;background:transparent;cursor:pointer;font-size:0.8rem;color:rgba(255,255,255,0.7);font-family:'Helvetica Now Text','Inter',Arial,sans-serif;">‹</button>
+                            <span id="pmcCounter" style="font-size:0.75rem;color:#fff;font-weight:400;padding:0 4px;font-family:'Helvetica Now Text','Inter',Arial,sans-serif;letter-spacing:-0.02em;">1/5</span>
+                            <button onclick="pmcSlide(1)" style="padding:5px 10px;border:none;background:transparent;cursor:pointer;font-size:0.8rem;color:rgba(255,255,255,0.7);font-family:'Helvetica Now Text','Inter',Arial,sans-serif;">›</button>
+                        </div>
+                    </div>
+                    <!-- Mobile: feature list instead of laptop -->
+                    <div class="mobile-feature-list" style="display:none;">
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title">Portfolio Overview</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title">Service Requests</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title">Guard Management</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title">SLA Analytics</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">05</span><span class="mf-title">Financial Overview</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Security Guard App -->
+            <div class="card-stack-item card-security reveal">
+                <div class="card-text">
+                    <h2>Complete security<br>management.</h2>
+                    <p>Guard profiles, shift schedules, visitor check-in, and a full audit trail. Your security team gets their own dedicated app.</p>
+                </div>
+                <div class="card-visual" style="flex-direction:column;">
+                    <div class="laptop-mockup">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <div class="laptop-display">
+                                <!-- Security Screen 1: Main Dashboard -->
+                                <div class="laptop-body sec-screen" id="secScreen1" style="flex:1;overflow:hidden;background:#f5f1ed;padding:0;">
+                                    <div style="display:flex;flex-direction:column;height:100%;background:#faf8f5;">
+                                        <!-- Header bar -->
+                                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 20px 8px;border-bottom:1px solid rgba(0,0,0,0.06);">
+                                            <div>
+                                                <div style="font-weight:700;font-size:0.72rem;letter-spacing:-0.02em;color:#1a1a1a">Sky Tower</div>
+                                                <div style="font-size:0.42rem;color:rgba(26,26,26,0.45)">Al Reem Island — Shams, UAE</div>
+                                            </div>
+                                            <div style="text-align:center">
+                                                <div style="font-size:1.4rem;font-weight:300;letter-spacing:-0.04em;line-height:1;color:#1a1a1a">07:41</div>
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">PM</div>
+                                            </div>
+                                            <div style="text-align:right">
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.45);letter-spacing:0.02em">GUARD ON DUTY</div>
+                                                <div style="font-weight:700;font-size:0.56rem;color:#1a1a1a">Suresh Kumar</div>
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.35)">Shift: 06:00 — 14:00</div>
+                                            </div>
+                                        </div>
+                                        <!-- Nav tabs -->
+                                        <div style="display:flex;gap:6px;padding:8px 20px 6px;align-items:center;">
+                                            <div style="background:#1a1a1a;color:white;padding:4px 12px;border-radius:4px;font-size:0.44rem;font-weight:600">MAIN DASHBOARD</div>
+                                            <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:4px;font-size:0.44rem;color:rgba(26,26,26,0.6)">ALL VISITORS</div>
+                                            <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:4px;font-size:0.44rem;color:rgba(26,26,26,0.6)">MESSAGES</div>
+                                        </div>
+                                        <!-- Main content -->
+                                        <div style="flex:1;padding:8px 20px 12px;overflow:hidden;">
+                                            <div style="font-size:0.46rem;font-weight:700;margin-bottom:6px;letter-spacing:0.02em;color:#1a1a1a">■ QUICK ACTIONS — PRIMARY CONTROLS</div>
+                                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">
+                                                <div style="border:1px solid #e0dbd6;border-radius:8px;padding:12px;text-align:center;background:#fff;">
+                                                    <div style="width:28px;height:28px;border-radius:50%;background:#f0ebe6;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+                                                    <div style="font-weight:700;font-size:0.56rem;color:#1a1a1a">New Visitor Entry</div>
+                                                    <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">Register new visitor manually</div>
+                                                </div>
+                                                <div style="border:1px solid #e0dbd6;border-radius:8px;padding:12px;text-align:center;background:#fff;">
+                                                    <div style="width:28px;height:28px;border-radius:50%;background:#f0ebe6;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+                                                    <div style="font-weight:700;font-size:0.56rem;color:#1a1a1a">Scan QR / Pre-Approved</div>
+                                                    <div style="font-size:0.4rem;color:rgba(26,26,26,0.4);margin-top:2px">Scan resident-issued QR pass</div>
+                                                </div>
+                                            </div>
+                                            <div style="display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:6px;">
+                                                <div style="border:1px solid #e0dbd6;border-radius:8px;padding:10px 12px;background:#fff;">
+                                                    <div style="font-size:0.42rem;font-weight:700;letter-spacing:0.02em;margin-bottom:4px;color:#1a1a1a">VISITORS INSIDE</div>
+                                                    <div style="font-size:1.3rem;font-weight:700;letter-spacing:-0.04em;color:#1a1a1a;margin-bottom:6px">1</div>
+                                                    <div style="display:flex;gap:4px;margin-bottom:8px;">
+                                                        <div style="flex:1;text-align:center;padding:4px;border:1px solid #e8e4e0;border-radius:4px"><div style="font-size:0.62rem;font-weight:700;color:#1a1a1a">0</div><div style="font-size:0.34rem;color:rgba(26,26,26,0.4)">Cleared</div></div>
+                                                        <div style="flex:1;text-align:center;padding:4px;border:1px solid #e8e4e0;border-radius:4px"><div style="font-size:0.62rem;font-weight:700;color:#1a1a1a">1</div><div style="font-size:0.34rem;color:rgba(26,26,26,0.4)">Pending</div></div>
+                                                        <div style="flex:1;text-align:center;padding:4px;border:1px solid #e8e4e0;border-radius:4px"><div style="font-size:0.62rem;font-weight:700;color:#1a1a1a">3</div><div style="font-size:0.34rem;color:rgba(26,26,26,0.4)">Flagged</div></div>
+                                                    </div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:4px">BY TYPE</div>
+                                                    <div style="display:flex;flex-direction:column;gap:3px;">
+                                                        <div style="display:flex;justify-content:space-between;font-size:0.4rem;"><span style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;background:#1a1a1a;border-radius:1px;display:inline-block"></span>Guests</span><span style="color:rgba(26,26,26,0.5)">0</span></div>
+                                                        <div style="display:flex;justify-content:space-between;font-size:0.4rem;"><span style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;background:#7eacc1;border-radius:1px;display:inline-block"></span>Delivery</span><span style="color:rgba(26,26,26,0.5)">0</span></div>
+                                                        <div style="display:flex;justify-content:space-between;font-size:0.4rem;"><span style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;background:#c4a87c;border-radius:1px;display:inline-block"></span>Contractors</span><span style="color:rgba(26,26,26,0.5)">0</span></div>
+                                                        <div style="display:flex;justify-content:space-between;font-size:0.4rem;"><span style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;background:#7cb88a;border-radius:1px;display:inline-block"></span>Service / Staff</span><span style="color:rgba(26,26,26,0.5)">0</span></div>
+                                                    </div>
+                                                    <div style="border:1px solid #e0dbd6;border-radius:4px;text-align:center;padding:5px;margin-top:8px;font-size:0.42rem;font-weight:600;color:rgba(26,26,26,0.6)">VIEW FULL INSIDE LIST</div>
+                                                </div>
+                                                <div style="display:flex;flex-direction:column;gap:6px;">
+                                                    <div style="border:1px solid #e0dbd6;border-radius:8px;padding:10px 12px;background:#fff;flex:1;">
+                                                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:0.42rem;font-weight:700;letter-spacing:0.02em;color:#1a1a1a">PENDING APPROVALS</div><span style="background:#f0ebe6;padding:2px 8px;border-radius:8px;font-size:0.38rem;color:var(--bg-warm-dark);font-weight:500">1 waiting</span></div>
+                                                        <div style="border:1px solid #e8e4e0;border-radius:6px;padding:8px;">
+                                                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                                                                <div style="width:22px;height:22px;border-radius:50%;background:#e8e4e0;font-size:0.4rem;text-align:center;line-height:22px;font-weight:600;color:#1a1a1a">PF</div>
+                                                                <div><div style="font-weight:700;font-size:0.5rem;color:#1a1a1a">Priyas Friend</div><div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">Guest · B-102 · 00:45</div></div>
+                                                            </div>
+                                                            <div style="display:flex;gap:4px">
+                                                                <div style="flex:1;background:#1a1a1a;color:white;text-align:center;padding:5px;border-radius:4px;font-size:0.42rem;font-weight:600">✓ APPROVE</div>
+                                                                <div style="flex:1;border:1px solid #ddd;text-align:center;padding:5px;border-radius:4px;font-size:0.42rem;font-weight:500;color:rgba(26,26,26,0.6)">✕ REJECT</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="border:1px solid #e0dbd6;border-radius:8px;padding:10px 12px;background:#fff;">
+                                                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:0.42rem;font-weight:700;letter-spacing:0.02em;color:#1a1a1a">TODAY'S SCHEDULE</div><span style="font-size:0.38rem;color:rgba(26,26,26,0.4)">25 entries</span></div>
+                                                        <div style="display:flex;flex-direction:column;gap:4px;">
+                                                            <div style="border:1px solid #e8e4e0;border-radius:5px;padding:6px 8px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">01:44</div><div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Reeta — Other / Misc.</div><div style="font-size:0.34rem;color:rgba(26,26,26,0.35)">B-102</div></div><span style="font-size:0.34rem;background:#f0ebe6;padding:2px 6px;border-radius:4px;color:rgba(26,26,26,0.5)">Other / Misc.</span></div>
+                                                            <div style="border:1px solid #e8e4e0;border-radius:5px;padding:6px 8px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:0.46rem;font-weight:600;color:#1a1a1a">02:49</div><div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Plumber Vaniya — Contractor</div><div style="font-size:0.34rem;color:rgba(26,26,26,0.35)">B-102</div></div><span style="font-size:0.34rem;background:#f0ebe6;padding:2px 6px;border-radius:4px;color:rgba(26,26,26,0.5)">Contractor</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="border:1px solid #e0dbd6;border-radius:8px;padding:10px 12px;background:#fff;">
+                                                    <div style="font-size:0.42rem;font-weight:700;letter-spacing:0.02em;margin-bottom:6px;color:#1a1a1a">VISITORS INSIDE NOW</div>
+                                                    <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+                                                        <div style="background:#1a1a1a;color:white;padding:3px 8px;border-radius:4px;font-size:0.4rem;font-weight:600">ALL</div>
+                                                        <div style="border:1px solid #ddd;padding:3px 8px;border-radius:4px;font-size:0.4rem;color:rgba(26,26,26,0.5)">GUESTS</div>
+                                                        <div style="border:1px solid #ddd;padding:3px 8px;border-radius:4px;font-size:0.4rem;color:rgba(26,26,26,0.5)">VENDORS</div>
+                                                        <div style="border:1px solid #ddd;padding:3px 8px;border-radius:4px;font-size:0.4rem;color:rgba(26,26,26,0.5)">STAFF</div>
+                                                    </div>
+                                                    <div style="font-size:0.44rem;color:rgba(26,26,26,0.35);text-align:center;padding:20px 0">No visitors in this category</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Security Screen 2: All Visitors Registry -->
+                                <div class="laptop-body sec-screen" id="secScreen2" style="flex:1;overflow:hidden;background:#f5f1ed;padding:0;display:none;">
+                                    <div style="display:flex;flex-direction:column;height:100%;background:#faf8f5;">
+                                        <!-- Header bar -->
+                                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 20px 8px;border-bottom:1px solid rgba(0,0,0,0.06);">
+                                            <div>
+                                                <div style="font-weight:700;font-size:0.72rem;letter-spacing:-0.02em;color:#1a1a1a">Sky Tower</div>
+                                                <div style="font-size:0.42rem;color:rgba(26,26,26,0.45)">Al Reem Island — Shams, UAE</div>
+                                            </div>
+                                            <div style="text-align:center">
+                                                <div style="font-size:1.4rem;font-weight:300;letter-spacing:-0.04em;line-height:1;color:#1a1a1a">07:41</div>
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">PM</div>
+                                            </div>
+                                            <div style="text-align:right">
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.45);letter-spacing:0.02em">GUARD ON DUTY</div>
+                                                <div style="font-weight:700;font-size:0.56rem;color:#1a1a1a">Suresh Kumar</div>
+                                                <div style="font-size:0.38rem;color:rgba(26,26,26,0.35)">Shift: 06:00 — 14:00</div>
+                                            </div>
+                                        </div>
+                                        <!-- Nav tabs -->
+                                        <div style="display:flex;gap:6px;padding:8px 20px 6px;align-items:center;">
+                                            <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:4px;font-size:0.44rem;color:rgba(26,26,26,0.6)">MAIN DASHBOARD</div>
+                                            <div style="background:#1a1a1a;color:white;padding:4px 12px;border-radius:4px;font-size:0.44rem;font-weight:600">ALL VISITORS</div>
+                                            <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:4px;font-size:0.44rem;color:rgba(26,26,26,0.6)">MESSAGES</div>
+                                        </div>
+                                        <!-- Content -->
+                                        <div style="flex:1;padding:8px 20px 10px;overflow:hidden;">
+                                            <!-- Title row -->
+                                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <div style="font-weight:700;font-size:0.72rem;letter-spacing:-0.02em;color:#1a1a1a">All Visitors Registry</div>
+                                                    <span style="background:#f0ebe6;padding:2px 8px;border-radius:4px;font-size:0.4rem;font-weight:600;color:rgba(26,26,26,0.6)">25 TODAY</span>
+                                                </div>
+                                                <div style="display:flex;gap:5px;">
+                                                    <div style="border:1px solid #e0dbd6;padding:3px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.6);background:#fff">↻ Refresh</div>
+                                                    <div style="background:#1a1a1a;color:#fff;padding:3px 10px;border-radius:5px;font-size:0.4rem;font-weight:600">↓ Export Excel</div>
+                                                </div>
+                                            </div>
+                                            <!-- Filter tabs -->
+                                            <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+                                                <div style="background:#1a1a1a;color:#fff;padding:3px 8px;border-radius:4px;font-size:0.38rem;font-weight:600">ALL 25</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">INSIDE 0</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">PENDING 10</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">APPROVED 2</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">EXITED 7</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">REJECTED 3</div>
+                                                <div style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.38rem;color:rgba(26,26,26,0.5)">SCHEDULED 8</div>
+                                            </div>
+                                            <!-- Table header -->
+                                            <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#f0ebe6;border-radius:5px;margin-bottom:4px;">
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">#</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">VISITOR</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">TYPE</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">UNIT</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">PURPOSE</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">TIME IN</div>
+                                                <div style="font-size:0.36rem;font-weight:600;color:rgba(26,26,26,0.5)">STATUS</div>
+                                            </div>
+                                            <!-- Table rows -->
+                                            <div style="display:flex;flex-direction:column;gap:3px;">
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">01</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#c4b8b0;color:#fff;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">T</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Takabal</div></div>
+                                                    <div><span style="background:#f0ebe6;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">DELIVERY</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">B-102</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Courier visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">20:13</div>
+                                                    <div><span style="font-size:0.34rem;background:#e8e4e0;color:rgba(26,26,26,0.6);padding:2px 6px;border-radius:3px;font-weight:500">SCHEDULED</span></div>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">02</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#e0dbd6;color:#1a1a1a;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">F</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Fh</div></div>
+                                                    <div><span style="background:#f0ebe6;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">DELIVERY</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">B-102</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Courier visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">08:36</div>
+                                                    <div><span style="font-size:0.34rem;background:#e8e4e0;color:rgba(26,26,26,0.6);padding:2px 6px;border-radius:3px;font-weight:500">SCHEDULED</span></div>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">03</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">IO</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Igor 07.04</div></div>
+                                                    <div><span style="background:#e8e4e0;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">RESIDENT GUEST</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">B-102</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Guest visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">07:33</div>
+                                                    <div><span style="font-size:0.34rem;background:#e8e4e0;color:rgba(26,26,26,0.6);padding:2px 6px;border-radius:3px;font-weight:500">SCHEDULED</span></div>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">04</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#c4a87c;color:#fff;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">TV</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Test Visitor</div></div>
+                                                    <div><span style="background:#e8e4e0;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">RESIDENT GUEST</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">B-102</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Guest visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">14:00</div>
+                                                    <div><span style="font-size:0.34rem;background:#e8e4e0;color:rgba(26,26,26,0.6);padding:2px 6px;border-radius:3px;font-weight:500">SCHEDULED</span></div>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">05</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#b0a89e;color:#fff;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">A</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Arnold</div></div>
+                                                    <div><span style="background:#f0ebe6;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">CONTRACTOR</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">A-101</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Worker visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">10:43</div>
+                                                    <div><span style="font-size:0.34rem;background:#f8d7da;color:#842029;padding:2px 6px;border-radius:3px;font-weight:500">REJECTED</span></div>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:0.4fr 0.8fr 0.7fr 0.5fr 0.7fr 0.5fr 0.5fr;gap:4px;padding:5px 8px;background:#fff;border:1px solid #e8e4e0;border-radius:5px;align-items:center;">
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.4)">06</div>
+                                                    <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:16px;border-radius:50%;background:#7eacc1;color:#fff;font-size:0.3rem;display:flex;align-items:center;justify-content:center;font-weight:600">I</div><div style="font-size:0.4rem;font-weight:600;color:#1a1a1a">Irina</div></div>
+                                                    <div><span style="background:#e8e4e0;padding:2px 6px;border-radius:3px;font-size:0.34rem;color:rgba(26,26,26,0.6);font-weight:500">RESIDENT GUEST</span></div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">A-202</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.5)">Guest visit</div>
+                                                    <div style="font-size:0.38rem;color:rgba(26,26,26,0.6)">09:33</div>
+                                                    <div><span style="font-size:0.34rem;background:#e6f0e6;color:#4a7c4a;padding:2px 6px;border-radius:3px;font-weight:500">APPROVED</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Security Screen 3: New Visitor Request -->
+                                <div class="laptop-body sec-screen" id="secScreen3" style="flex:1;overflow:hidden;background:#f5f1ed;padding:0;display:none;">
+                                    <div style="display:flex;flex-direction:column;height:100%;background:#faf8f5;">
+                                        <!-- Header -->
+                                        <div style="padding:14px 20px 10px;border-bottom:1px solid rgba(0,0,0,0.06);">
+                                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                                <div>
+                                                    <div style="font-weight:700;font-size:0.82rem;letter-spacing:-0.02em;color:#1a1a1a">New Visitor Request</div>
+                                                    <div style="font-size:0.42rem;color:rgba(26,26,26,0.45);margin-top:1px">Create Request</div>
+                                                </div>
+                                                <div style="border:1px solid #e0dbd6;padding:4px 12px;border-radius:5px;font-size:0.42rem;color:rgba(26,26,26,0.5)">Cancel</div>
+                                            </div>
+                                        </div>
+                                        <!-- Form content -->
+                                        <div style="flex:1;padding:10px 20px;overflow:hidden;">
+                                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                                                <!-- Left: Visitor Identity -->
+                                                <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:12px 14px;">
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                                        <div style="display:flex;align-items:center;gap:6px"><span style="background:#f0ebe6;padding:2px 6px;border-radius:4px;font-size:0.36rem;font-weight:700;color:rgba(26,26,26,0.5)">01</span><span style="font-size:0.46rem;font-weight:700;color:#1a1a1a">VISITOR IDENTITY</span></div>
+                                                        <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">REQUIRED</span>
+                                                    </div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:4px">VISITOR TYPE *</div>
+                                                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;">
+                                                        <div style="background:#c4b8b0;color:#fff;padding:4px 10px;border-radius:5px;font-size:0.4rem;font-weight:600">Resident Guest</div>
+                                                        <div style="border:1px solid #e0dbd6;padding:4px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5)">Contractor</div>
+                                                        <div style="border:1px solid #e0dbd6;padding:4px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5)">Delivery</div>
+                                                    </div>
+                                                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;">
+                                                        <div style="border:1px solid #e0dbd6;padding:4px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5)">Domestic Staff</div>
+                                                        <div style="border:1px solid #e0dbd6;padding:4px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5)">Service Vendor</div>
+                                                        <div style="border:1px solid #e0dbd6;padding:4px 10px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5)">Other</div>
+                                                    </div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">FULL NAME *</div>
+                                                    <div style="border:1px solid #e0dbd6;border-radius:5px;padding:6px 10px;font-size:0.42rem;color:rgba(26,26,26,0.3);margin-bottom:10px">Enter visitor's full name...</div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">MOBILE NUMBER *</div>
+                                                    <div style="border:1px solid #e0dbd6;border-radius:5px;padding:6px 10px;font-size:0.42rem;color:rgba(26,26,26,0.3);margin-bottom:10px">+971 XX XXX XXXX</div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">ID DOCUMENT TYPE (OPTIONAL)</div>
+                                                    <div style="display:flex;gap:4px;">
+                                                        <div style="flex:1;border:1px solid #e0dbd6;padding:5px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5);text-align:center">Passport</div>
+                                                        <div style="flex:1;border:1px solid #e0dbd6;padding:5px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5);text-align:center">Emirates ID</div>
+                                                    </div>
+                                                </div>
+                                                <!-- Right: Visit Details -->
+                                                <div style="background:#fff;border:1px solid #e0dbd6;border-radius:8px;padding:12px 14px;">
+                                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                                        <div style="display:flex;align-items:center;gap:6px"><span style="background:#f0ebe6;padding:2px 6px;border-radius:4px;font-size:0.36rem;font-weight:700;color:rgba(26,26,26,0.5)">02</span><span style="font-size:0.46rem;font-weight:700;color:#1a1a1a">VISIT DETAILS</span></div>
+                                                        <span style="font-size:0.36rem;color:rgba(26,26,26,0.4)">REQUIRED</span>
+                                                    </div>
+                                                    <div style="font-size:0.36rem;color:rgba(26,26,26,0.35);font-style:italic;margin-bottom:8px">Fields marked with * are required</div>
+                                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                                                        <div>
+                                                            <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">FLAT / UNIT NO. *</div>
+                                                            <div style="border:1px solid #e0dbd6;border-radius:5px;padding:5px 8px;font-size:0.4rem;color:rgba(26,26,26,0.3)">Select unit...</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">TOWER / BLOCK</div>
+                                                            <div style="border:1px solid #e0dbd6;border-radius:5px;padding:5px 8px;font-size:0.4rem;color:#1a1a1a;display:flex;justify-content:space-between"><span>Tower A</span><span style="color:rgba(26,26,26,0.3)">▾</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;">
+                                                        <span style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.36rem;color:rgba(26,26,26,0.5)">A-101</span>
+                                                        <span style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.36rem;color:rgba(26,26,26,0.5)">A-202</span>
+                                                        <span style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.36rem;color:rgba(26,26,26,0.5)">B-102</span>
+                                                        <span style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.36rem;color:rgba(26,26,26,0.5)">B-803</span>
+                                                        <span style="border:1px solid #e0dbd6;padding:3px 8px;border-radius:4px;font-size:0.36rem;color:rgba(26,26,26,0.5)">C-501</span>
+                                                    </div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">VISIT FREQUENCY</div>
+                                                    <div style="display:flex;gap:4px;margin-bottom:8px;">
+                                                        <div style="flex:1;background:#c4b8b0;color:#fff;padding:5px;border-radius:5px;font-size:0.4rem;font-weight:600;text-align:center">Single Visit</div>
+                                                        <div style="flex:1;border:1px solid #e0dbd6;padding:5px;border-radius:5px;font-size:0.4rem;color:rgba(26,26,26,0.5);text-align:center">Multiple Entry</div>
+                                                    </div>
+                                                    <div style="font-size:0.34rem;color:rgba(26,26,26,0.35);margin-bottom:8px">Valid for today only</div>
+                                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                                                        <div>
+                                                            <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">ADDITIONAL VISITORS</div>
+                                                            <div style="display:flex;align-items:center;border:1px solid #e0dbd6;border-radius:5px;overflow:hidden;"><div style="padding:4px 8px;font-size:0.42rem;color:rgba(26,26,26,0.4);border-right:1px solid #e0dbd6">−</div><div style="flex:1;text-align:center;font-size:0.46rem;font-weight:700;color:#1a1a1a;padding:4px">0</div><div style="padding:4px 8px;font-size:0.42rem;color:rgba(26,26,26,0.4);border-left:1px solid #e0dbd6">+</div></div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">VEHICLE NUMBER</div>
+                                                            <div style="border:1px solid #e0dbd6;border-radius:5px;padding:5px 8px;font-size:0.4rem;color:rgba(26,26,26,0.3)">e.g. AB 12345</div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="font-size:0.38rem;font-weight:600;color:rgba(26,26,26,0.5);margin-bottom:3px">ENTRY REMARKS / GUARD NOTES</div>
+                                                    <div style="border:1px solid #e0dbd6;border-radius:5px;padding:6px 8px;font-size:0.4rem;color:rgba(26,26,26,0.3);min-height:28px">Add any observations...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Submit button -->
+                                        <div style="padding:8px 20px 12px;">
+                                            <div style="background:#c4b8b0;color:#fff;text-align:center;padding:10px;border-radius:8px;font-size:0.52rem;font-weight:700;letter-spacing:0.02em">Review Visitor Request</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="laptop-hinge"></div>
+                        <div class="laptop-base"></div>
+                        <div class="laptop-feet"><div class="laptop-foot"></div><div class="laptop-foot"></div></div>
+                    </div>
+                    <!-- Security screen navigation -->
+                    <div style="display:flex;justify-content:center;margin-top:12px;">
+                        <div style="display:inline-flex;align-items:center;background:var(--bg-warm-dark);border-radius:10px;padding:3px 6px;">
+                            <button onclick="secSlide(-1)" style="padding:5px 10px;border:none;background:transparent;cursor:pointer;font-size:0.8rem;color:rgba(255,255,255,0.7);font-family:'Helvetica Now Text','Inter',Arial,sans-serif;">‹</button>
+                            <span id="secCounter" style="font-size:0.75rem;color:#fff;font-weight:400;padding:0 4px;font-family:'Helvetica Now Text','Inter',Arial,sans-serif;letter-spacing:-0.02em;">1/3</span>
+                            <button onclick="secSlide(1)" style="padding:5px 10px;border:none;background:transparent;cursor:pointer;font-size:0.8rem;color:rgba(255,255,255,0.7);font-family:'Helvetica Now Text','Inter',Arial,sans-serif;">›</button>
+                        </div>
+                    </div>
+                    <!-- Mobile: feature list instead of laptop -->
+                    <div class="mobile-feature-list" style="display:none;">
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title">Visitor Dashboard</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title">Digital Check-in</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title">Visitors Registry</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Resident App — Apple-style phone showcase -->
+            <div class="card-stack-item card-resident reveal">
+                <div class="card-text">
+                    <h2>Everything residents<br>need. One app.</h2>
+                    <p>Pre-register visitors, receive announcements, manage documents, and contact property management — all from their phone.</p>
+                </div>
+                <div class="card-visual">
+                    <div class="phone-showcase">
+                        <!-- Phone 1: Visitors screen -->
+                        <div class="iphone-mockup">
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                <div class="dynamic-island"></div>
+                                <div class="iphone-screen">
+                                    <div class="iphone-statusbar">
+                                        <span>9:41</span>
+                                        <div class="iphone-statusbar-right">
+                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
+                                            <div class="battery-icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-content">
+                                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                                            <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                            <div style="text-align:center"><div style="font-weight:600;font-size:0.7rem;letter-spacing:-0.02em">Hello, Nitin</div><div style="font-size:0.46rem;color:rgba(26,26,26,0.4)">B-102, Sky Tower ▾</div></div>
+                                            <div style="width:18px;height:18px;border-radius:50%;border:1px solid #e0dbd6;display:flex;align-items:center;justify-content:center;position:relative"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div style="position:absolute;top:-1px;right:-1px;width:6px;height:6px;background:var(--bg-warm-dark);border-radius:50%;border:1px solid white;font-size:0.18rem;color:white;text-align:center;line-height:5px">5</div></div>
+                                        </div>
+                                        <div class="iphone-card" style="border:1px solid #e8e4e0;padding:6px;">
+                                            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-weight:600;font-size:0.65rem">New Visitor</div><div style="font-size:0.44rem;color:rgba(26,26,26,0.4)">1 pending</div></div>
+                                            <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px">
+                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                                <div style="flex:1"><div style="font-weight:600;font-size:0.6rem">Priyas Friend</div><div style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Guest — Personal visit<br>Gate: Main — B-102</div></div>
+                                                <span style="border:1px solid #e0dbd6;padding:1px 5px;border-radius:8px;font-size:0.38rem;color:rgba(26,26,26,0.45)">Waiting</span>
+                                            </div>
+                                            <div style="display:flex;gap:3px;"><div style="flex:1.2;background:var(--bg-warm-dark);color:white;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem;font-weight:500">✓ Approve</div><div style="flex:1;border:1px solid #e0dbd6;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem">✕ Reject</div><div style="flex:1;border:1px solid #e0dbd6;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem">✆ Call</div></div>
+                                        </div>
+                                        <div class="iphone-card" style="border:1px solid #e8e4e0;padding:6px;">
+                                            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-weight:600;font-size:0.65rem">Upcoming Visitor</div><div style="font-size:0.44rem;color:rgba(26,26,26,0.4)">See All ›</div></div>
+                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #f0ebe6">
+                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">Andrey</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Contractor / Worker — Personal visit<br>08 Apr · 08:07 AM &nbsp; Status: Pre-Approved</div></div>
+                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
+                                            </div>
+                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #f0ebe6">
+                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">Test Visitor Ahmed</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Resident Guest — Personal visit<br>8 Apr · 14:00 &nbsp; Status: Pre-Approved</div></div>
+                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
+                                            </div>
+                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;">
+                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">SafeServ Security</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Service Vendor — Personal visit<br>08 Apr · 09:11 PM &nbsp; Status: Pre-Approved</div></div>
+                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-nav-bar">
+                                        <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
+                                    </div>
+                                    <div class="iphone-home-indicator"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone 2: Home screen (center, slightly larger) -->
+                        <div class="iphone-mockup">
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                <div class="dynamic-island"></div>
+                                <div class="iphone-screen">
+                                    <div class="iphone-statusbar">
+                                        <span>9:41</span>
+                                        <div class="iphone-statusbar-right">
+                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
+                                            <div class="battery-icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-content">
+                                        <div style="font-weight:700;font-size:0.8rem;letter-spacing:-0.03em;margin-bottom:5px">Book Amenities &amp; Services</div>
+                                        <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Amenities</div>
+                                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 16c2-1 4 1 6 0s4-1 6 0 4 1 6 0M2 20c2-1 4 1 6 0s4-1 6 0 4 1 6 0"/><path d="M4 16V8l8-4 8 4v8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Swimming Pool</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="2"/><path d="M11 7v2M7 11h2"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Table Tennis</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><circle cx="12" cy="15" r="1"/><path d="M12 16v5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Squash</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 12h3M19 12h3"/><rect x="5" y="8" width="4" height="8" rx="1"/><rect x="15" y="8" width="4" height="8" rx="1"/><path d="M9 12h6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Gym</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Sauna</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M9 9c0 0 0-4 3-4s3 4 3 4"/><path d="M10 6c0-2 1-3 2-3s2 1 2 3"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">BBQ Area</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 21h16"/><path d="M4 21V11h5v10"/><path d="M9 11V6l6 5"/><path d="M15 21V11h5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Kids Area</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><path d="M8 21l2-8M16 21l-2-8"/><path d="M7 12c2-1 3-3 5-3s3 2 5 3"/><path d="M5 16h14"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Yoga Room</div></div>
+                                        </div>
+                                        <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Services</div>
+                                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M6 12V7a6 6 0 0 1 12 0v5"/><path d="M4 12h16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3z"/><path d="M10 17v4M14 17v4M8 21h8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Plumbing</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Electrician</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Housekeeping</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 19v2M17 19v2M5 22h14"/><path d="M8 12h8M12 9v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">AC Repair</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Pest Control</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 11V7a4 4 0 0 0-8 0v4"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Locksmith</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 20L12 4l8 16"/><path d="M8 14h8"/><path d="M12 14v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Painter</div></div>
+                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94L6.73 20.2a2 2 0 0 1-2.83 0l-.1-.1a2 2 0 0 1 0-2.83l6.73-6.73A6 6 0 0 1 18.47 2.53z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Carpenter</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-nav-bar">
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
+                                        <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
+                                    </div>
+                                    <div class="iphone-home-indicator"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone 3: Documents screen -->
+                        <div class="iphone-mockup">
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                <div class="dynamic-island"></div>
+                                <div class="iphone-screen">
+                                    <div class="iphone-statusbar">
+                                        <span>9:41</span>
+                                        <div class="iphone-statusbar-right">
+                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
+                                            <div class="battery-icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-content" style="background:linear-gradient(180deg, #f0ebe6 0%, #faf8f5 35%);">
+                                        <div style="text-align:center;margin-bottom:8px;padding-top:4px;">
+                                            <div style="width:36px;height:36px;border-radius:50%;background:#e8e4e0;margin:0 auto 4px;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+                                            <div style="font-weight:700;font-size:0.8rem;letter-spacing:-0.02em">Nitin</div>
+                                            <div style="font-size:0.5rem;color:var(--bg-warm-dark)">Resident</div>
+                                            <div style="font-size:0.42rem;color:rgba(26,26,26,0.4)">B-102, Sky Tower</div>
+                                        </div>
+                                        <div style="background:white;border-radius:8px;overflow:hidden;">
+                                            <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid #f0ebe6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg><span style="font-size:0.58rem;font-weight:500">Personal Information</span><span style="margin-left:auto;font-size:0.4rem;color:rgba(26,26,26,0.25)">›</span></div>
+                                            <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid #f0ebe6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg><span style="font-size:0.58rem;font-weight:500">Bookings</span><span style="margin-left:auto;font-size:0.4rem;color:rgba(26,26,26,0.25)">›</span></div>
+                                            <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid #f0ebe6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h5M7 12h10M7 17h8"/></svg><span style="font-size:0.58rem;font-weight:500">Visitor log</span><span style="margin-left:auto;font-size:0.4rem;color:rgba(26,26,26,0.25)">›</span></div>
+                                            <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid #f0ebe6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span style="font-size:0.58rem;font-weight:500">Accounts</span><span style="margin-left:auto;font-size:0.4rem;color:rgba(26,26,26,0.25)">›</span></div>
+                                            <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span style="font-size:0.58rem;font-weight:500">Help &amp; Support</span><span style="margin-left:auto;font-size:0.4rem;color:rgba(26,26,26,0.25)">›</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="iphone-nav-bar">
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
+                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
+                                    </div>
+                                    <div class="iphone-home-indicator"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-carousel-dots" style="display:none;">
+                        <button class="phone-carousel-dot active" onclick="phoneCarousel(0)"></button>
+                        <button class="phone-carousel-dot" onclick="phoneCarousel(1)"></button>
+                        <button class="phone-carousel-dot" onclick="phoneCarousel(2)"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-stack-spacer"></div>
+        </div>
+    </div>
+
+    <!-- ===== WHY VARS — DIFFERENTIATION ===== -->
+    <section id="why" class="reveal">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 1rem;">
+                <h2>Why VARS?</h2>
+                <p class="hero-subtext" style="color: var(--text-dark-secondary)">Built specifically for UAE property management companies. Not another generic tool.</p>
+            </div>
+            <div class="diff-grid">
+                <div class="diff-card">
+                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">01</div>
+                    <h3>Three Apps, One Platform</h3>
+                    <p>PMC managers, security guards, and residents each get their own dedicated app — all synced in real time. No more juggling separate systems.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">02</div>
+                    <h3>Built for the UAE</h3>
+                    <p>Designed around local regulations, Arabic language support, and the specific workflows of UAE property management companies.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">03</div>
+                    <h3>End-to-End Security</h3>
+                    <p>Guard shift management, visitor pre-registration, digital check-in, and a complete audit trail. Full control from gate to unit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DOCUMENTS ===== -->
+    <section id="documents" class="reveal">
+        <div class="container">
+            <div class="documents-layout">
+                <div class="documents-left">
+                    <h2 class="documents-heading"><span class="doc-heading-dark">Data</span><br><span class="doc-heading-light">Security</span></h2>
+                    <p class="documents-desc">End-to-end encrypted and fully compliant with UAE data protection law — your building data, secured.</p>
+                </div>
+                <div class="documents-right">
+                    <div class="doc-row">
+                        <div class="doc-row-num">01</div>
+                        <div class="doc-row-title">End-to-End Encryption</div>
+                        <div class="doc-row-desc">AES-256 at rest, TLS 1.3 in transit. Bank-grade protection for all data.</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">02</div>
+                        <div class="doc-row-title">UAE Data Protection Law</div>
+                        <div class="doc-row-desc">Fully aligned with UAE PDPL (Federal Decree-Law No. 45/2021). Data hosted on UAE infrastructure.</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">03</div>
+                        <div class="doc-row-title">Role-Based Access Control</div>
+                        <div class="doc-row-desc">Granular permissions with every action logged by user, timestamp, and IP.</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">04</div>
+                        <div class="doc-row-title">Visitor Logs & Audit Trail</div>
+                        <div class="doc-row-desc">Encrypted visitor records with entry/exit times and resident approval history.</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">05</div>
+                        <div class="doc-row-title">Maintenance Records</div>
+                        <div class="doc-row-desc">Tamper-proof work orders and incident logs with digital signatures and automated retention.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ANNOUNCEMENTS ===== -->
+    <section id="announcements">
+        <div class="container">
+            <div class="announcements-wrapper">
+                <div class="split-text">
+                    <h2>Keep residents<br>informed.</h2>
+                    <p>Push announcements to all residents instantly. Urgent alerts, community updates, and maintenance schedules.</p>
+                </div>
+                <div>
+                    <div class="announcement-cards">
+                        <div class="announcement"><div class="announcement-title">Water Maintenance</div><div>Water supply disruption tomorrow 8 AM – 12 PM in Tower A.</div></div>
+                        <div class="announcement"><div class="announcement-title">New Parking Policy</div><div>All vehicles must display resident stickers starting next week.</div></div>
+                        <div class="announcement"><div class="announcement-title">Community BBQ</div><div>This Friday 6 PM at the poolside area. All residents welcome.</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta" class="reveal">
+        <div class="cta-content">
+            <h1>Ready to simplify<br>property management?</h1>
+            <p class="hero-subtext" style="color: var(--text-dark-secondary); margin-bottom:2.5rem">The unified platform built for UAE property management companies.</p>
+            <button onclick="openContactForm()">Contact</button>
+        </div>
+    </section>
+
+    <script>
+        // ===== HERO GRADIENT CROSS-FADE SLIDER (door.com style) =====
+        (function() {
+            const slides = document.querySelectorAll('.hero-bg-slide');
+            let current = 0;
+            function nextSlide() {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }
+            setInterval(nextSlide, 4000);
+        })();
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+        // Close mobile menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Observe regular sections
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('section').forEach(s => sectionObserver.observe(s));
+
+        // Observe slider elements (header + cards)
+        const sliderObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.2, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.slider-header, .card-stack-item').forEach(el => sliderObserver.observe(el));
+
+        // Parallax on mockups
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    document.querySelectorAll('section.visible').forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        const offset = rect.top + rect.height/2 - window.innerHeight/2;
+                        const mockup = section.querySelector('.laptop-mockup, .iphone-mockup');
+                        if (mockup && Math.abs(offset) < window.innerHeight) {
+                            mockup.style.transform = `translateY(${offset * 0.03}px)`;
+                        }
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        navLinks.addEventListener('click', () => navLinks.classList.remove('active'));
+
+        // Open contact form sub-page
+        function openContactForm() {
+            window.location.href = 'contact.html';
+        }
+
+        // PMC Dashboard Screen Switcher
+        let pmcIndex = 0;
+        function pmcSlide(dir) {
+            const screens = document.querySelectorAll('.pmc-screen');
+            screens[pmcIndex].style.display = 'none';
+            pmcIndex = (pmcIndex + dir + screens.length) % screens.length;
+            screens[pmcIndex].style.display = '';
+            document.getElementById('pmcCounter').textContent = (pmcIndex + 1) + '/' + screens.length;
+        }
+
+        let secIndex = 0;
+        function secSlide(dir) {
+            const screens = document.querySelectorAll('.sec-screen');
+            screens[secIndex].style.display = 'none';
+            secIndex = (secIndex + dir + screens.length) % screens.length;
+            screens[secIndex].style.display = '';
+            document.getElementById('secCounter').textContent = (secIndex + 1) + '/' + screens.length;
+        }
+
+        /* Scroll-triggered reveal animations */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* Remove loader after animation completes */
+        setTimeout(() => {
+            const loader = document.querySelector('.page-loader');
+            if (loader) loader.remove();
+        }, 1500);
+    </script>
+
+    <script>
+        // ===== PHONE CAROUSEL (mobile only) =====
+        let phoneCurrentIndex = 0;
+        function phoneCarousel(index) {
+            const showcase = document.querySelector('.phone-showcase');
+            const phones = showcase.querySelectorAll('.iphone-mockup');
+            const dots = document.querySelectorAll('.phone-carousel-dot');
+            phoneCurrentIndex = index;
+            phones.forEach((phone, i) => {
+                phone.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                if (i === index) {
+                    phone.style.display = 'block';
+                    phone.style.opacity = '1';
+                    phone.style.transform = 'scale(1)';
+                } else {
+                    phone.style.opacity = '0';
+                    phone.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if (i !== phoneCurrentIndex) phone.style.display = 'none'; }, 400);
+                }
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Setup / teardown carousel based on viewport
+        function setupPhoneCarousel() {
+            const showcase = document.querySelector('.phone-showcase');
+            const phones = showcase.querySelectorAll('.iphone-mockup');
+            const dots = document.querySelector('.phone-carousel-dots');
+            if (window.innerWidth <= 768) {
+                dots.style.display = 'flex';
+                phones.forEach((phone, i) => {
+                    phone.style.display = i === phoneCurrentIndex ? 'block' : 'none';
+                    phone.style.opacity = i === phoneCurrentIndex ? '1' : '0';
+                    phone.style.margin = '0 auto';
+                });
+            } else {
+                dots.style.display = 'none';
+                phones.forEach(phone => {
+                    phone.style.display = '';
+                    phone.style.opacity = '';
+                    phone.style.transform = '';
+                    phone.style.margin = '';
+                    phone.style.transition = '';
+                });
+            }
+        }
+
+        // Touch swipe support for phone carousel
+        (function() {
+            const showcase = document.querySelector('.phone-showcase');
+            let touchStartX = 0;
+            let touchEndX = 0;
+            showcase.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+            showcase.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (window.innerWidth <= 768) {
+                    const phones = showcase.querySelectorAll('.iphone-mockup');
+                    if (diff > 50 && phoneCurrentIndex < phones.length - 1) phoneCarousel(phoneCurrentIndex + 1);
+                    else if (diff < -50 && phoneCurrentIndex > 0) phoneCarousel(phoneCurrentIndex - 1);
+                }
+            }, {passive: true});
+        })();
+
+        window.addEventListener('resize', setupPhoneCarousel);
+        window.addEventListener('DOMContentLoaded', setupPhoneCarousel);
+        setupPhoneCarousel();
+    </script>
+</body>
+</html>
