@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARS — Request a Demo</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --text-dark: #1a1a1a;
+            --text-dark-secondary: rgba(26,26,26,0.55);
+            --bg-warm: #c4b8b0;
+            --bg-warm-dark: #928989;
+            --bg-warm-light: #d9cfc8;
+        }
+        body {
+            font-family: 'Helvetica Now Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background: #faf8f6;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== LAYOUT ===== */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ===== LEFT: FORM ===== */
+        .form-side {
+            padding: clamp(4.5rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem) clamp(2rem, 3vw, 3rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #faf8f6;
+        }
+        .form-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .form-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 400;
+            font-size: 1.15rem;
+            letter-spacing: -0.04em;
+        }
+        .form-logo-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+        .form-logo-box svg { display: block; }
+        .form-side h1 {
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            font-weight: 400;
+            letter-spacing: -0.04em;
+            line-height: 1.08;
+            margin-bottom: 1rem;
+        }
+        .form-subtitle {
+            font-size: 16px;
+            color: var(--text-dark-secondary);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 480px;
+        }
+
+        /* ===== FORM FIELDS ===== */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 540px;
+        }
+        .contact-form select,
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem 0.2rem;
+            border: none;
+            border-bottom: 1px solid #d9d3cd;
+            background: transparent;
+            font-size: 15px;
+            color: var(--text-dark);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+            letter-spacing: -0.01em;
+        }
+        .contact-form select:focus,
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-bottom-color: var(--text-dark);
+        }
+        .contact-form select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23928989' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+        }
+        .contact-form select option { color: var(--text-dark); }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        .form-row input:first-child {
+            border-right: 1px solid #d9d3cd;
+            padding-right: 1rem;
+        }
+        .form-row input:last-child {
+            padding-left: 1rem;
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--text-dark-secondary);
+        }
+        .contact-form select {
+            color: var(--text-dark-secondary);
+        }
+        .contact-form select.filled {
+            color: var(--text-dark);
+        }
+        .submit-btn {
+            margin-top: 2rem;
+            align-self: flex-start;
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 999px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        /* ===== RIGHT: DESIGN PANEL ===== */
+        .design-side {
+            background: linear-gradient(160deg, #e8e4e0 0%, #c4b8b0 25%, #928989 55%, #5a5050 85%, #2a2226 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            margin: 1.5rem;
+        }
+
+        /* Floating glass elements */
+        .float-el {
+            position: absolute;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .float-1 { width: 140px; height: 140px; top: 8%; right: 5%; border-radius: 24px; animation: f1 8s ease-in-out infinite; }
+        .float-2 { width: 90px; height: 90px; bottom: 12%; left: 8%; border-radius: 20px; animation: f2 10s ease-in-out infinite; }
+        .float-3 { width: 60px; height: 60px; top: 45%; left: 25%; border-radius: 50%; animation: f3 7s ease-in-out infinite; }
+        .float-4 { display: none; }
+        .float-5 { display: none; }
+
+        @keyframes f1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-25px) rotate(3deg)} }
+        @keyframes f2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(20px) rotate(-4deg)} }
+        @keyframes f3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(12px,-18px) scale(1.08)} }
+        @keyframes f4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+        @keyframes f5 { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(-8px,15px) rotate(8deg)} }
+
+        /* Floating stat cards */
+        .float-card {
+            position: absolute;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.14);
+            padding: 10px 14px;
+            z-index: 2;
+        }
+        .float-card-value {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.03em;
+            margin-bottom: 1px;
+        }
+        .float-card-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.55);
+        }
+        .card-a { top: 14%; left: 10%; animation: f2 11s ease-in-out infinite; }
+        .card-b { bottom: 14%; right: 8%; animation: f1 9s ease-in-out infinite; }
+        .card-c { top: 58%; right: 12%; animation: f3 13s ease-in-out infinite; }
+
+        /* Center brand */
+        .brand-center {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .brand-center svg {
+            filter: drop-shadow(0 12px 40px rgba(0,0,0,0.25));
+        }
+        .brand-center span {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* ===== SUCCESS STATE ===== */
+        .form-success {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1rem;
+            gap: 1rem;
+        }
+        .form-success.active { display: flex; }
+        .form-success .check-icon { color: #28a745; }
+        .form-success h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.04em;
+        }
+        .form-success p {
+            color: var(--text-dark-secondary);
+            font-size: 16px;
+            max-width: 380px;
+            line-height: 1.5;
+        }
+        .form-success .back-link {
+            margin-top: 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid var(--text-dark-secondary);
+            padding-bottom: 2px;
+            transition: opacity 0.3s;
+        }
+        .form-success .back-link:hover { opacity: 0.6; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .page-wrapper { grid-template-columns: 1fr; }
+            .design-side { min-height: 280px; margin: 0; border-radius: 0; order: -1; }
+            .form-side { padding: 5rem 1.5rem 2rem; }
+            .form-nav { padding: 1rem; }
+            /* Smaller floating elements on mobile */
+            .float-el { display: none; }
+            .float-card { padding: 8px 12px; border-radius: 8px; }
+            .float-card-value { font-size: 0.9rem; }
+            .float-card-label { font-size: 0.55rem; }
+            .brand-center svg { width: 60px; height: 60px; }
+            .brand-center span { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-nav">
+        <div style="display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto;width:100%;">
+            <a href="index.html" class="form-logo">
+                <div class="form-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                <span>VARS</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <!-- LEFT: Form -->
+        <div class="form-side">
+            <div id="formArea">
+                <h1>Your key to smart<br>buildings.</h1>
+                <p class="form-subtitle">We help owners and operators improve financial performance, streamline fragmented workflows, and deliver the modern living experience residents expect.</p>
+                <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <input type="text" name="firstName" placeholder="First Name*" required>
+                        <input type="text" name="lastName" placeholder="Last Name*" required>
+                    </div>
+                    <input type="tel" name="phone" placeholder="Phone Number*" required>
+                    <input type="email" name="email" placeholder="Email Address">
+                    <textarea name="message" placeholder="Message"></textarea>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </div>
+            <div class="form-success" id="formSuccess">
+                <svg class="check-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                <h2>Thank you!</h2>
+                <p>We've received your request. Our team will reach out to you within 24 hours.</p>
+                <a href="index.html" class="back-link">Back to VARS</a>
+            </div>
+        </div>
+
+        <!-- RIGHT: Design panel -->
+        <div class="design-side">
+            <div class="float-el float-1"></div>
+            <div class="float-el float-2"></div>
+            <div class="float-el float-3"></div>
+            <div class="float-el float-4"></div>
+            <div class="float-el float-5"></div>
+
+            <div class="float-card card-a">
+                <div class="float-card-value">1,240</div>
+                <div class="float-card-label">Units managed</div>
+            </div>
+            <div class="float-card card-b">
+                <div class="float-card-value">99.8%</div>
+                <div class="float-card-label">Platform uptime</div>
+            </div>
+            <div class="float-card card-c">
+                <div class="float-card-value">24/7</div>
+                <div class="float-card-label">Security coverage</div>
+            </div>
+            <div class="float-card" style="bottom:12%;left:15%;animation:f5 9s ease-in-out infinite;">
+                <div class="float-card-value">87%</div>
+                <div class="float-card-label">Occupancy rate</div>
+            </div>
+
+            <div class="brand-center">
+                <svg width="90" height="90" viewBox="0 0 100 100" fill="none">
+                    <rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/>
+                    <path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/>
+                </svg>
+                <span>VARS</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const btn = form.querySelector('.submit-btn');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            const data = new FormData(form);
+
+            // Web3Forms API — sends real emails instantly
+            const payload = {
+                access_key: 'a7f35eb7-4bbe-4a2e-a541-5614da5988e4',
+                subject: 'VARS Demo Request — ' + data.get('firstName') + ' ' + data.get('lastName'),
+                from_name: 'VARS Website',
+                to: 'slava@live.vars',
+                cc: 'siddharth@live.vars',
+                name: data.get('firstName') + ' ' + data.get('lastName'),
+                phone: data.get('phone'),
+                email: data.get('email') || 'Not provided',
+                message: data.get('message') || 'No message provided'
+            };
+
+            try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                if (result.success) {
+                    document.getElementById('formArea').style.display = 'none';
+                    document.getElementById('formSuccess').classList.add('active');
+                } else {
+                    btn.textContent = 'Submit';
+                    btn.disabled = false;
+                    alert('Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                btn.textContent = 'Submit';
+                btn.disabled = false;
+                alert('Network error. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
