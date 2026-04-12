@@ -88,6 +88,8 @@
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a { color: var(--text-dark-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s ease; cursor: pointer; }
         .nav-links a:hover { color: var(--text-dark); }
+        .nav-links .enterprise-login { color: var(--text-dark); border: 1px solid rgba(26,26,26,0.25); border-radius: 6px; padding: 0.4rem 1rem; transition: all 0.3s ease; }
+        .nav-links .enterprise-login:hover { background: var(--text-dark); color: var(--text-light); border-color: var(--text-dark); }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
         .hamburger span { width: 22px; height: 1.5px; background: var(--text-dark); transition: all 0.3s ease; transform-origin: center; }
         .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
@@ -727,6 +729,7 @@
                 <li><a onclick="scrollToSection('why')">Why VARS</a></li>
                 <li><a onclick="scrollToSection('documents')">Data Security</a></li>
                 <li><a onclick="scrollToSection('cta')">Contact</a></li>
+                <li><a href="https://vars-ad.github.io/VARS/" target="_blank" class="enterprise-login">Enterprise Login</a></li>
             </ul>
         </nav-content>
     </nav>
