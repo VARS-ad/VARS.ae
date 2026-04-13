@@ -2079,7 +2079,8 @@
 
         // Open contact form sub-page
         function openContactForm() {
-            window.location.href = 'contact.html';
+            const lang = document.documentElement.getAttribute('lang') || 'en';
+            window.location.href = lang === 'ar' ? 'contact.html?lang=ar' : 'contact.html';
         }
 
         // PMC Dashboard Screen Switcher

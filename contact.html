@@ -430,7 +430,8 @@
             e.preventDefault();
             const form = e.target;
             const btn = form.querySelector('.submit-btn');
-            btn.textContent = 'Sending...';
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            btn.textContent = isAr ? 'جارِ الإرسال...' : 'Sending...';
             btn.disabled = true;
 
             const data = new FormData(form);
@@ -459,14 +460,14 @@
                     document.getElementById('formArea').style.display = 'none';
                     document.getElementById('formSuccess').classList.add('active');
                 } else {
-                    btn.textContent = 'Submit';
+                    btn.textContent = isAr ? 'إرسال' : 'Submit';
                     btn.disabled = false;
-                    alert('Something went wrong. Please try again.');
+                    alert(isAr ? 'حدث خطأ. يرجى المحاولة مرة أخرى.' : 'Something went wrong. Please try again.');
                 }
             } catch (err) {
-                btn.textContent = 'Submit';
+                btn.textContent = isAr ? 'إرسال' : 'Submit';
                 btn.disabled = false;
-                alert('Network error. Please try again.');
+                alert(isAr ? 'خطأ في الاتصال. يرجى المحاولة مرة أخرى.' : 'Network error. Please try again.');
             }
         }
     <script>
@@ -573,8 +574,10 @@
         if (toggle && !toggle.contains(e.target)) toggle.classList.remove('open');
     });
 
-    // Initialize: always start in English
+    // Initialize: English by default, Arabic if ?lang=ar
     storeOriginals();
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'ar') setLang('ar');
     </script>
 </body>
 </html>
