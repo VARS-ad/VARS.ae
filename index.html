@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VARS - Property Management Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -24,6 +25,63 @@
         }
 
         html { scroll-behavior: smooth; }
+        /* RTL support */
+        html[dir="rtl"] body { direction: rtl; text-align: right; }
+        html[dir="rtl"] .split-layout.reverse { direction: ltr; }
+        html[dir="rtl"] .split-layout.reverse > * { direction: rtl; }
+        html[dir="rtl"] .split-layout { direction: ltr; }
+        html[dir="rtl"] .split-layout > * { direction: rtl; }
+        html[dir="rtl"] .nav-links { direction: rtl; }
+        html[dir="rtl"] .card-text { text-align: right; }
+        html[dir="rtl"] .doc-row { direction: rtl; text-align: right; }
+        html[dir="rtl"] .announcement { text-align: right; }
+        html[dir="rtl"] .diff-card { text-align: right; }
+        html[dir="rtl"] .documents-left { text-align: right; }
+        html[dir="rtl"] .hero-subtext { text-align: center; }
+        html[dir="rtl"] #hero { text-align: center; }
+        html[dir="rtl"] .cta-content { text-align: center; }
+        html[dir="rtl"] .slider-header { text-align: center; }
+        html[dir="rtl"] .announcements-wrapper .split-text { text-align: right; }
+        html[dir="rtl"] .doc-row-desc { text-align: right; }
+
+        /* Language switcher — globe dropdown (matches app login style) */
+        .lang-toggle {
+            position: relative; display: flex; align-items: center; gap: 6px;
+            cursor: pointer; padding: 6px 12px; border-radius: 8px;
+            border: 1px solid rgba(26,26,26,0.12); background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            transition: all 0.25s ease; user-select: none; z-index: 1001;
+        }
+        .lang-toggle:hover { border-color: rgba(26,26,26,0.25); background: rgba(255,255,255,0.85); }
+        .lang-toggle svg { flex-shrink: 0; }
+        .lang-toggle-label { font-size: 13px; font-weight: 500; color: var(--text-dark); letter-spacing: 0.04em; }
+        .lang-toggle-arrow { font-size: 9px; color: var(--text-dark-secondary); transition: transform 0.25s ease; margin-left: 2px; }
+        .lang-toggle.open .lang-toggle-arrow { transform: rotate(180deg); }
+        .lang-dropdown {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: white; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+            opacity: 0; transform: translateY(-6px) scale(0.96);
+            pointer-events: none; transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+            min-width: 130px;
+        }
+        .lang-toggle.open .lang-dropdown { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+        .lang-option {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; font-size: 13px; font-weight: 400; color: var(--text-dark);
+            cursor: pointer; transition: background 0.15s ease; letter-spacing: 0.01em;
+        }
+        .lang-option:hover { background: #f5f3f0; }
+        .lang-option.active { font-weight: 600; color: var(--text-dark); }
+        .lang-option.active::after { content: '✓'; font-size: 12px; color: var(--bg-warm-dark); }
+        .lang-option + .lang-option { border-top: 1px solid rgba(0,0,0,0.05); }
+
+        /* On scrolled nav — slightly tighter */
+        nav.scrolled .lang-toggle { padding: 5px 10px; }
+
+        /* RTL adjustments */
+        html[dir="rtl"] .lang-dropdown { right: auto; left: 0; }
+        html[dir="rtl"] .lang-toggle { direction: ltr; } /* Keep globe icon on left */
 
         body {
             font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif;
@@ -82,15 +140,18 @@
         }
         nav.scrolled { background: rgba(255,255,255,0.97); padding: 1rem 2rem; border-bottom-color: rgba(0,0,0,0.08); }
         nav-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
         .nav-logo { display: flex; align-items: center; gap: 0.35rem; font-weight: 400; font-size: 1.15rem; color: var(--text-dark); letter-spacing: -0.04em; }
         .nav-logo-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
         .nav-logo-box svg { display: block; }
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a { color: var(--text-dark-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s ease; cursor: pointer; }
         .nav-links a:hover { color: var(--text-dark); }
-        .nav-links .enterprise-login { color: var(--text-dark); border: 1px solid rgba(26,26,26,0.25); border-radius: 6px; padding: 0.4rem 1rem; transition: all 0.3s ease; }
-        .nav-links .enterprise-login:hover { background: var(--text-dark); color: var(--text-light); border-color: var(--text-dark); }
+        .enterprise-login-btn { color: var(--text-dark); border: 1px solid rgba(26,26,26,0.25); border-radius: 6px; padding: 0.4rem 1rem; transition: all 0.3s ease; text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
+        .enterprise-login-btn:hover { background: var(--text-dark); color: var(--text-light); border-color: var(--text-dark); }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+        .mobile-only-link { display: none; }
         .hamburger span { width: 22px; height: 1.5px; background: var(--text-dark); transition: all 0.3s ease; transform-origin: center; }
         .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
@@ -217,6 +278,7 @@
         .laptop-titlebar-title { flex:1; text-align: center; font-size: 0.6rem; color: var(--text-dark-secondary); font-weight: 400; letter-spacing: -0.02em; }
         .laptop-body { background: #ffffff; padding: 0; color: var(--text-dark); font-size: 0.8rem; overflow: hidden; flex: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
         .laptop-body, .laptop-body * { font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif; letter-spacing: -0.02em; }
+        html[lang="ar"] .laptop-body, html[lang="ar"] .laptop-body * { font-family: 'Noto Sans Arabic', 'Helvetica Now Text', 'Inter', Arial, sans-serif; }
 
         /* Hinge gap */
         .laptop-hinge {
@@ -322,6 +384,7 @@
             aspect-ratio: 9/19.5; display: flex; flex-direction: column;
         }
         .iphone-screen, .iphone-screen * { font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif; letter-spacing: -0.02em; }
+        html[lang="ar"] .iphone-screen, html[lang="ar"] .iphone-screen * { font-family: 'Noto Sans Arabic', 'Helvetica Now Text', 'Inter', Arial, sans-serif; }
         .iphone-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px 6px; font-size: 0.6rem; font-weight: 600; color: var(--text-dark); }
         .iphone-statusbar-right { display: flex; gap: 4px; align-items: center; }
         .battery-icon { width: 18px; height: 8px; border: 1.5px solid var(--text-dark); border-radius: 2px; position: relative; }
@@ -546,6 +609,7 @@
             display: inline-block; text-decoration: none;
             font-family: 'Helvetica Now Text', 'Inter', Arial, sans-serif;
         }
+        html[lang="ar"] button, html[lang="ar"] .btn { font-family: 'Noto Sans Arabic', 'Helvetica Now Text', 'Inter', Arial, sans-serif; }
         button:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
 
         /* ========= ANIMATIONS ========= */
@@ -572,6 +636,11 @@
             .cta-float-3, .cta-float-4 { display: none; }
             .cta-float-1 { width: 120px; height: 120px; }
             .cta-float-2 { width: 80px; height: 80px; }
+            /* Tablet nav — tighten spacing */
+            .nav-left { gap: 1.5rem; }
+            .nav-links { gap: 1.5rem; }
+            .nav-links a { font-size: 13px; }
+            .enterprise-login-btn { font-size: 13px; padding: 0.35rem 0.75rem; }
         }
 
         /* --- Mobile (max 768px) --- */
@@ -580,17 +649,27 @@
             nav { padding: 1rem 1.25rem; }
             nav.scrolled { padding: 0.75rem 1.25rem; }
             .hamburger { display: flex; }
+            .nav-left { gap: 0; flex: 1; }
             .nav-links { display: none; }
             .nav-links.active {
-                display: flex; position: absolute; top: 100%; left: 0; right: 0;
+                display: flex; position: fixed; top: 56px; left: 0; right: 0;
                 flex-direction: column; background: rgba(255,255,255,0.98);
                 backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
                 padding: 1.5rem 2rem; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.08);
                 box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+                z-index: 999;
             }
             .nav-links.active li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
             .nav-links.active li:last-child { border-bottom: none; }
             .nav-links.active a { font-size: 16px; color: var(--text-dark); }
+            .enterprise-login-btn { display: none; }
+            .mobile-only-link { display: list-item; }
+            /* Lang toggle — smaller on mobile */
+            .lang-toggle { padding: 5px 8px; }
+            .lang-toggle svg { width: 14px; height: 14px; }
+            .lang-toggle-label { font-size: 12px; }
+            .lang-toggle-arrow { font-size: 8px; }
+            .nav-right { gap: 0.5rem; }
 
             /* Sections */
             section { padding: 3rem 1.25rem; min-height: auto; }
@@ -667,7 +746,7 @@
 
             /* Documents */
             .documents-layout { grid-template-columns: 1fr; gap: 1.5rem; }
-            .documents-left { position: static; text-align: left; }
+            .documents-left { position: static; }
             .documents-heading { font-size: 2.5rem; }
             .documents-desc { font-size: 16px; }
             .doc-row { grid-template-columns: 30px 1fr; gap: 0.75rem; padding: 16px 0; }
@@ -687,6 +766,10 @@
             .cta-stat-value { font-size: 1.5rem; }
             .cta-float { display: none; }
 
+            /* RTL mobile overrides */
+            html[dir="rtl"] .nav-links.active { text-align: right; }
+            html[dir="rtl"] .nav-links.active a { text-align: right; }
+            html[dir="rtl"] .split-layout.reverse { direction: rtl; }
         }
 
         /* --- Small mobile (max 480px) --- */
@@ -707,6 +790,18 @@
             .pill { padding: 0.45rem 0.9rem; font-size: 11px; }
             .diff-card h3 { font-size: 1.1rem; }
             .diff-card p { font-size: 14px; }
+            /* Tighter nav on very small screens */
+            nav { padding: 0.75rem 1rem; }
+            nav.scrolled { padding: 0.6rem 1rem; }
+            .nav-logo span { font-size: 1rem; }
+            .lang-toggle { padding: 4px 7px; gap: 4px; }
+            .lang-toggle svg { width: 13px; height: 13px; }
+            .lang-toggle-label { font-size: 11px; }
+            .lang-toggle-arrow { font-size: 7px; }
+            .lang-dropdown { min-width: 110px; }
+            .lang-option { padding: 9px 12px; font-size: 12px; }
+            .nav-right { gap: 0.4rem; }
+            .hamburger span { width: 20px; }
         }
     </style>
 </head>
@@ -717,20 +812,35 @@
     <!-- Navigation -->
     <nav>
         <nav-content>
-            <div class="nav-logo">
-                <div class="nav-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
-                <span>VARS</span>
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <div class="nav-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                    <span>VARS</span>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a onclick="scrollToSection('slider')" data-i18n="nav_platform">Platform</a></li>
+                    <li><a onclick="scrollToSection('why')" data-i18n="nav_why">Why VARS</a></li>
+                    <li><a onclick="scrollToSection('documents')" data-i18n="nav_security">Data Security</a></li>
+                    <li><a onclick="scrollToSection('cta')" data-i18n="nav_contact">Contact</a></li>
+                    <li class="mobile-only-link"><a href="https://vars-ad.github.io/VARS/" target="_blank" data-i18n="nav_login">Enterprise Login</a></li>
+                </ul>
             </div>
-            <div class="hamburger" id="hamburger">
-                <span></span><span></span><span></span>
+            <div class="nav-right">
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+                <!-- Globe language switcher -->
+                <div class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span class="lang-toggle-label" id="langLabel">EN</span>
+                    <span class="lang-toggle-arrow">▾</span>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option active" data-lang="en" onclick="event.stopPropagation();selectLang('en')">English</div>
+                        <div class="lang-option" data-lang="ar" onclick="event.stopPropagation();selectLang('ar')">العربية</div>
+                    </div>
+                </div>
+                <a href="https://vars-ad.github.io/VARS/" target="_blank" class="enterprise-login-btn" data-i18n="nav_login">Enterprise Login</a>
             </div>
-            <ul class="nav-links" id="navLinks">
-                <li><a onclick="scrollToSection('slider')">Platform</a></li>
-                <li><a onclick="scrollToSection('why')">Why VARS</a></li>
-                <li><a onclick="scrollToSection('documents')">Data Security</a></li>
-                <li><a onclick="scrollToSection('cta')">Contact</a></li>
-                <li><a href="https://vars-ad.github.io/VARS/" target="_blank" class="enterprise-login">Enterprise Login</a></li>
-            </ul>
         </nav-content>
     </nav>
 
@@ -743,12 +853,12 @@
             <div class="hero-bg-slide hero-bg-warm"></div>
         </div>
         <div class="container" style="position:relative;z-index:1;">
-            <h1>Property Management.<br>Simplified.</h1>
-            <p class="hero-subtext">Three apps. One platform. Complete control over your properties, security, and residents across the UAE.</p>
+            <h1 data-i18n-html="hero_title">Property Management.<br>Simplified.</h1>
+            <p class="hero-subtext" data-i18n="hero_sub">Three apps. One platform. Complete control over your properties, security, and residents across the UAE.</p>
             <div class="feature-pills">
-                <div class="pill">PMC Dashboard</div>
-                <div class="pill">Security Guard App</div>
-                <div class="pill">Resident App</div>
+                <div class="pill" data-i18n="pill_pmc">PMC Dashboard</div>
+                <div class="pill" data-i18n="pill_security">Security Guard App</div>
+                <div class="pill" data-i18n="pill_resident">Resident App</div>
 
             </div>
             <div class="scroll-indicator">
@@ -760,16 +870,16 @@
     <!-- ===== STACKED CARD SLIDER (door.com style) ===== -->
     <div class="slider-section" id="slider">
         <div class="slider-header">
-            <h2>Three apps. One ecosystem.</h2>
-            <p>PMC dashboard, Resident app, and Security Guard app — all connected in real time.</p>
+            <h2 data-i18n="slider_title">Three apps. One ecosystem.</h2>
+            <p data-i18n="slider_sub">PMC dashboard, Resident app, and Security Guard app — all connected in real time.</p>
         </div>
 
         <div class="card-stack">
             <!-- Card 1: PMC Dashboard -->
             <div class="card-stack-item card-pmc reveal">
                 <div class="card-text">
-                    <h2>Your entire portfolio.<br>One dashboard.</h2>
-                    <p>Monitor occupancy rates, revenue, guard assignments, and property performance across all your buildings in real time.</p>
+                    <h2 data-i18n-html="card_pmc_title">Your entire portfolio.<br>One dashboard.</h2>
+                    <p data-i18n="card_pmc_desc">Monitor occupancy rates, revenue, guard assignments, and property performance across all your buildings in real time.</p>
                 </div>
                 <div class="card-visual" style="flex-direction:column;">
                     <div class="laptop-mockup">
@@ -1281,11 +1391,11 @@
                     </div>
                     <!-- Mobile: feature list instead of laptop -->
                     <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title">Portfolio Overview</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title">Service Requests</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title">Guard Management</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title">SLA Analytics</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">05</span><span class="mf-title">Financial Overview</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_pmc_1">Portfolio Overview</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_pmc_2">Service Requests</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_pmc_3">Guard Management</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_pmc_4">SLA Analytics</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">05</span><span class="mf-title" data-i18n="mf_pmc_5">Financial Overview</span></div>
                     </div>
                 </div>
             </div>
@@ -1293,8 +1403,8 @@
             <!-- Card 2: Security Guard App -->
             <div class="card-stack-item card-security reveal">
                 <div class="card-text">
-                    <h2>Complete security<br>management.</h2>
-                    <p>Guard profiles, shift schedules, visitor check-in, and a full audit trail. Your security team gets their own dedicated app.</p>
+                    <h2 data-i18n-html="card_sec_title">Complete security<br>management.</h2>
+                    <p data-i18n="card_sec_desc">Guard profiles, shift schedules, visitor check-in, and a full audit trail. Your security team gets their own dedicated app.</p>
                 </div>
                 <div class="card-visual" style="flex-direction:column;">
                     <div class="laptop-mockup">
@@ -1626,9 +1736,9 @@
                     </div>
                     <!-- Mobile: feature list instead of laptop -->
                     <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title">Visitor Dashboard</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title">Digital Check-in</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title">Visitors Registry</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_sec_1">Visitor Dashboard</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_sec_2">Digital Check-in</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_sec_3">Visitors Registry</span></div>
                     </div>
                 </div>
             </div>
@@ -1636,8 +1746,8 @@
             <!-- Card 3: Resident App — Apple-style phone showcase -->
             <div class="card-stack-item card-resident reveal">
                 <div class="card-text">
-                    <h2>Everything residents<br>need. One app.</h2>
-                    <p>Pre-register visitors, receive announcements, manage documents, and contact property management — all from their phone.</p>
+                    <h2 data-i18n-html="card_res_title">Everything residents<br>need. One app.</h2>
+                    <p data-i18n="card_res_desc">Pre-register visitors, receive announcements, manage documents, and contact property management — all from their phone.</p>
                 </div>
                 <div class="card-visual">
                     <div class="phone-showcase">
@@ -1806,24 +1916,24 @@
     <section id="why" class="reveal">
         <div class="container">
             <div style="text-align:center; margin-bottom: 1rem;">
-                <h2>Why VARS?</h2>
-                <p class="hero-subtext" style="color: var(--text-dark-secondary)">Built specifically for UAE property management companies. Not another generic tool.</p>
+                <h2 data-i18n="why_title">Why VARS?</h2>
+                <p class="hero-subtext" style="color: var(--text-dark-secondary)" data-i18n="why_sub">Built specifically for UAE property management companies. Not another generic tool.</p>
             </div>
             <div class="diff-grid">
                 <div class="diff-card">
                     <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">01</div>
-                    <h3>Three Apps, One Platform</h3>
-                    <p>PMC managers, security guards, and residents each get their own dedicated app — all synced in real time. No more juggling separate systems.</p>
+                    <h3 data-i18n="why_1_title">Three Apps, One Platform</h3>
+                    <p data-i18n="why_1_desc">PMC managers, security guards, and residents each get their own dedicated app — all synced in real time. No more juggling separate systems.</p>
                 </div>
                 <div class="diff-card">
                     <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">02</div>
-                    <h3>Built for the UAE</h3>
-                    <p>Designed around local regulations, Arabic language support, and the specific workflows of UAE property management companies.</p>
+                    <h3 data-i18n="why_2_title">Built for the UAE</h3>
+                    <p data-i18n="why_2_desc">Designed around local regulations, Arabic language support, and the specific workflows of UAE property management companies.</p>
                 </div>
                 <div class="diff-card">
                     <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">03</div>
-                    <h3>End-to-End Security</h3>
-                    <p>Guard shift management, visitor pre-registration, digital check-in, and a complete audit trail. Full control from gate to unit.</p>
+                    <h3 data-i18n="why_3_title">End-to-End Security</h3>
+                    <p data-i18n="why_3_desc">Guard shift management, visitor pre-registration, digital check-in, and a complete audit trail. Full control from gate to unit.</p>
                 </div>
             </div>
         </div>
@@ -1834,34 +1944,34 @@
         <div class="container">
             <div class="documents-layout">
                 <div class="documents-left">
-                    <h2 class="documents-heading"><span class="doc-heading-dark">Data</span><br><span class="doc-heading-light">Security</span></h2>
-                    <p class="documents-desc">End-to-end encrypted and fully compliant with UAE data protection law — your building data, secured.</p>
+                    <h2 class="documents-heading"><span class="doc-heading-dark" data-i18n="doc_heading_1">Data</span><br><span class="doc-heading-light" data-i18n="doc_heading_2">Security</span></h2>
+                    <p class="documents-desc" data-i18n="doc_desc">End-to-end encrypted and fully compliant with UAE data protection law — your building data, secured.</p>
                 </div>
                 <div class="documents-right">
                     <div class="doc-row">
                         <div class="doc-row-num">01</div>
-                        <div class="doc-row-title">End-to-End Encryption</div>
-                        <div class="doc-row-desc">AES-256 at rest, TLS 1.3 in transit. Bank-grade protection for all data.</div>
+                        <div class="doc-row-title" data-i18n="doc_1_title">End-to-End Encryption</div>
+                        <div class="doc-row-desc" data-i18n="doc_1_desc">AES-256 at rest, TLS 1.3 in transit. Bank-grade protection for all data.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">02</div>
-                        <div class="doc-row-title">UAE Data Protection Law</div>
-                        <div class="doc-row-desc">Fully aligned with UAE PDPL (Federal Decree-Law No. 45/2021). Data hosted on UAE infrastructure.</div>
+                        <div class="doc-row-title" data-i18n="doc_2_title">UAE Data Protection Law</div>
+                        <div class="doc-row-desc" data-i18n="doc_2_desc">Fully aligned with UAE PDPL (Federal Decree-Law No. 45/2021). Data hosted on UAE infrastructure.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">03</div>
-                        <div class="doc-row-title">Role-Based Access Control</div>
-                        <div class="doc-row-desc">Granular permissions with every action logged by user, timestamp, and IP.</div>
+                        <div class="doc-row-title" data-i18n="doc_3_title">Role-Based Access Control</div>
+                        <div class="doc-row-desc" data-i18n="doc_3_desc">Granular permissions with every action logged by user, timestamp, and IP.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">04</div>
-                        <div class="doc-row-title">Visitor Logs & Audit Trail</div>
-                        <div class="doc-row-desc">Encrypted visitor records with entry/exit times and resident approval history.</div>
+                        <div class="doc-row-title" data-i18n="doc_4_title">Visitor Logs & Audit Trail</div>
+                        <div class="doc-row-desc" data-i18n="doc_4_desc">Encrypted visitor records with entry/exit times and resident approval history.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">05</div>
-                        <div class="doc-row-title">Maintenance Records</div>
-                        <div class="doc-row-desc">Tamper-proof work orders and incident logs with digital signatures and automated retention.</div>
+                        <div class="doc-row-title" data-i18n="doc_5_title">Maintenance Records</div>
+                        <div class="doc-row-desc" data-i18n="doc_5_desc">Tamper-proof work orders and incident logs with digital signatures and automated retention.</div>
                     </div>
                 </div>
             </div>
@@ -1873,14 +1983,14 @@
         <div class="container">
             <div class="announcements-wrapper">
                 <div class="split-text">
-                    <h2>Keep residents<br>informed.</h2>
-                    <p>Push announcements to all residents instantly. Urgent alerts, community updates, and maintenance schedules.</p>
+                    <h2 data-i18n-html="ann_title">Keep residents<br>informed.</h2>
+                    <p data-i18n="ann_desc">Push announcements to all residents instantly. Urgent alerts, community updates, and maintenance schedules.</p>
                 </div>
                 <div>
                     <div class="announcement-cards">
-                        <div class="announcement"><div class="announcement-title">Water Maintenance</div><div>Water supply disruption tomorrow 8 AM – 12 PM in Tower A.</div></div>
-                        <div class="announcement"><div class="announcement-title">New Parking Policy</div><div>All vehicles must display resident stickers starting next week.</div></div>
-                        <div class="announcement"><div class="announcement-title">Community BBQ</div><div>This Friday 6 PM at the poolside area. All residents welcome.</div></div>
+                        <div class="announcement"><div class="announcement-title" data-i18n="ann_1_title">Water Maintenance</div><div data-i18n="ann_1_desc">Water supply disruption tomorrow 8 AM – 12 PM in Tower A.</div></div>
+                        <div class="announcement"><div class="announcement-title" data-i18n="ann_2_title">New Parking Policy</div><div data-i18n="ann_2_desc">All vehicles must display resident stickers starting next week.</div></div>
+                        <div class="announcement"><div class="announcement-title" data-i18n="ann_3_title">Community BBQ</div><div data-i18n="ann_3_desc">This Friday 6 PM at the poolside area. All residents welcome.</div></div>
                     </div>
                 </div>
             </div>
@@ -1890,9 +2000,9 @@
     <!-- ===== CTA ===== -->
     <section id="cta" class="reveal">
         <div class="cta-content">
-            <h1>Ready to simplify<br>property management?</h1>
-            <p class="hero-subtext" style="color: var(--text-dark-secondary); margin-bottom:2.5rem">The unified platform built for UAE property management companies.</p>
-            <button onclick="openContactForm()">Contact</button>
+            <h1 data-i18n-html="cta_title">Ready to simplify<br>property management?</h1>
+            <p class="hero-subtext" style="color: var(--text-dark-secondary); margin-bottom:2.5rem" data-i18n="cta_sub">The unified platform built for UAE property management companies.</p>
+            <button onclick="openContactForm()" data-i18n="cta_btn">Contact</button>
         </div>
     </section>
 
@@ -2079,6 +2189,429 @@
         window.addEventListener('resize', setupPhoneCarousel);
         window.addEventListener('DOMContentLoaded', setupPhoneCarousel);
         setupPhoneCarousel();
+    </script>
+    <script>
+    // ===== LANGUAGE TRANSLATION SYSTEM =====
+    const translations = {
+        ar: {
+            // Nav
+            nav_platform: 'المنصة',
+            nav_why: 'لماذا VARS',
+            nav_security: 'أمن البيانات',
+            nav_contact: 'تواصل معنا',
+            nav_login: 'تسجيل دخول المؤسسات',
+
+            // Hero
+            hero_title: 'إدارة العقارات.<br>بكل بساطة.',
+            hero_sub: 'ثلاثة تطبيقات. منصة واحدة. تحكّم كامل في عقاراتك وأمنك وسكانك في جميع أنحاء الإمارات.',
+            pill_pmc: 'لوحة تحكم الإدارة',
+            pill_security: 'تطبيق حراس الأمن',
+            pill_resident: 'تطبيق السكان',
+
+            // Slider
+            slider_title: 'ثلاثة تطبيقات. نظام واحد متكامل.',
+            slider_sub: 'لوحة تحكم الإدارة، تطبيق السكان، وتطبيق حراس الأمن — جميعها متصلة في الوقت الفعلي.',
+
+            // Cards
+            card_pmc_title: 'كل محفظتك العقارية.<br>في لوحة واحدة.',
+            card_pmc_desc: 'راقب معدلات الإشغال والإيرادات وتعيينات الحراس وأداء العقارات عبر جميع مبانيك في الوقت الفعلي.',
+            card_sec_title: 'إدارة أمنية<br>متكاملة.',
+            card_sec_desc: 'ملفات الحراس، جداول المناوبات، تسجيل دخول الزوار، ومسار تدقيق كامل. فريقك الأمني يحصل على تطبيقه الخاص.',
+            card_res_title: 'كل ما يحتاجه<br>السكان. تطبيق واحد.',
+            card_res_desc: 'تسجيل الزوار مسبقاً، استلام الإعلانات، إدارة المستندات، والتواصل مع إدارة العقار — كل ذلك من هواتفهم.',
+
+            // Mobile features PMC
+            mf_pmc_1: 'نظرة عامة على المحفظة',
+            mf_pmc_2: 'طلبات الخدمة',
+            mf_pmc_3: 'إدارة الحراس',
+            mf_pmc_4: 'تحليلات الأداء',
+            mf_pmc_5: 'النظرة المالية',
+
+            // Mobile features Security
+            mf_sec_1: 'لوحة تحكم الزوار',
+            mf_sec_2: 'تسجيل الدخول الرقمي',
+            mf_sec_3: 'سجل الزوار',
+
+            // Why VARS
+            why_title: 'لماذا VARS؟',
+            why_sub: 'مصممة خصيصاً لشركات إدارة العقارات في الإمارات. ليست مجرد أداة عامة.',
+            why_1_title: 'ثلاثة تطبيقات، منصة واحدة',
+            why_1_desc: 'مديرو العقارات وحراس الأمن والسكان — كل منهم يحصل على تطبيقه المخصص — وجميعها متزامنة في الوقت الفعلي. لا مزيد من الأنظمة المتفرقة.',
+            why_2_title: 'مصممة للإمارات',
+            why_2_desc: 'مصممة وفقاً للأنظمة المحلية، مع دعم اللغة العربية، وسير العمل الخاص بشركات إدارة العقارات في الإمارات.',
+            why_3_title: 'أمن شامل من البداية للنهاية',
+            why_3_desc: 'إدارة مناوبات الحراس، تسجيل الزوار المسبق، التسجيل الرقمي، ومسار تدقيق كامل. تحكم كامل من البوابة إلى الوحدة.',
+
+            // Documents
+            doc_heading_1: 'أمن',
+            doc_heading_2: 'البيانات',
+            doc_desc: 'تشفير شامل ومتوافق تماماً مع قانون حماية البيانات في الإمارات — بيانات مبناك محمية.',
+            doc_1_title: 'تشفير شامل',
+            doc_1_desc: 'AES-256 أثناء التخزين، TLS 1.3 أثناء النقل. حماية بمستوى البنوك لجميع البيانات.',
+            doc_2_title: 'قانون حماية البيانات الإماراتي',
+            doc_2_desc: 'متوافق تماماً مع قانون حماية البيانات الشخصية (مرسوم بقانون اتحادي رقم 45/2021). البيانات مستضافة على بنية تحتية إماراتية.',
+            doc_3_title: 'التحكم بالوصول حسب الأدوار',
+            doc_3_desc: 'صلاحيات دقيقة مع تسجيل كل إجراء بالمستخدم والوقت وعنوان IP.',
+            doc_4_title: 'سجلات الزوار ومسار التدقيق',
+            doc_4_desc: 'سجلات زوار مشفرة مع أوقات الدخول/الخروج وتاريخ موافقات السكان.',
+            doc_5_title: 'سجلات الصيانة',
+            doc_5_desc: 'أوامر عمل مقاومة للتلاعب وسجلات حوادث مع توقيعات رقمية واحتفاظ تلقائي.',
+
+            // Announcements
+            ann_title: 'أبقِ السكان<br>على اطلاع.',
+            ann_desc: 'أرسل إعلانات لجميع السكان فوراً. تنبيهات عاجلة وتحديثات مجتمعية وجداول صيانة.',
+            ann_1_title: 'صيانة المياه',
+            ann_1_desc: 'انقطاع إمداد المياه غداً من 8 صباحاً حتى 12 ظهراً في البرج A.',
+            ann_2_title: 'سياسة مواقف جديدة',
+            ann_2_desc: 'يجب على جميع المركبات عرض ملصقات السكان بدءاً من الأسبوع القادم.',
+            ann_3_title: 'حفل شواء مجتمعي',
+            ann_3_desc: 'هذا الجمعة الساعة 6 مساءً بجانب المسبح. جميع السكان مدعوون.',
+
+            // CTA
+            cta_title: 'مستعد لتبسيط<br>إدارة العقارات؟',
+            cta_sub: 'المنصة الموحدة المصممة لشركات إدارة العقارات في الإمارات.',
+            cta_btn: 'تواصل معنا',
+        }
+    };
+
+    // Store English originals
+    const enOriginals = {};
+
+    function storeOriginals() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            enOriginals[el.getAttribute('data-i18n')] = el.textContent;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            enOriginals[el.getAttribute('data-i18n-html')] = el.innerHTML;
+        });
+    }
+
+    // ===== MOCKUP TRANSLATION MAP =====
+    // These map English text → Arabic text inside the app screenshots
+    const mockupTranslations = {
+        // PMC Dashboard Screen 1
+        'PM Dashboard — Overview': 'لوحة تحكم الإدارة — نظرة عامة',
+        'Key Performance Indicators': 'مؤشرات الأداء الرئيسية',
+        'Total Residences': 'إجمالي الوحدات',
+        'Occupied Flats': 'الشقق المشغولة',
+        'Visitors Inside (Live)': 'الزوار بالداخل (مباشر)',
+        'Active Service Req.': 'طلبات الخدمة النشطة',
+        'Scheduled Visits Today': 'الزيارات المجدولة اليوم',
+        'View details →': 'عرض التفاصيل →',
+        'Service Requests — Last 7 Days': 'طلبات الخدمة — آخر 7 أيام',
+        'Stacked by type: Guest / Vendor / Contractor': 'مصنفة: ضيف / مورد / مقاول',
+        'Guests': 'الضيوف',
+        'Vendors': 'الموردون',
+        'Contractors': 'المقاولون',
+        'Activity Feed': 'آخر الأنشطة',
+        'View all': 'عرض الكل',
+        'Visitor checked in': 'تسجيل دخول زائر',
+        '— Flat A-1204 (James Harrison)': '— شقة A-1204 (جيمس هاريسون)',
+        'Service request approved': 'تمت الموافقة على طلب الخدمة',
+        '— Flat B-0803 (AC Repair)': '— شقة B-0803 (إصلاح المكيف)',
+        'Guard override used': 'استُخدم تجاوز الحارس',
+        '— Flat C-0501': '— شقة C-0501',
+        '▼ Filter': '▼ تصفية',
+
+        // PMC Screen 2 - Service Requests
+        'Service Requests': 'طلبات الخدمة',
+        '47 Open': '47 مفتوحة',
+        '12 In Progress': '12 قيد التنفيذ',
+        'All': 'الكل',
+        'Plumbing': 'سباكة',
+        'Electrical': 'كهرباء',
+        'HVAC': 'تكييف',
+        'General': 'عام',
+        'ID': 'الرقم',
+        'Description': 'الوصف',
+        'Location': 'الموقع',
+        'Assigned': 'المكلف',
+        'Status': 'الحالة',
+        'AC unit not cooling — bedroom': 'المكيف لا يبرد — غرفة النوم',
+        'Water leak under kitchen sink': 'تسرب مياه تحت حوض المطبخ',
+        'Parking gate sensor malfunction': 'عطل حساس بوابة المواقف',
+        'Elevator door not closing properly': 'باب المصعد لا يغلق بشكل صحيح',
+        'Broken light fixture — hallway 3F': 'عطل إضاءة — ممر الطابق 3',
+        'In Progress': 'قيد التنفيذ',
+        'Open': 'مفتوح',
+        'Resolved': 'تم الحل',
+
+        // PMC Screen 3 - Guards
+        'Managed Guards': 'إدارة الحراس',
+        '6 guards registered · 3 on duty · 2 pending verification': '6 حراس مسجلين · 3 في الخدمة · 2 بانتظار التحقق',
+        '+ Add Guard': '+ إضافة حارس',
+        'CURRENTLY ON DUTY': 'في الخدمة حالياً',
+        'Ahmed Khalil': 'أحمد خليل',
+        'Senior Guard': 'حارس أول',
+        'Main Gate': 'البوابة الرئيسية',
+        'Mohammed Al-Said': 'محمد السعيد',
+        'Tower B Lobby': 'ردهة البرج B',
+        'Tariq Bin Saeed': 'طارق بن سعيد',
+        'Gate Captain': 'قائد البوابة',
+        'Delivery Gate': 'بوابة التوصيل',
+        'Total Guards': 'إجمالي الحراس',
+        'On Duty': 'في الخدمة',
+        'Verified': 'تم التحقق',
+        'Guard Roster': 'قائمة الحراس',
+        'NAME': 'الاسم',
+        'SHIFT': 'المناوبة',
+        'POST': 'الموقع',
+        'COMPANY': 'الشركة',
+        'STATUS': 'الحالة',
+        'Morning': 'صباحية',
+        'Afternoon': 'مسائية',
+        'Delivery': 'التوصيل',
+        'M. Al-Said': 'م. السعيد',
+        'T. Bin Saeed': 'ط. بن سعيد',
+
+        // PMC Screen 4 - SLA
+        'SLA Compliance Analytics': 'تحليلات الالتزام بالأداء',
+        'Overall SLA Compliance': 'الالتزام العام بالأداء',
+        'Total Requests': 'إجمالي الطلبات',
+        'Avg Resolution': 'متوسط الحل',
+        'SLA Compliance Trend': 'اتجاه الالتزام بالأداء',
+        'SLA by Category': 'الأداء حسب الفئة',
+        'AI Insight': 'تحليل ذكي',
+
+        // PMC Screen 5 - Financial
+        'Financial Overview': 'النظرة المالية',
+        'Monthly Revenue': 'الإيرادات الشهرية',
+        'Collection Rate': 'نسبة التحصيل',
+        'Outstanding Balance': 'الرصيد المستحق',
+        'Maintenance Costs': 'تكاليف الصيانة',
+        'Revenue — Last 6 Months (AED)': 'الإيرادات — آخر 6 أشهر (درهم)',
+        'Top Properties by Revenue': 'أفضل العقارات حسب الإيرادات',
+        'On budget': 'ضمن الميزانية',
+
+        // Security Dashboard
+        'Sky Tower': 'سكاي تاور',
+        'Al Reem Island — Shams, UAE': 'جزيرة الريم — الشمس، الإمارات',
+        'GUARD ON DUTY': 'الحارس المناوب',
+        'Suresh Kumar': 'سوريش كومار',
+        'MAIN DASHBOARD': 'لوحة التحكم',
+        'ALL VISITORS': 'جميع الزوار',
+        'MESSAGES': 'الرسائل',
+        '■ QUICK ACTIONS — PRIMARY CONTROLS': '■ إجراءات سريعة — التحكم الرئيسي',
+        'New Visitor Entry': 'تسجيل زائر جديد',
+        'Register new visitor manually': 'تسجيل زائر جديد يدوياً',
+        'Scan QR / Pre-Approved': 'مسح QR / معتمد مسبقاً',
+        'Scan resident-issued QR pass': 'مسح بطاقة QR الصادرة من السكان',
+        'VISITORS INSIDE': 'الزوار بالداخل',
+        'Cleared': 'تمت الموافقة',
+        'Pending': 'قيد الانتظار',
+        'Flagged': 'مُعلّم',
+        'BY TYPE': 'حسب النوع',
+        'Service / Staff': 'خدمة / موظفين',
+        'VIEW FULL INSIDE LIST': 'عرض القائمة الكاملة',
+        'PENDING APPROVALS': 'بانتظار الموافقة',
+        '1 waiting': '1 بالانتظار',
+        "Priyas Friend": 'صديق بريا',
+        "TODAY'S SCHEDULE": 'جدول اليوم',
+        '25 entries': '25 إدخال',
+        'VISITORS INSIDE NOW': 'الزوار بالداخل الآن',
+        'GUESTS': 'ضيوف',
+        'VENDORS': 'موردون',
+        'STAFF': 'موظفون',
+        'No visitors in this category': 'لا زوار في هذه الفئة',
+        '✓ APPROVE': '✓ موافقة',
+        '✕ REJECT': '✕ رفض',
+
+        // Security Screen 2 - Visitors Registry
+        'VISITOR REGISTRY — ALL ENTRIES': 'سجل الزوار — جميع الإدخالات',
+        'Visitor Name': 'اسم الزائر',
+        'Type': 'النوع',
+        'Flat': 'الشقة',
+        'Entry Time': 'وقت الدخول',
+        'Exit Time': 'وقت الخروج',
+        'Entry Gate': 'بوابة الدخول',
+        'Guest': 'ضيف',
+        'Contractor': 'مقاول',
+        'Inside': 'بالداخل',
+        'Exited': 'خرج',
+
+        // Security Screen 3 - New Visitor
+        'NEW VISITOR CHECK-IN': 'تسجيل دخول زائر جديد',
+        'VISITOR DETAILS': 'بيانات الزائر',
+        'FULL NAME': 'الاسم الكامل',
+        'ID / PASSPORT NO.': 'رقم الهوية / جواز السفر',
+        'PHONE NUMBER': 'رقم الهاتف',
+        'VISITING FLAT': 'الشقة المُزارة',
+        'VISITOR TYPE': 'نوع الزائر',
+        'PURPOSE OF VISIT': 'غرض الزيارة',
+        'Personal visit': 'زيارة شخصية',
+        'ENTRY DETAILS': 'تفاصيل الدخول',
+        'Single Visit': 'زيارة واحدة',
+        'Multiple Entry': 'دخول متعدد',
+        'Valid for today only': 'صالحة لليوم فقط',
+        'ADDITIONAL VISITORS': 'زوار إضافيون',
+        'VEHICLE NUMBER': 'رقم المركبة',
+        'ENTRY REMARKS / GUARD NOTES': 'ملاحظات الدخول / ملاحظات الحارس',
+        'Add any observations...': 'أضف أي ملاحظات...',
+        'Review Visitor Request': 'مراجعة طلب الزائر',
+
+        // Resident App - Phone 1
+        'Hello, Nitin': 'مرحباً، نيتين',
+        'New Visitor': 'زائر جديد',
+        '1 pending': '1 بالانتظار',
+        '✓ Approve': '✓ موافقة',
+        '✕ Reject': '✕ رفض',
+        '✆ Call': '✆ اتصال',
+        'Upcoming Visitor': 'الزوار القادمون',
+        'See All ›': 'عرض الكل ›',
+        'Waiting': 'بالانتظار',
+        'Home': 'الرئيسية',
+        'Visitors': 'الزوار',
+        'Book': 'حجز',
+        'Payments': 'المدفوعات',
+
+        // Resident App - Phone 2 (Amenities)
+        'Book Amenities & Services': 'حجز المرافق والخدمات',
+        'Book Amenities': 'حجز المرافق',
+        'Swimming Pool': 'حمام السباحة',
+        'Table Tennis': 'تنس الطاولة',
+        'Squash': 'اسكواش',
+        'Gym': 'صالة الرياضة',
+        'Sauna': 'ساونا',
+        'BBQ Area': 'منطقة الشواء',
+        'Kids Area': 'منطقة الأطفال',
+        'Yoga Room': 'غرفة اليوغا',
+        'Book Services': 'حجز الخدمات',
+        'Electrician': 'كهربائي',
+        'Housekeeping': 'تنظيف',
+        'AC Repair': 'إصلاح المكيف',
+        'Pest Control': 'مكافحة الحشرات',
+        'Locksmith': 'فتح أقفال',
+        'Painter': 'دهان',
+        'Carpenter': 'نجار',
+
+        // Resident App - Phone 3 (Profile)
+        'Nitin': 'نيتين',
+        'Resident': 'ساكن',
+        'Personal Information': 'المعلومات الشخصية',
+        'Bookings': 'الحجوزات',
+        'Visitor log': 'سجل الزوار',
+        'Accounts': 'الحسابات',
+        'Help & Support': 'المساعدة والدعم',
+    };
+
+    // Store original mockup text nodes for reverting
+    let mockupOriginals = [];
+    let mockupTranslated = false;
+
+    function collectTextNodes(el) {
+        const nodes = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walker.nextNode()) {
+            if (node.textContent.trim()) nodes.push(node);
+        }
+        return nodes;
+    }
+
+    function translateMockups(toLang) {
+        // Translate all laptop and phone mockup content
+        const mockupContainers = document.querySelectorAll('.laptop-body, .iphone-content, .iphone-nav-item, .dash-hero-label, .dash-hero-sub, .dash-section-title, .dash-tile-label, .dash-nav-brand');
+
+        if (toLang === 'ar') {
+            if (!mockupOriginals.length) {
+                // Collect originals on first translation
+                document.querySelectorAll('.laptop-mockup, .iphone-mockup').forEach(mockup => {
+                    const textNodes = collectTextNodes(mockup);
+                    textNodes.forEach(n => {
+                        mockupOriginals.push({ node: n, original: n.textContent });
+                    });
+                });
+            }
+            // Apply translations
+            mockupOriginals.forEach(item => {
+                const trimmed = item.original.trim();
+                if (mockupTranslations[trimmed]) {
+                    item.node.textContent = item.original.replace(trimmed, mockupTranslations[trimmed]);
+                }
+            });
+            mockupTranslated = true;
+        } else {
+            // Revert to English
+            mockupOriginals.forEach(item => {
+                item.node.textContent = item.original;
+            });
+            mockupTranslated = false;
+        }
+    }
+
+    function setLang(lang) {
+        const html = document.documentElement;
+
+        // Update globe dropdown UI
+        const label = document.getElementById('langLabel');
+        if (label) label.textContent = lang === 'ar' ? 'عربي' : 'EN';
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+        });
+
+        if (lang === 'ar') {
+            html.setAttribute('dir', 'rtl');
+            html.setAttribute('lang', 'ar');
+
+            // Set Arabic font
+            document.body.style.fontFamily = "'Noto Sans Arabic', 'Helvetica Now Text', 'Inter', Arial, sans-serif";
+
+            // Translate data-i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations.ar[key]) {
+                    if (!enOriginals[key]) enOriginals[key] = el.textContent;
+                    el.textContent = translations.ar[key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (translations.ar[key]) {
+                    if (!enOriginals[key]) enOriginals[key] = el.innerHTML;
+                    el.innerHTML = translations.ar[key];
+                }
+            });
+
+            // Translate mockup screenshots
+            translateMockups('ar');
+
+        } else {
+            html.setAttribute('dir', 'ltr');
+            html.setAttribute('lang', 'en');
+            document.body.style.fontFamily = "'Helvetica Now Text', 'Inter', Arial, sans-serif";
+
+            // Revert data-i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (enOriginals[key]) el.textContent = enOriginals[key];
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (enOriginals[key]) el.innerHTML = enOriginals[key];
+            });
+
+            // Revert mockup screenshots
+            translateMockups('en');
+        }
+
+    }
+
+    // Globe dropdown toggle
+    function toggleLangDropdown() {
+        document.getElementById('langToggle').classList.toggle('open');
+    }
+    function selectLang(lang) {
+        setLang(lang);
+        document.getElementById('langToggle').classList.remove('open');
+    }
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        const toggle = document.getElementById('langToggle');
+        if (toggle && !toggle.contains(e.target)) toggle.classList.remove('open');
+    });
+
+    // Initialize: always start in English
+    storeOriginals();
     </script>
 </body>
 </html>
