@@ -594,7 +594,433 @@
         .phone-showcase .iphone-mockup:nth-child(1) { transform: translateY(-10px); }
         .phone-showcase .iphone-mockup:nth-child(2) { max-width: 200px; transform: translateY(0); z-index: 2; }
         .phone-showcase .iphone-mockup:nth-child(3) { transform: translateY(-10px); }
-        .phone-showcase .iphone-frame { box-shadow: 0 15px 50px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(0,0,0,0.08), inset 0 0.5px 0 rgba(255,255,255,0.5); }
+        /* ===== Black phone frame (resident section) ===== */
+        .phone-showcase .iphone-frame {
+            background: #000;
+            border-radius: 34px;
+            padding: 1.5px;
+            filter: drop-shadow(0 25px 60px rgba(0,0,0,0.2)) drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+            box-shadow: none;
+            position: relative;
+        }
+        .phone-showcase .iphone-frame::before,
+        .phone-showcase .iphone-frame::after { display: none; }
+        .phone-showcase .iphone-mockup::before { display: none; }
+        .phone-showcase .iphone-inner {
+            background: #000;
+            border-radius: 32px;
+            padding: 1.5px;
+            position: relative;
+        }
+        .phone-showcase .iphone-screen { border-radius: 30px; position: relative; }
+        /* Visible Dynamic Island */
+        .phone-showcase .dynamic-island {
+            display: block;
+            position: absolute;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 72px;
+            height: 22px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 20;
+        }
+        .phone-showcase .dynamic-island::after {
+            content: '';
+            position: absolute;
+            right: 12px; top: 50%; transform: translateY(-50%);
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1a1a30, #080812);
+            box-shadow: inset 0 0 2px rgba(60,60,100,0.5);
+        }
+        /* Hide the big "9:41" on the left since the Dynamic Island occupies that area */
+        .phone-showcase .iphone-statusbar > span:first-child { visibility: hidden; }
+        .phone-showcase .iphone-statusbar { padding-top: 11px; }
+        /* Side buttons — black */
+        .phone-showcase .iphone-mockup .btn-power,
+        .phone-showcase .iphone-mockup .btn-vol-up,
+        .phone-showcase .iphone-mockup .btn-vol-down,
+        .phone-showcase .iphone-mockup .btn-action { position: absolute; background: linear-gradient(180deg, #2a2a2a, #1a1a1a, #2a2a2a); z-index: 2; }
+        .phone-showcase .iphone-mockup .btn-power    { right: -2px; top: 28%; width: 2.5px; height: 48px; border-radius: 0 2px 2px 0; }
+        .phone-showcase .iphone-mockup .btn-vol-up   { left:  -2px; top: 23%; width: 2.5px; height: 22px; border-radius: 2px 0 0 2px; }
+        .phone-showcase .iphone-mockup .btn-vol-down { left:  -2px; top: 32%; width: 2.5px; height: 22px; border-radius: 2px 0 0 2px; }
+        .phone-showcase .iphone-mockup .btn-action   { left:  -2px; top: 16%; width: 2.5px; height: 14px; border-radius: 2px 0 0 2px; }
+
+        /* ===== Lock screen (Phone 1) ===== */
+        .phone-showcase .lock-screen {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, #d4cbc4 0%, #c4b8b0 40%, #a89d96 75%, #928989 100%);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 36px 12px 12px;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
+        }
+        .phone-showcase .lock-date {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            margin-top: 2px;
+        }
+        .phone-showcase .lock-time {
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -3px;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+            margin-top: -2px;
+            margin-bottom: 10px;
+        }
+        .phone-showcase .lock-notif-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: auto;
+            margin-bottom: 8px;
+        }
+        .phone-showcase .lock-notif {
+            background: rgba(255,255,255,0.22);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 7px 8px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #fff;
+        }
+        .phone-showcase .lock-notif-icon {
+            width: 22px; height: 22px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .phone-showcase .lock-notif-icon.vars { background: var(--bg-warm-dark); }
+        .phone-showcase .lock-notif-icon.yt { background: #ff0000; }
+        .phone-showcase .lock-notif-icon.ig {
+            background: linear-gradient(45deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+        }
+        .phone-showcase .lock-notif-text {
+            flex: 1; min-width: 0;
+        }
+        .phone-showcase .lock-notif-title {
+            font-size: 8.5px;
+            font-weight: 600;
+            letter-spacing: 0.1px;
+            margin-bottom: 1px;
+            color: #fff;
+        }
+        .phone-showcase .lock-notif-body {
+            font-size: 7.5px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.2;
+        }
+        .phone-showcase .lock-notif-time {
+            font-size: 7px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .phone-showcase .lock-notif-group {
+            font-size: 7px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            background: rgba(0,0,0,0.12);
+            padding: 1px 5px;
+            border-radius: 6px;
+        }
+        .phone-showcase .lock-home-indicator {
+            width: 90px; height: 3.5px;
+            background: rgba(255,255,255,0.55);
+            border-radius: 3px;
+            margin: 4px auto 0;
+        }
+        .phone-showcase .lock-bottom-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8px;
+            margin-bottom: 4px;
+        }
+        .phone-showcase .lock-quick-btn {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .phone-showcase .lock-quick-btn svg {
+            width: 14px; height: 14px;
+            fill: #fff;
+            opacity: 0.9;
+        }
+        /* ===== VARS App Screen (Phone 2 — HD) ===== */
+        .phone-showcase .vars-app-screen {
+            position: relative;
+            background: #f7f2ea;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
+            color: #1a1a1a;
+        }
+        .phone-showcase .vars-app-header {
+            background: #f7f2ea;
+            padding: 38px 10px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+        .phone-showcase .vars-app-user {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+        }
+        .phone-showcase .vars-avatar {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: #ece4d6;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .phone-showcase .vars-hello-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            line-height: 1.1;
+        }
+        .phone-showcase .vars-hello-sub {
+            font-size: 6.5px;
+            color: rgba(26,26,26,0.5);
+            line-height: 1.2;
+            margin-top: 1px;
+        }
+        .phone-showcase .vars-hello-sub .caret { font-size: 6px; }
+        .phone-showcase .vars-app-actions {
+            display: flex; align-items: center; gap: 4px;
+            flex-shrink: 0;
+        }
+        .phone-showcase .vars-lang-pill {
+            display: flex; align-items: center; gap: 2px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 3px 6px;
+            font-size: 7px;
+            font-weight: 600;
+        }
+        .phone-showcase .vars-lang-pill .caret { font-size: 6px; color: rgba(26,26,26,0.5); }
+        .phone-showcase .vars-bell {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .phone-showcase .vars-app-body {
+            flex: 1;
+            padding: 8px 7px 4px;
+            overflow: hidden;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .phone-showcase .vars-card {
+            background: #ffffff;
+            border: 0.5px solid #ece4d6;
+            border-radius: 12px;
+            padding: 7px 7px 6px;
+        }
+        .phone-showcase .vars-card-head {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 5px;
+        }
+        .phone-showcase .vars-card-title {
+            font-size: 8.5px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+        .phone-showcase .vars-card-meta {
+            font-size: 6.5px;
+            color: rgba(26,26,26,0.45);
+            font-weight: 500;
+        }
+        .phone-showcase .vars-visitor-main {
+            display: flex;
+            gap: 5px;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+        .phone-showcase .vars-visitor-avatar {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: #f3ecdf;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .phone-showcase .vars-visitor-info { flex: 1; min-width: 0; }
+        .phone-showcase .vars-visitor-name {
+            font-size: 8px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1px;
+        }
+        .phone-showcase .vars-visitor-name.small {
+            font-size: 7.5px;
+        }
+        .phone-showcase .vars-visitor-meta {
+            font-size: 5.5px;
+            color: rgba(26,26,26,0.5);
+            line-height: 1.35;
+        }
+        .phone-showcase .vars-visitor-meta.small {
+            font-size: 5.2px;
+        }
+        .phone-showcase .vars-multi-entry {
+            color: rgba(26,26,26,0.55);
+            font-weight: 500;
+        }
+        .phone-showcase .vars-visitor-badge {
+            background: #ece4d6;
+            color: #1a1a1a;
+            font-size: 5.5px;
+            font-weight: 600;
+            padding: 2px 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .phone-showcase .vars-action-row {
+            display: flex;
+            gap: 4px;
+        }
+        .phone-showcase .vars-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-size: 7px;
+            font-weight: 600;
+            padding: 4px 2px;
+            border-radius: 7px;
+        }
+        .phone-showcase .vars-btn-primary {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .phone-showcase .vars-btn-ghost {
+            background: #fff;
+            color: #1a1a1a;
+            border: 0.5px solid #e5ded3;
+        }
+        .phone-showcase .vars-upcoming-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+            padding: 4px 0;
+            border-bottom: 0.5px solid #f0e9db;
+        }
+        .phone-showcase .vars-upcoming-row.last { border-bottom: none; }
+        .phone-showcase .vars-chev {
+            font-size: 10px;
+            color: rgba(26,26,26,0.25);
+            align-self: center;
+            flex-shrink: 0;
+        }
+        .phone-showcase .vars-tab-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #f7f2ea;
+            padding: 4px 2px 2px;
+            border-top: 0.5px solid #ece4d6;
+        }
+        .phone-showcase .vars-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            font-size: 5.5px;
+            font-weight: 500;
+            color: rgba(26,26,26,0.45);
+            flex: 1;
+        }
+        .phone-showcase .vars-tab.active {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .phone-showcase .vars-home-indicator {
+            width: 80px; height: 3px;
+            background: #1a1a1a;
+            border-radius: 3px;
+            margin: 3px auto 2px;
+            opacity: 0.5;
+        }
+        /* Expanded Vars approval notification */
+        .phone-showcase .lock-notif.expanded {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            padding: 7px 8px 6px;
+            background: rgba(255,255,255,0.22);
+        }
+        .phone-showcase .lock-notif.expanded .expanded-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 5px;
+        }
+        .phone-showcase .lock-notif.expanded .expanded-header .lock-notif-icon.vars {
+            background: var(--bg-warm-dark);
+        }
+        .phone-showcase .lock-notif.expanded .expanded-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            border-top: 0.5px solid rgba(255,255,255,0.18);
+            font-size: 7.5px;
+        }
+        .phone-showcase .lock-notif.expanded .expanded-row .label {
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+        }
+        .phone-showcase .lock-notif.expanded .expanded-row .value {
+            color: #fff;
+            font-weight: 600;
+        }
+        .phone-showcase .lock-notif.expanded .expanded-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .phone-showcase .lock-notif.expanded .expanded-btn {
+            flex: 1;
+            border: 0.5px solid rgba(255,255,255,0.35);
+            background: rgba(0,0,0,0.22);
+            color: #fff;
+            font-size: 8px;
+            font-weight: 600;
+            text-align: center;
+            padding: 4px 0;
+            border-radius: 8px;
+        }
 
         /* Spacer after sticky cards */
         .card-stack-spacer { height: 120px; }
@@ -1871,163 +2297,215 @@
                     <div class="phone-showcase">
                         <!-- Phone 1: Lock screen notifications -->
                         <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
                             <div class="iphone-frame">
                                 <div class="iphone-inner">
-                                <div class="dynamic-island"></div>
-                                <div class="iphone-screen">
-                                    <div class="iphone-statusbar">
-                                        <span>9:41</span>
-                                        <div class="iphone-statusbar-right">
-                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
-                                            <div class="battery-icon"></div>
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen">
+                                        <div class="lock-screen">
+                                            <div class="lock-date">Monday, June 6</div>
+                                            <div class="lock-time">9:41</div>
+                                            <div class="lock-notif-list">
+                                                <div class="lock-notif expanded">
+                                                    <div class="expanded-header">
+                                                        <div class="lock-notif-icon vars">
+                                                            <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="#fff"/></svg>
+                                                        </div>
+                                                        <div class="lock-notif-text">
+                                                            <div class="lock-notif-title">Vars</div>
+                                                            <div class="lock-notif-body">Approval Request</div>
+                                                        </div>
+                                                        <div class="lock-notif-time">9:41 AM</div>
+                                                    </div>
+                                                    <div class="expanded-row"><span class="label">Upcoming Visitor</span><span class="value">Usman Khawaja</span></div>
+                                                    <div class="expanded-row"><span class="label">Visit Type</span><span class="value">Resident Guest</span></div>
+                                                    <div class="expanded-row"><span class="label">Gate</span><span class="value">Main Gate</span></div>
+                                                    <div class="expanded-actions">
+                                                        <div class="expanded-btn">Deny</div>
+                                                        <div class="expanded-btn">Allow</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="lock-bottom-row">
+                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M6 2v6l2 2v12h8V10l2-2V2H6zm8 2v2H10V4h4z"/></svg></div>
+                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></div>
+                                            </div>
+                                            <div class="lock-home-indicator"></div>
                                         </div>
                                     </div>
-                                    <!-- Lock screen content -->
-                                    <div class="iphone-content" style="background:linear-gradient(180deg, #d4cbc4 0%, #b8afaa 50%, #a09793 100%);padding:0;display:flex;flex-direction:column;">
-                                        <!-- Date & Time -->
-                                        <div style="text-align:center;padding-top:20px;flex:1;">
-                                            <div style="font-size:0.7rem;color:rgba(0,0,0,0.65);font-weight:400;letter-spacing:0.01em;margin-bottom:2px">Monday, June 6</div>
-                                            <div style="font-size:3.5rem;font-weight:700;color:#000;letter-spacing:-0.04em;line-height:1">9:41</div>
-                                        </div>
-                                        <!-- Notifications stacked at bottom -->
-                                        <div style="padding:0 10px 8px;display:flex;flex-direction:column;gap:4px;">
-                                            <!-- VARS notification -->
-                                            <div style="background:rgba(255,255,255,0.45);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:14px;padding:9px 11px;display:flex;align-items:center;gap:8px;">
-                                                <div style="width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="12" fill="#928989"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
-                                                <div style="flex:1;min-width:0">
-                                                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700;font-size:0.58rem;color:rgba(0,0,0,0.85)">Vars</div><div style="font-size:0.42rem;color:rgba(0,0,0,0.35)">9:41 AM</div></div>
-                                                    <div style="font-size:0.5rem;color:rgba(0,0,0,0.55)">Approval Request</div>
-                                                </div>
-                                            </div>
-                                            <!-- YouTube notification -->
-                                            <div style="background:rgba(255,255,255,0.35);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:14px;padding:9px 11px;display:flex;align-items:center;gap:8px;">
-                                                <div style="width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="1" y="3" width="22" height="18" rx="5" fill="rgba(0,0,0,0.15)"/><path d="M10 8l6 4-6 4z" fill="rgba(0,0,0,0.25)"/></svg></div>
-                                                <div style="flex:1;min-width:0">
-                                                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700;font-size:0.58rem;color:rgba(0,0,0,0.75)">Youtube</div><div style="font-size:0.42rem;color:rgba(0,0,0,0.3)">9:41 AM</div></div>
-                                                    <div style="font-size:0.5rem;color:rgba(0,0,0,0.45)">Notifications</div>
-                                                </div>
-                                            </div>
-                                            <!-- Instagram notification -->
-                                            <div style="background:rgba(255,255,255,0.3);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:14px;padding:9px 11px;display:flex;align-items:center;gap:8px;">
-                                                <div style="width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.45);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/><circle cx="12" cy="12" r="5" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="rgba(0,0,0,0.2)"/></svg></div>
-                                                <div style="flex:1;min-width:0">
-                                                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700;font-size:0.58rem;color:rgba(0,0,0,0.65)">Instagram</div><div style="font-size:0.42rem;color:rgba(0,0,0,0.28)">9:41 AM</div></div>
-                                                    <div style="font-size:0.5rem;color:rgba(0,0,0,0.4)">2 Notification</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="iphone-home-indicator" style="background:rgba(0,0,0,0.2)"></div>
-                                </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Phone 2: Visitors / New Visitor screen (center, slightly larger) -->
+                        <!-- Phone 2: Visitors - Hello Nitin (HD) -->
                         <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
                             <div class="iphone-frame">
                                 <div class="iphone-inner">
-                                <div class="dynamic-island"></div>
-                                <div class="iphone-screen">
-                                    <div class="iphone-statusbar">
-                                        <span>9:41</span>
-                                        <div class="iphone-statusbar-right">
-                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
-                                            <div class="battery-icon"></div>
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen vars-app-screen">
+                                        <div class="vars-app-header">
+                                            <div class="vars-app-user">
+                                                <div class="vars-avatar">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.45)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                </div>
+                                                <div class="vars-hello">
+                                                    <div class="vars-hello-title">Hello, Nitin</div>
+                                                    <div class="vars-hello-sub">B-102, Sky Tower <span class="caret">▾</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="vars-app-actions">
+                                                <div class="vars-lang-pill">
+                                                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+                                                    <span>EN</span>
+                                                    <span class="caret">▾</span>
+                                                </div>
+                                                <div class="vars-bell">
+                                                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div class="vars-app-body">
+                                            <div class="vars-card">
+                                                <div class="vars-card-head">
+                                                    <div class="vars-card-title">New Visitor</div>
+                                                    <div class="vars-card-meta">1 pending</div>
+                                                </div>
+                                                <div class="vars-visitor-main">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name">Slava Aleksandrov</div>
+                                                        <div class="vars-visitor-meta">Resident Guest — Visitor visit<br>11 Apr · 10:19 AM · From:<br>Security Gate — 400</div>
+                                                    </div>
+                                                    <div class="vars-visitor-badge">Security Request</div>
+                                                </div>
+                                                <div class="vars-action-row">
+                                                    <div class="vars-btn vars-btn-primary"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>Approve</div>
+                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#c94a4a" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Reject</div>
+                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M22 16.92V21a1 1 0 01-1.09 1A19 19 0 012 4.09 1 1 0 013 3h4.09a1 1 0 011 .75 12 12 0 00.6 2.6 1 1 0 01-.23 1L6.91 9.09a16 16 0 008 8l1.73-1.55a1 1 0 011-.23 12 12 0 002.6.6 1 1 0 01.76 1z"/></svg>Call</div>
+                                                </div>
+                                            </div>
+                                            <div class="vars-card">
+                                                <div class="vars-card-head">
+                                                    <div class="vars-card-title">Upcoming Visitor</div>
+                                                    <div class="vars-card-meta">See All ›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Fh</div>
+                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 08:36<br>Gate: Main Gate · Status: Pre-Approved</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Moving Out Service</div>
+                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 11:49<br>Gate: Main Gate · Status: Pre-Approved<br><span class="vars-multi-entry">Multiple Entry</span></div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row last">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Igor 07.04</div>
+                                                        <div class="vars-visitor-meta small">Resident Guest — Personal visit<br>15 Apr · 07:33<br>Gate: Main Gate · Status: Pre-Approved</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vars-tab-bar">
+                                            <div class="vars-tab active">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
+                                                <span>Home</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
+                                                <span>Visitors</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+                                                <span>Book</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+                                                <span>Payments</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
+                                                <span>My Household</span>
+                                            </div>
+                                        </div>
+                                        <div class="vars-home-indicator"></div>
                                     </div>
-                                    <div class="iphone-content">
-                                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                                            <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
-                                            <div style="text-align:center"><div style="font-weight:600;font-size:0.7rem;letter-spacing:-0.02em">Hello, Nitin</div><div style="font-size:0.46rem;color:rgba(26,26,26,0.4)">B-102, Sky Tower ▾</div></div>
-                                            <div style="width:18px;height:18px;border-radius:50%;border:1px solid #e0dbd6;display:flex;align-items:center;justify-content:center;position:relative"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div style="position:absolute;top:-1px;right:-1px;width:6px;height:6px;background:var(--bg-warm-dark);border-radius:50%;border:1px solid white;font-size:0.18rem;color:white;text-align:center;line-height:5px">5</div></div>
-                                        </div>
-                                        <div class="iphone-card" style="border:1px solid #e8e4e0;padding:6px;">
-                                            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-weight:600;font-size:0.65rem">New Visitor</div><div style="font-size:0.44rem;color:rgba(26,26,26,0.4)">1 pending</div></div>
-                                            <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px">
-                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
-                                                <div style="flex:1"><div style="font-weight:600;font-size:0.6rem">Priyas Friend</div><div style="font-size:0.4rem;color:rgba(26,26,26,0.4)">Guest — Personal visit<br>Gate: Main — B-102</div></div>
-                                                <span style="border:1px solid #e0dbd6;padding:1px 5px;border-radius:8px;font-size:0.38rem;color:rgba(26,26,26,0.45)">Waiting</span>
-                                            </div>
-                                            <div style="display:flex;gap:3px;"><div style="flex:1.2;background:var(--bg-warm-dark);color:white;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem;font-weight:500">✓ Approve</div><div style="flex:1;border:1px solid #e0dbd6;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem">✕ Reject</div><div style="flex:1;border:1px solid #e0dbd6;text-align:center;padding:3px;border-radius:4px;font-size:0.46rem">✆ Call</div></div>
-                                        </div>
-                                        <div class="iphone-card" style="border:1px solid #e8e4e0;padding:6px;">
-                                            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-weight:600;font-size:0.65rem">Upcoming Visitor</div><div style="font-size:0.44rem;color:rgba(26,26,26,0.4)">See All ›</div></div>
-                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #f0ebe6">
-                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
-                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">Andrey</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Contractor / Worker — Personal visit<br>08 Apr · 08:07 AM &nbsp; Status: Pre-Approved</div></div>
-                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #f0ebe6">
-                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
-                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">Test Visitor Ahmed</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Resident Guest — Personal visit<br>8 Apr · 14:00 &nbsp; Status: Pre-Approved</div></div>
-                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:4px;padding:4px 0;">
-                                                <div style="width:18px;height:18px;border-radius:50%;background:#f0ebe6;flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
-                                                <div style="flex:1"><div style="font-weight:600;font-size:0.55rem">SafeServ Security</div><div style="font-size:0.36rem;color:rgba(26,26,26,0.4)">Service Vendor — Personal visit<br>08 Apr · 09:11 PM &nbsp; Status: Pre-Approved</div></div>
-                                                <div style="font-size:0.4rem;color:rgba(26,26,26,0.25)">›</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="iphone-nav-bar">
-                                        <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
-                                    </div>
-                                    <div class="iphone-home-indicator"></div>
-                                </div>
                                 </div>
                             </div>
                         </div>
-
                         <!-- Phone 3: Book Amenities & Services -->
                         <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
                             <div class="iphone-frame">
                                 <div class="iphone-inner">
-                                <div class="dynamic-island"></div>
-                                <div class="iphone-screen">
-                                    <div class="iphone-statusbar">
-                                        <span>9:41</span>
-                                        <div class="iphone-statusbar-right">
-                                            <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
-                                            <div class="battery-icon"></div>
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen">
+                                        <div class="iphone-statusbar">
+                                            <span>9:41</span>
+                                            <div class="iphone-statusbar-right">
+                                                <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
+                                                <div class="battery-icon"></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="iphone-content">
-                                        <div style="font-weight:700;font-size:0.8rem;letter-spacing:-0.03em;margin-bottom:5px">Book Amenities &amp; Services</div>
-                                        <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Amenities</div>
-                                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 16c2-1 4 1 6 0s4-1 6 0 4 1 6 0M2 20c2-1 4 1 6 0s4-1 6 0 4 1 6 0"/><path d="M4 16V8l8-4 8 4v8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Swimming Pool</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="2"/><path d="M11 7v2M7 11h2"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Table Tennis</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><circle cx="12" cy="15" r="1"/><path d="M12 16v5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Squash</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 12h3M19 12h3"/><rect x="5" y="8" width="4" height="8" rx="1"/><rect x="15" y="8" width="4" height="8" rx="1"/><path d="M9 12h6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Gym</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Sauna</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M9 9c0 0 0-4 3-4s3 4 3 4"/><path d="M10 6c0-2 1-3 2-3s2 1 2 3"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">BBQ Area</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 21h16"/><path d="M4 21V11h5v10"/><path d="M9 11V6l6 5"/><path d="M15 21V11h5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Kids Area</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><path d="M8 21l2-8M16 21l-2-8"/><path d="M7 12c2-1 3-3 5-3s3 2 5 3"/><path d="M5 16h14"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Yoga Room</div></div>
+                                        <div class="iphone-content">
+                                            <div style="font-weight:700;font-size:0.8rem;letter-spacing:-0.03em;margin-bottom:5px">Book Amenities &amp; Services</div>
+                                            <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Amenities</div>
+                                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 16c2-1 4 1 6 0s4-1 6 0 4 1 6 0M2 20c2-1 4 1 6 0s4-1 6 0 4 1 6 0"/><path d="M4 16V8l8-4 8 4v8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Swimming Pool</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="2"/><path d="M11 7v2M7 11h2"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Table Tennis</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><circle cx="12" cy="15" r="1"/><path d="M12 16v5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Squash</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 12h3M19 12h3"/><rect x="5" y="8" width="4" height="8" rx="1"/><rect x="15" y="8" width="4" height="8" rx="1"/><path d="M9 12h6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Gym</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Sauna</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M9 9c0 0 0-4 3-4s3 4 3 4"/><path d="M10 6c0-2 1-3 2-3s2 1 2 3"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">BBQ Area</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 21h16"/><path d="M4 21V11h5v10"/><path d="M9 11V6l6 5"/><path d="M15 21V11h5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Kids Area</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><path d="M8 21l2-8M16 21l-2-8"/><path d="M7 12c2-1 3-3 5-3s3 2 5 3"/><path d="M5 16h14"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Yoga Room</div></div>
+                                            </div>
+                                            <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Services</div>
+                                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M6 12V7a6 6 0 0 1 12 0v5"/><path d="M4 12h16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3z"/><path d="M10 17v4M14 17v4M8 21h8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Plumbing</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Electrician</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Housekeeping</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 19v2M17 19v2M5 22h14"/><path d="M8 12h8M12 9v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">AC Repair</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Pest Control</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 11V7a4 4 0 0 0-8 0v4"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Locksmith</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 20L12 4l8 16"/><path d="M8 14h8"/><path d="M12 14v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Painter</div></div>
+                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94L6.73 20.2a2 2 0 0 1-2.83 0l-.1-.1a2 2 0 0 1 0-2.83l6.73-6.73A6 6 0 0 1 18.47 2.53z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Carpenter</div></div>
+                                            </div>
                                         </div>
-                                        <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Services</div>
-                                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M6 12V7a6 6 0 0 1 12 0v5"/><path d="M4 12h16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3z"/><path d="M10 17v4M14 17v4M8 21h8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Plumbing</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Electrician</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Housekeeping</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 19v2M17 19v2M5 22h14"/><path d="M8 12h8M12 9v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">AC Repair</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Pest Control</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 11V7a4 4 0 0 0-8 0v4"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Locksmith</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 20L12 4l8 16"/><path d="M8 14h8"/><path d="M12 14v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Painter</div></div>
-                                            <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94L6.73 20.2a2 2 0 0 1-2.83 0l-.1-.1a2 2 0 0 1 0-2.83l6.73-6.73A6 6 0 0 1 18.47 2.53z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Carpenter</div></div>
+                                        <div class="iphone-nav-bar">
+                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
+                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
+                                            <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
+                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
                                         </div>
+                                        <div class="iphone-home-indicator"></div>
                                     </div>
-                                    <div class="iphone-nav-bar">
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
-                                        <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
-                                        <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
-                                    </div>
-                                    <div class="iphone-home-indicator"></div>
-                                </div>
                                 </div>
                             </div>
                         </div>
