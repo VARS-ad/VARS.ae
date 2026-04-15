@@ -972,6 +972,108 @@
             margin: 3px auto 2px;
             opacity: 0.5;
         }
+        /* Phone 3: Book Amenities & Services */
+        .phone-showcase .vars-book-header {
+            padding: 38px 14px 8px;
+            background: #f7f2ea;
+        }
+        .phone-showcase .vars-book-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+        }
+        .phone-showcase .vars-app-body {
+            flex: 1;
+            overflow: hidden;
+            padding: 4px 10px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .phone-showcase .vars-section-title {
+            font-size: 8px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.1px;
+            margin: 2px 2px 0;
+        }
+        .phone-showcase .vars-tile-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px 3px;
+        }
+        .phone-showcase .vars-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 2px 1px;
+        }
+        .phone-showcase .vars-tile-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 0.5px solid #ece4d6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0.5px 1.5px rgba(0,0,0,0.04);
+        }
+        .phone-showcase .vars-tile-label {
+            font-size: 5px;
+            font-weight: 500;
+            color: rgba(26,26,26,0.7);
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: -0.05px;
+        }
+        .phone-showcase .vars-booking-list {
+            background: #ffffff;
+            border: 0.5px solid #ece4d6;
+            border-radius: 10px;
+            padding: 0 7px;
+            margin-top: 2px;
+        }
+        .phone-showcase .vars-booking-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 0;
+            border-bottom: 0.5px solid rgba(236,228,214,0.8);
+        }
+        .phone-showcase .vars-booking-row.last { border-bottom: none; }
+        .phone-showcase .vars-booking-avatar {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #f0ead8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .phone-showcase .vars-booking-info { flex: 1; min-width: 0; }
+        .phone-showcase .vars-booking-title {
+            font-size: 7px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -0.1px;
+        }
+        .phone-showcase .vars-booking-meta {
+            font-size: 5px;
+            color: rgba(26,26,26,0.5);
+            line-height: 1.3;
+            margin-top: 1px;
+        }
+        .phone-showcase .vars-booking-status {
+            font-size: 5.5px;
+            font-weight: 500;
+            color: rgba(26,26,26,0.4);
+            flex-shrink: 0;
+            align-self: center;
+        }
         /* Expanded Vars approval notification */
         .phone-showcase .lock-notif.expanded {
             flex-direction: column;
@@ -2456,7 +2558,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Phone 3: Book Amenities & Services -->
+                        <!-- Phone 3: Book Amenities & Services (HD) -->
                         <div class="iphone-mockup">
                             <div class="btn-action"></div>
                             <div class="btn-vol-up"></div>
@@ -2465,46 +2567,90 @@
                             <div class="iphone-frame">
                                 <div class="iphone-inner">
                                     <div class="dynamic-island"></div>
-                                    <div class="iphone-screen">
-                                        <div class="iphone-statusbar">
-                                            <span>9:41</span>
-                                            <div class="iphone-statusbar-right">
-                                                <div class="signal-bars"><div class="signal-bar" style="height:3px"></div><div class="signal-bar" style="height:5px"></div><div class="signal-bar" style="height:7px"></div><div class="signal-bar" style="height:9px"></div></div>
-                                                <div class="battery-icon"></div>
+                                    <div class="iphone-screen vars-app-screen">
+                                        <div class="vars-book-header">
+                                            <div class="vars-book-title">Book Amenities &amp; Services</div>
+                                        </div>
+                                        <div class="vars-app-body">
+                                            <div class="vars-section-title">Book Amenities</div>
+                                            <div class="vars-tile-grid">
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M3 20c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M7 14V9a3 3 0 013-3"/></svg></div><div class="vars-tile-label">Swimming Pool</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></div><div class="vars-tile-label">Table Tennis</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><path d="M9 11a5 5 0 006 0"/><path d="M12 12v9"/></svg></div><div class="vars-tile-label">Squash</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M2 12h2M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg></div><div class="vars-tile-label">Gym</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 20V10a6 6 0 0112 0v10"/><path d="M12 4v3"/><rect x="4" y="20" width="16" height="1.5"/></svg></div><div class="vars-tile-label">Sauna</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="13" r="7"/><path d="M8 13h8"/><path d="M10 6c0-1.5 1-2 2-2s2 .5 2 2-1 1.5-1 3"/></svg></div><div class="vars-tile-label">BBQ Area</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="2.2"/><path d="M9 11l-2 9M15 11l2 9"/><path d="M7.5 11h9"/><path d="M8 13.5l4 3 4-3"/></svg></div><div class="vars-tile-label">Kids Area</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="1.6"/><path d="M12 7v5"/><path d="M7 21l5-9 5 9"/><path d="M8 16h8"/></svg></div><div class="vars-tile-label">Yoga Room</div></div>
+                                            </div>
+                                            <div class="vars-section-title">Book Services</div>
+                                            <div class="vars-tile-grid">
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 12V7a6 6 0 0112 0v5"/><rect x="4" y="12" width="16" height="6" rx="1.5"/><path d="M10 18v3M14 18v3"/></svg></div><div class="vars-tile-label">Plumbing</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg></div><div class="vars-tile-label">Electrician</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M4 20h16"/><path d="M5 20V11l7-5 7 5v9"/><rect x="9" y="14" width="6" height="6"/></svg></div><div class="vars-tile-label">Housekeeping</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M5 10h14M5 14h14"/></svg></div><div class="vars-tile-label">AC Repair</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></div><div class="vars-tile-label">Pest Control</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><div class="vars-tile-label">Locksmith</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M4 20L12 4l8 16"/><path d="M8 15h8"/><path d="M12 15v6"/></svg></div><div class="vars-tile-label">Painter</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M14 6c-1 1-1 3 0 4l-8 8a2 2 0 11-2-2l8-8c1-1 3-1 4 0z"/><path d="M15 5l4 4"/></svg></div><div class="vars-tile-label">Carpenter</div></div>
+                                            </div>
+                                            <div class="vars-section-title">Amenity Bookings</div>
+                                            <div class="vars-booking-list">
+                                                <div class="vars-booking-row">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Gym</div>
+                                                        <div class="vars-booking-meta">16 Apr · 21:07 · 1 hour<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-booking-row">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Kids Area</div>
+                                                        <div class="vars-booking-meta">12 Apr · 08:35 · 2 hours<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-booking-status">Completed</div>
+                                                </div>
+                                                <div class="vars-booking-row last">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Table Tennis</div>
+                                                        <div class="vars-booking-meta">9 Apr · 12:21 · 1 hour<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-booking-status">Completed</div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="iphone-content">
-                                            <div style="font-weight:700;font-size:0.8rem;letter-spacing:-0.03em;margin-bottom:5px">Book Amenities &amp; Services</div>
-                                            <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Amenities</div>
-                                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 16c2-1 4 1 6 0s4-1 6 0 4 1 6 0M2 20c2-1 4 1 6 0s4-1 6 0 4 1 6 0"/><path d="M4 16V8l8-4 8 4v8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Swimming Pool</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="2"/><path d="M11 7v2M7 11h2"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Table Tennis</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><circle cx="12" cy="15" r="1"/><path d="M12 16v5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Squash</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M2 12h3M19 12h3"/><rect x="5" y="8" width="4" height="8" rx="1"/><rect x="15" y="8" width="4" height="8" rx="1"/><path d="M9 12h6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Gym</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Sauna</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M9 9c0 0 0-4 3-4s3 4 3 4"/><path d="M10 6c0-2 1-3 2-3s2 1 2 3"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">BBQ Area</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 21h16"/><path d="M4 21V11h5v10"/><path d="M9 11V6l6 5"/><path d="M15 21V11h5"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Kids Area</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><path d="M8 21l2-8M16 21l-2-8"/><path d="M7 12c2-1 3-3 5-3s3 2 5 3"/><path d="M5 16h14"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Yoga Room</div></div>
+                                        <div class="vars-tab-bar">
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
+                                                <span>Home</span>
                                             </div>
-                                            <div style="font-weight:600;font-size:0.58rem;margin-bottom:4px">Book Services</div>
-                                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M6 12V7a6 6 0 0 1 12 0v5"/><path d="M4 12h16v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3z"/><path d="M10 17v4M14 17v4M8 21h8"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Plumbing</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Electrician</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><rect x="9" y="14" width="6" height="7"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Housekeeping</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 19v2M17 19v2M5 22h14"/><path d="M8 12h8M12 9v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">AC Repair</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Pest Control</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 11V7a4 4 0 0 0-8 0v4"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Locksmith</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M4 20L12 4l8 16"/><path d="M8 14h8"/><path d="M12 14v6"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Painter</div></div>
-                                                <div style="text-align:center"><div style="width:24px;height:24px;border-radius:50%;border:1px solid #e0dbd6;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:#faf8f5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#928989" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94L6.73 20.2a2 2 0 0 1-2.83 0l-.1-.1a2 2 0 0 1 0-2.83l6.73-6.73A6 6 0 0 1 18.47 2.53z"/></svg></div><div style="font-size:0.36rem;color:rgba(26,26,26,0.5)">Carpenter</div></div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
+                                                <span>Visitors</span>
+                                            </div>
+                                            <div class="vars-tab active">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="3" y="4" width="18" height="5" fill="#1a1a1a"/><rect x="8" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/><rect x="14.5" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/></svg>
+                                                <span>Book</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+                                                <span>Payments</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
+                                                <span>My Household</span>
                                             </div>
                                         </div>
-                                        <div class="iphone-nav-bar">
-                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg></div>Home</div>
-                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg></div>Visitors</div>
-                                            <div class="iphone-nav-item active"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></div>Book</div>
-                                            <div class="iphone-nav-item"><div class="iphone-nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>Payments</div>
-                                        </div>
-                                        <div class="iphone-home-indicator"></div>
+                                        <div class="vars-home-indicator"></div>
                                     </div>
                                 </div>
                             </div>
