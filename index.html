@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VARS - Property Management Platform</title>
+    <title>VARS — Community Operations Platform for UAE Residences</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -168,19 +168,36 @@
         section.visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
         /* Staggered children */
-        section .split-text, section .laptop-mockup, section .iphone-mockup, section .cta-content, section .documents-left, section .documents-right {
+        section .split-text, section .laptop-mockup, section .iphone-mockup, section .ipad-mockup, section .cta-content, section .documents-left, section .documents-right {
             opacity: 0; transform: translateY(40px);
             transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
         }
         section.visible .split-text { opacity:1; transform:translateY(0); transition-delay:0.15s; }
         section.visible .laptop-mockup { opacity:1; transform:translateY(0); transition-delay:0.35s; }
         section.visible .iphone-mockup { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+        section.visible .ipad-mockup { opacity:1; transform:translateY(0); transition-delay:0.35s; }
         section.visible .cta-content { opacity:1; transform:translateY(0); transition-delay:0.2s; }
         section.visible .documents-left { opacity:1; transform:translateY(0); transition-delay:0.2s; }
         section.visible .documents-right { opacity:1; transform:translateY(0); transition-delay:0.4s; }
 
         section.visible .split-layout > :last-child { animation: slideInFromRight 1s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
         section.visible .split-layout.reverse > :last-child { animation: slideInFromLeft 1s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+
+        /* Staggered doc-row reveal */
+        .doc-row {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        section.visible .doc-row:nth-child(1) { opacity:1; transform:translateY(0); transition-delay: 0.1s; }
+        section.visible .doc-row:nth-child(2) { opacity:1; transform:translateY(0); transition-delay: 0.25s; }
+        section.visible .doc-row:nth-child(3) { opacity:1; transform:translateY(0); transition-delay: 0.4s; }
+        section.visible .doc-row:nth-child(4) { opacity:1; transform:translateY(0); transition-delay: 0.55s; }
+        section.visible .doc-row:nth-child(5) { opacity:1; transform:translateY(0); transition-delay: 0.7s; }
+
+        /* Tightened section padding for new config + why sections */
+        #platform-config { padding-top: 5rem; padding-bottom: 5rem; }
+        #why { padding-top: 5rem; padding-bottom: 0; }
 
         .container { max-width: 1400px; width: 100%; margin: 0 auto; }
 
@@ -1403,6 +1420,10 @@
             .cta-stat-value { font-size: 1.5rem; }
             .cta-float { display: none; }
 
+            /* Footer + CTA mobile layout */
+            footer .container { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+            #cta .container > div { grid-template-columns: 1fr !important; }
+
             /* RTL mobile overrides */
             html[dir="rtl"] .nav-links.active { text-align: right; }
             html[dir="rtl"] .nav-links.active a { text-align: right; }
@@ -1440,6 +1461,96 @@
             .nav-right { gap: 0.4rem; }
             .hamburger span { width: 20px; }
         }
+
+        /* ========= iPad Mockup (Security / Gate App) ========= */
+        .ipad-mockup {
+            position: relative; width: 100%; max-width: 950px; margin: 0 auto;
+            transform: none;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.06))
+                    drop-shadow(0 20px 60px rgba(0,0,0,0.10))
+                    drop-shadow(0 60px 120px rgba(0,0,0,0.06));
+        }
+        .ipad-mockup:hover { transform: translateY(-8px) scale(1.01); }
+        .ipad-frame {
+            background: linear-gradient(175deg, #2d2d2f 0%, #1d1d1f 60%, #131315 100%);
+            border-radius: 24px;
+            padding: 14px;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .ipad-frame::before {
+            content: '';
+            position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18) 50%, transparent);
+            z-index: 5;
+        }
+        .ipad-screen {
+            background: #0a0a0a;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            position: relative;
+            display: flex; flex-direction: column;
+        }
+        .ipad-screen::after {
+            content: '';
+            position: absolute; inset: 0; z-index: 10;
+            border-radius: 10px;
+            pointer-events: none;
+            background:
+                linear-gradient(160deg, rgba(255,255,255,0.04) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, transparent 70%, rgba(0,0,0,0.03) 100%);
+        }
+        /* Front-facing camera dot, centered on top edge for landscape */
+        .ipad-camera {
+            position: absolute;
+            top: 6px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #1a1a2a 40%, #0a0a12 70%);
+            z-index: 15;
+        }
+        .ipad-camera::after {
+            content: '';
+            position: absolute;
+            left: calc(50% - 1px); top: calc(50% - 1px);
+            width: 1.5px; height: 1.5px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.18);
+        }
+        .card-visual .ipad-mockup { max-width: 1100px; }
+
+        /* ========= COVERAGE GRID — What VARS covers ========= */
+        .coverage-section { padding: 6rem 2rem; background: #f5f3f0; }
+        .coverage-heading { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.053em; color: var(--text-dark); margin-bottom: 4rem; max-width: 22ch; }
+        .coverage-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(0,0,0,0.08); border-left: 1px solid rgba(0,0,0,0.08); }
+        .coverage-card { padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 0.5rem; min-height: 200px; border-right: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
+        .coverage-card-title { font-size: 18px; font-weight: 500; color: var(--text-dark); letter-spacing: -0.03em; line-height: 1.3; }
+        .coverage-card-desc { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.01em; }
+        .coverage-card-benefit { font-size: 12px; color: rgba(26,26,26,0.45); line-height: 1.5; letter-spacing: -0.005em; margin-top: auto; padding-top: 0.75rem; }
+        section .coverage-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        section.visible .coverage-card { opacity: 1; transform: translateY(0); }
+        section.visible .coverage-card:nth-child(1) { transition-delay: 0.05s; }
+        section.visible .coverage-card:nth-child(2) { transition-delay: 0.10s; }
+        section.visible .coverage-card:nth-child(3) { transition-delay: 0.15s; }
+        section.visible .coverage-card:nth-child(4) { transition-delay: 0.20s; }
+        section.visible .coverage-card:nth-child(5) { transition-delay: 0.25s; }
+        section.visible .coverage-card:nth-child(6) { transition-delay: 0.30s; }
+        section.visible .coverage-card:nth-child(7) { transition-delay: 0.35s; }
+        section.visible .coverage-card:nth-child(8) { transition-delay: 0.40s; }
+        section.visible .coverage-card:nth-child(9) { transition-delay: 0.45s; }
+        html[dir="rtl"] .coverage-card { text-align: right; }
+        @media (max-width: 768px) {
+            .coverage-section { padding: 3.5rem 1.25rem; }
+            .coverage-heading { font-size: 2rem; margin-bottom: 2rem; }
+            .coverage-grid { grid-template-columns: 1fr; }
+            .coverage-card { min-height: auto; padding: 1.5rem 1.25rem; }
+            .coverage-card-title { font-size: 16px; }
+            .coverage-card-desc { font-size: 13px; }
+        }
     </style>
 </head>
 <body>
@@ -1457,8 +1568,7 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a onclick="scrollToSection('slider')" data-i18n="nav_platform">Platform</a></li>
                     <li><a onclick="scrollToSection('why')" data-i18n="nav_why">Why VARS</a></li>
-                    <li><a onclick="scrollToSection('documents')" data-i18n="nav_security">Data Security</a></li>
-                    <li><a onclick="scrollToSection('cta')" data-i18n="nav_contact">Contact</a></li>
+                    <li><a onclick="openContactForm()" data-i18n="nav_contact">Contact</a></li>
                     <li class="mobile-only-link"><a href="https://vars-ad.github.io/VARS/" target="_blank" data-i18n="nav_login">Enterprise Login</a></li>
                 </ul>
             </div>
@@ -1476,6 +1586,7 @@
                         <div class="lang-option" data-lang="ar" onclick="event.stopPropagation();selectLang('ar')">العربية</div>
                     </div>
                 </div>
+                <a onclick="openContactForm()" class="enterprise-login-btn" style="cursor:pointer; background:var(--text-dark); color:var(--text-light); border-color:var(--text-dark);" data-i18n="nav_demo">Book a demo</a>
                 <a href="https://vars-ad.github.io/VARS/" target="_blank" class="enterprise-login-btn" data-i18n="nav_login">Enterprise Login</a>
             </div>
         </nav-content>
@@ -1490,13 +1601,17 @@
             <div class="hero-bg-slide hero-bg-warm"></div>
         </div>
         <div class="container" style="position:relative;z-index:1;">
-            <h1 data-i18n-html="hero_title">Property Management.<br>Simplified.</h1>
-            <p class="hero-subtext" data-i18n="hero_sub">Three apps. One platform. Complete control over your properties, security, and residents across the UAE.</p>
+            <h1 data-i18n-html="hero_title">Unified community operations<br>for premium UAE residences.</h1>
+            <p class="hero-subtext" data-i18n="hero_sub">Portfolio-wide visibility. Gate-level control. One system for property managers, security, and residents.</p>
             <div class="feature-pills">
                 <div class="pill" data-i18n="pill_pmc">PMC Dashboard</div>
                 <div class="pill" data-i18n="pill_security">Security Guard App</div>
                 <div class="pill" data-i18n="pill_resident">Resident App</div>
 
+            </div>
+            <div style="margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button onclick="openContactForm()" style="background:#fff; color:#1a1a1a; border:none; padding:1rem 2.5rem; border-radius:999px; font-weight:500; font-size:14px; cursor:pointer; font-family:inherit; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''" data-i18n="hero_cta">Book a demo</button>
+                <span style="font-size:14px; color:rgba(255,255,255,0.65); font-weight:400;" data-i18n="hero_cta_sub">Pilots run on one gate. No hardware changes.</span>
             </div>
             <div class="scroll-indicator">
                 <div class="scroll-mouse"></div>
@@ -1507,8 +1622,8 @@
     <!-- ===== STACKED CARD SLIDER (door.com style) ===== -->
     <div class="slider-section" id="slider">
         <div class="slider-header">
-            <h2 data-i18n="slider_title">Three apps. One ecosystem.</h2>
-            <p data-i18n="slider_sub">PMC dashboard, Resident app, and Security Guard app — all connected in real time.</p>
+            <h2 data-i18n="slider_title">One system. Three interfaces.</h2>
+            <p data-i18n="slider_sub">Configured in the dashboard. Enforced at the gate. Approved on a phone.</p>
         </div>
 
         <div class="card-stack">
@@ -1516,7 +1631,7 @@
             <div class="card-stack-item card-pmc reveal">
                 <div class="card-text">
                     <h2 data-i18n-html="card_pmc_title">Your entire portfolio.<br>One dashboard.</h2>
-                    <p data-i18n="card_pmc_desc">Monitor occupancy rates, revenue, guard assignments, and property performance across all your buildings in real time.</p>
+                    <p data-i18n="card_pmc_desc">Portfolio-wide visibility into access, services, and community operations. Portfolio Insights surface what needs attention — powered by AI, built on data you've never had before.</p>
                 </div>
                 <div class="card-visual" style="flex-direction:column;">
                     <div class="laptop-mockup">
@@ -2046,17 +2161,292 @@
                 </div>
             </div>
 
+            <!-- Card 3: Resident App — Apple-style phone showcase -->
+            <div class="card-stack-item card-resident reveal">
+                <div class="card-text">
+                    <h2 data-i18n-html="card_res_title">Everything residents<br>need. One app.</h2>
+                    <p data-i18n="card_res_desc">Pre-approve visitors, pay service charges, book amenities, and receive community notices — all from one app.</p>
+                </div>
+                <div class="card-visual">
+                    <div class="phone-showcase">
+                        <!-- Phone 1: Lock screen notifications -->
+                        <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen">
+                                        <div class="lock-screen">
+                                            <div class="lock-date">Monday, June 6</div>
+                                            <div class="lock-time">9:41</div>
+                                            <div class="lock-notif-list">
+                                                <div class="lock-notif expanded">
+                                                    <div class="expanded-header">
+                                                        <div class="lock-notif-icon vars">
+                                                            <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="#fff"/></svg>
+                                                        </div>
+                                                        <div class="lock-notif-text">
+                                                            <div class="lock-notif-title">Vars</div>
+                                                            <div class="lock-notif-body">Approval Request</div>
+                                                        </div>
+                                                        <div class="lock-notif-time">9:41 AM</div>
+                                                    </div>
+                                                    <div class="expanded-row"><span class="label">Upcoming Visitor</span><span class="value">Usman Khawaja</span></div>
+                                                    <div class="expanded-row"><span class="label">Visit Type</span><span class="value">Resident Guest</span></div>
+                                                    <div class="expanded-row"><span class="label">Gate</span><span class="value">Main Gate</span></div>
+                                                    <div class="expanded-actions">
+                                                        <div class="expanded-btn">Deny</div>
+                                                        <div class="expanded-btn">Allow</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="lock-bottom-row">
+                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M6 2v6l2 2v12h8V10l2-2V2H6zm8 2v2H10V4h4z"/></svg></div>
+                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></div>
+                                            </div>
+                                            <div class="lock-home-indicator"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Phone 2: Visitors - Hello Nitin (HD) -->
+                        <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen vars-app-screen">
+                                        <div class="vars-app-header">
+                                            <div class="vars-app-user">
+                                                <div class="vars-avatar">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.45)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                </div>
+                                                <div class="vars-hello">
+                                                    <div class="vars-hello-title">Hello, Nitin</div>
+                                                    <div class="vars-hello-sub">B-102, Sky Tower <span class="caret">▾</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="vars-app-actions">
+                                                <div class="vars-lang-pill">
+                                                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+                                                    <span>EN</span>
+                                                    <span class="caret">▾</span>
+                                                </div>
+                                                <div class="vars-bell">
+                                                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vars-app-body">
+                                            <div class="vars-card">
+                                                <div class="vars-card-head">
+                                                    <div class="vars-card-title">New Visitor</div>
+                                                    <div class="vars-card-meta">1 pending</div>
+                                                </div>
+                                                <div class="vars-visitor-main">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name">Slava Aleksandrov</div>
+                                                        <div class="vars-visitor-meta">Resident Guest — Visitor visit<br>11 Apr · 10:19 AM · From:<br>Security Gate — 400</div>
+                                                    </div>
+                                                    <div class="vars-visitor-badge">Security Request</div>
+                                                </div>
+                                                <div class="vars-action-row">
+                                                    <div class="vars-btn vars-btn-primary"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>Approve</div>
+                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#c94a4a" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Reject</div>
+                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M22 16.92V21a1 1 0 01-1.09 1A19 19 0 012 4.09 1 1 0 013 3h4.09a1 1 0 011 .75 12 12 0 00.6 2.6 1 1 0 01-.23 1L6.91 9.09a16 16 0 008 8l1.73-1.55a1 1 0 011-.23 12 12 0 002.6.6 1 1 0 01.76 1z"/></svg>Call</div>
+                                                </div>
+                                            </div>
+                                            <div class="vars-card">
+                                                <div class="vars-card-head">
+                                                    <div class="vars-card-title">Upcoming Visitor</div>
+                                                    <div class="vars-card-meta">See All ›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Fh</div>
+                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 08:36<br>Gate: Main Gate · Status: Pre-Approved</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Moving Out Service</div>
+                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 11:49<br>Gate: Main Gate · Status: Pre-Approved<br><span class="vars-multi-entry">Multiple Entry</span></div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-upcoming-row last">
+                                                    <div class="vars-visitor-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                                                    </div>
+                                                    <div class="vars-visitor-info">
+                                                        <div class="vars-visitor-name small">Igor 07.04</div>
+                                                        <div class="vars-visitor-meta small">Resident Guest — Personal visit<br>15 Apr · 07:33<br>Gate: Main Gate · Status: Pre-Approved</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vars-tab-bar">
+                                            <div class="vars-tab active">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
+                                                <span>Home</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
+                                                <span>Visitors</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+                                                <span>Book</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+                                                <span>Payments</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
+                                                <span>My Household</span>
+                                            </div>
+                                        </div>
+                                        <div class="vars-home-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Phone 3: Book Amenities & Services (HD) -->
+                        <div class="iphone-mockup">
+                            <div class="btn-action"></div>
+                            <div class="btn-vol-up"></div>
+                            <div class="btn-vol-down"></div>
+                            <div class="btn-power"></div>
+                            <div class="iphone-frame">
+                                <div class="iphone-inner">
+                                    <div class="dynamic-island"></div>
+                                    <div class="iphone-screen vars-app-screen">
+                                        <div class="vars-book-header">
+                                            <div class="vars-book-title">Book Amenities &amp; Services</div>
+                                        </div>
+                                        <div class="vars-app-body">
+                                            <div class="vars-section-title">Book Amenities</div>
+                                            <div class="vars-tile-grid">
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M3 20c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M7 14V9a3 3 0 013-3"/></svg></div><div class="vars-tile-label">Swimming Pool</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></div><div class="vars-tile-label">Table Tennis</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><path d="M9 11a5 5 0 006 0"/><path d="M12 12v9"/></svg></div><div class="vars-tile-label">Squash</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M2 12h2M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg></div><div class="vars-tile-label">Gym</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 20V10a6 6 0 0112 0v10"/><path d="M12 4v3"/><rect x="4" y="20" width="16" height="1.5"/></svg></div><div class="vars-tile-label">Sauna</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="13" r="7"/><path d="M8 13h8"/><path d="M10 6c0-1.5 1-2 2-2s2 .5 2 2-1 1.5-1 3"/></svg></div><div class="vars-tile-label">BBQ Area</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="2.2"/><path d="M9 11l-2 9M15 11l2 9"/><path d="M7.5 11h9"/><path d="M8 13.5l4 3 4-3"/></svg></div><div class="vars-tile-label">Kids Area</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="1.6"/><path d="M12 7v5"/><path d="M7 21l5-9 5 9"/><path d="M8 16h8"/></svg></div><div class="vars-tile-label">Yoga Room</div></div>
+                                            </div>
+                                            <div class="vars-section-title">Book Services</div>
+                                            <div class="vars-tile-grid">
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 12V7a6 6 0 0112 0v5"/><rect x="4" y="12" width="16" height="6" rx="1.5"/><path d="M10 18v3M14 18v3"/></svg></div><div class="vars-tile-label">Plumbing</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg></div><div class="vars-tile-label">Electrician</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M4 20h16"/><path d="M5 20V11l7-5 7 5v9"/><rect x="9" y="14" width="6" height="6"/></svg></div><div class="vars-tile-label">Housekeeping</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M5 10h14M5 14h14"/></svg></div><div class="vars-tile-label">AC Repair</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></div><div class="vars-tile-label">Pest Control</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><div class="vars-tile-label">Locksmith</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M4 20L12 4l8 16"/><path d="M8 15h8"/><path d="M12 15v6"/></svg></div><div class="vars-tile-label">Painter</div></div>
+                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M14 6c-1 1-1 3 0 4l-8 8a2 2 0 11-2-2l8-8c1-1 3-1 4 0z"/><path d="M15 5l4 4"/></svg></div><div class="vars-tile-label">Carpenter</div></div>
+                                            </div>
+                                            <div class="vars-section-title">Amenity Bookings</div>
+                                            <div class="vars-booking-list">
+                                                <div class="vars-booking-row">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Gym</div>
+                                                        <div class="vars-booking-meta">16 Apr · 21:07 · 1 hour<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-chev">›</div>
+                                                </div>
+                                                <div class="vars-booking-row">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Kids Area</div>
+                                                        <div class="vars-booking-meta">12 Apr · 08:35 · 2 hours<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-booking-status">Completed</div>
+                                                </div>
+                                                <div class="vars-booking-row last">
+                                                    <div class="vars-booking-avatar">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                                                    </div>
+                                                    <div class="vars-booking-info">
+                                                        <div class="vars-booking-title">Table Tennis</div>
+                                                        <div class="vars-booking-meta">9 Apr · 12:21 · 1 hour<br>1 person</div>
+                                                    </div>
+                                                    <div class="vars-booking-status">Completed</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vars-tab-bar">
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
+                                                <span>Home</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
+                                                <span>Visitors</span>
+                                            </div>
+                                            <div class="vars-tab active">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="3" y="4" width="18" height="5" fill="#1a1a1a"/><rect x="8" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/><rect x="14.5" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/></svg>
+                                                <span>Book</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+                                                <span>Payments</span>
+                                            </div>
+                                            <div class="vars-tab">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
+                                                <span>My Household</span>
+                                            </div>
+                                        </div>
+                                        <div class="vars-home-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-carousel-dots" style="display:none;">
+                        <button class="phone-carousel-dot active" onclick="phoneCarousel(0)"></button>
+                        <button class="phone-carousel-dot" onclick="phoneCarousel(1)"></button>
+                        <button class="phone-carousel-dot" onclick="phoneCarousel(2)"></button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Card 2: Security Guard App -->
             <div class="card-stack-item card-security reveal">
                 <div class="card-text">
-                    <h2 data-i18n-html="card_sec_title">Complete security<br>management.</h2>
+                    <h2 data-i18n-html="card_sec_title">Structured access control.</h2>
                     <p data-i18n="card_sec_desc">Guard profiles, shift schedules, visitor check-in, and a full audit trail. Your security team gets their own dedicated app.</p>
                 </div>
                 <div class="card-visual" style="flex-direction:column;">
-                    <div class="laptop-mockup">
-                        <div class="laptop-screen">
-                            <div class="laptop-notch"></div>
-                            <div class="laptop-display">
+                    <div class="ipad-mockup">
+                        <div class="ipad-frame">
+                            <div class="ipad-camera"></div>
+                            <div class="ipad-screen">
                                 <!-- Security Screen 1: Main Dashboard -->
                                 <div class="laptop-body sec-screen" id="secScreen1" style="flex:1;overflow:hidden;background:#f5f1ed;padding:0;">
                                     <div style="display:flex;flex-direction:column;height:100%;background:#faf8f5;">
@@ -2368,9 +2758,6 @@
 
                             </div>
                         </div>
-                        <div class="laptop-hinge"></div>
-                        <div class="laptop-base"></div>
-                        <div class="laptop-feet"><div class="laptop-foot"></div><div class="laptop-foot"></div></div>
                     </div>
                     <!-- Security screen navigation -->
                     <div style="display:flex;justify-content:center;margin-top:12px;">
@@ -2389,364 +2776,127 @@
                 </div>
             </div>
 
-            <!-- Card 3: Resident App — Apple-style phone showcase -->
-            <div class="card-stack-item card-resident reveal">
-                <div class="card-text">
-                    <h2 data-i18n-html="card_res_title">Everything residents<br>need. One app.</h2>
-                    <p data-i18n="card_res_desc">Pre-register visitors, receive announcements, manage documents, and contact property management — all from their phone.</p>
-                </div>
-                <div class="card-visual">
-                    <div class="phone-showcase">
-                        <!-- Phone 1: Lock screen notifications -->
-                        <div class="iphone-mockup">
-                            <div class="btn-action"></div>
-                            <div class="btn-vol-up"></div>
-                            <div class="btn-vol-down"></div>
-                            <div class="btn-power"></div>
-                            <div class="iphone-frame">
-                                <div class="iphone-inner">
-                                    <div class="dynamic-island"></div>
-                                    <div class="iphone-screen">
-                                        <div class="lock-screen">
-                                            <div class="lock-date">Monday, June 6</div>
-                                            <div class="lock-time">9:41</div>
-                                            <div class="lock-notif-list">
-                                                <div class="lock-notif expanded">
-                                                    <div class="expanded-header">
-                                                        <div class="lock-notif-icon vars">
-                                                            <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="#fff"/></svg>
-                                                        </div>
-                                                        <div class="lock-notif-text">
-                                                            <div class="lock-notif-title">Vars</div>
-                                                            <div class="lock-notif-body">Approval Request</div>
-                                                        </div>
-                                                        <div class="lock-notif-time">9:41 AM</div>
-                                                    </div>
-                                                    <div class="expanded-row"><span class="label">Upcoming Visitor</span><span class="value">Usman Khawaja</span></div>
-                                                    <div class="expanded-row"><span class="label">Visit Type</span><span class="value">Resident Guest</span></div>
-                                                    <div class="expanded-row"><span class="label">Gate</span><span class="value">Main Gate</span></div>
-                                                    <div class="expanded-actions">
-                                                        <div class="expanded-btn">Deny</div>
-                                                        <div class="expanded-btn">Allow</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="lock-bottom-row">
-                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M6 2v6l2 2v12h8V10l2-2V2H6zm8 2v2H10V4h4z"/></svg></div>
-                                                <div class="lock-quick-btn"><svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></div>
-                                            </div>
-                                            <div class="lock-home-indicator"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Phone 2: Visitors - Hello Nitin (HD) -->
-                        <div class="iphone-mockup">
-                            <div class="btn-action"></div>
-                            <div class="btn-vol-up"></div>
-                            <div class="btn-vol-down"></div>
-                            <div class="btn-power"></div>
-                            <div class="iphone-frame">
-                                <div class="iphone-inner">
-                                    <div class="dynamic-island"></div>
-                                    <div class="iphone-screen vars-app-screen">
-                                        <div class="vars-app-header">
-                                            <div class="vars-app-user">
-                                                <div class="vars-avatar">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.45)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-                                                </div>
-                                                <div class="vars-hello">
-                                                    <div class="vars-hello-title">Hello, Nitin</div>
-                                                    <div class="vars-hello-sub">B-102, Sky Tower <span class="caret">▾</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="vars-app-actions">
-                                                <div class="vars-lang-pill">
-                                                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
-                                                    <span>EN</span>
-                                                    <span class="caret">▾</span>
-                                                </div>
-                                                <div class="vars-bell">
-                                                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vars-app-body">
-                                            <div class="vars-card">
-                                                <div class="vars-card-head">
-                                                    <div class="vars-card-title">New Visitor</div>
-                                                    <div class="vars-card-meta">1 pending</div>
-                                                </div>
-                                                <div class="vars-visitor-main">
-                                                    <div class="vars-visitor-avatar">
-                                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.35)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-                                                    </div>
-                                                    <div class="vars-visitor-info">
-                                                        <div class="vars-visitor-name">Slava Aleksandrov</div>
-                                                        <div class="vars-visitor-meta">Resident Guest — Visitor visit<br>11 Apr · 10:19 AM · From:<br>Security Gate — 400</div>
-                                                    </div>
-                                                    <div class="vars-visitor-badge">Security Request</div>
-                                                </div>
-                                                <div class="vars-action-row">
-                                                    <div class="vars-btn vars-btn-primary"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>Approve</div>
-                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#c94a4a" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Reject</div>
-                                                    <div class="vars-btn vars-btn-ghost"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8"><path d="M22 16.92V21a1 1 0 01-1.09 1A19 19 0 012 4.09 1 1 0 013 3h4.09a1 1 0 011 .75 12 12 0 00.6 2.6 1 1 0 01-.23 1L6.91 9.09a16 16 0 008 8l1.73-1.55a1 1 0 011-.23 12 12 0 002.6.6 1 1 0 01.76 1z"/></svg>Call</div>
-                                                </div>
-                                            </div>
-                                            <div class="vars-card">
-                                                <div class="vars-card-head">
-                                                    <div class="vars-card-title">Upcoming Visitor</div>
-                                                    <div class="vars-card-meta">See All ›</div>
-                                                </div>
-                                                <div class="vars-upcoming-row">
-                                                    <div class="vars-visitor-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-                                                    </div>
-                                                    <div class="vars-visitor-info">
-                                                        <div class="vars-visitor-name small">Fh</div>
-                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 08:36<br>Gate: Main Gate · Status: Pre-Approved</div>
-                                                    </div>
-                                                    <div class="vars-chev">›</div>
-                                                </div>
-                                                <div class="vars-upcoming-row">
-                                                    <div class="vars-visitor-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-                                                    </div>
-                                                    <div class="vars-visitor-info">
-                                                        <div class="vars-visitor-name small">Moving Out Service</div>
-                                                        <div class="vars-visitor-meta small">Delivery / Courier — Personal visit<br>14 Apr · 11:49<br>Gate: Main Gate · Status: Pre-Approved<br><span class="vars-multi-entry">Multiple Entry</span></div>
-                                                    </div>
-                                                    <div class="vars-chev">›</div>
-                                                </div>
-                                                <div class="vars-upcoming-row last">
-                                                    <div class="vars-visitor-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.3)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-                                                    </div>
-                                                    <div class="vars-visitor-info">
-                                                        <div class="vars-visitor-name small">Igor 07.04</div>
-                                                        <div class="vars-visitor-meta small">Resident Guest — Personal visit<br>15 Apr · 07:33<br>Gate: Main Gate · Status: Pre-Approved</div>
-                                                    </div>
-                                                    <div class="vars-chev">›</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vars-tab-bar">
-                                            <div class="vars-tab active">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
-                                                <span>Home</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
-                                                <span>Visitors</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
-                                                <span>Book</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-                                                <span>Payments</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
-                                                <span>My Household</span>
-                                            </div>
-                                        </div>
-                                        <div class="vars-home-indicator"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Phone 3: Book Amenities & Services (HD) -->
-                        <div class="iphone-mockup">
-                            <div class="btn-action"></div>
-                            <div class="btn-vol-up"></div>
-                            <div class="btn-vol-down"></div>
-                            <div class="btn-power"></div>
-                            <div class="iphone-frame">
-                                <div class="iphone-inner">
-                                    <div class="dynamic-island"></div>
-                                    <div class="iphone-screen vars-app-screen">
-                                        <div class="vars-book-header">
-                                            <div class="vars-book-title">Book Amenities &amp; Services</div>
-                                        </div>
-                                        <div class="vars-app-body">
-                                            <div class="vars-section-title">Book Amenities</div>
-                                            <div class="vars-tile-grid">
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M3 20c2-1 3 0 5 0s3-1 5-1 3 1 5 1 2-1 3-1"/><path d="M7 14V9a3 3 0 013-3"/></svg></div><div class="vars-tile-label">Swimming Pool</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></div><div class="vars-tile-label">Table Tennis</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="6" r="3"/><path d="M12 9v3"/><path d="M9 11a5 5 0 006 0"/><path d="M12 12v9"/></svg></div><div class="vars-tile-label">Squash</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M2 12h2M20 12h2"/><rect x="4" y="8" width="3" height="8" rx="1"/><rect x="17" y="8" width="3" height="8" rx="1"/><path d="M7 12h10"/></svg></div><div class="vars-tile-label">Gym</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 20V10a6 6 0 0112 0v10"/><path d="M12 4v3"/><rect x="4" y="20" width="16" height="1.5"/></svg></div><div class="vars-tile-label">Sauna</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="13" r="7"/><path d="M8 13h8"/><path d="M10 6c0-1.5 1-2 2-2s2 .5 2 2-1 1.5-1 3"/></svg></div><div class="vars-tile-label">BBQ Area</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="2.2"/><path d="M9 11l-2 9M15 11l2 9"/><path d="M7.5 11h9"/><path d="M8 13.5l4 3 4-3"/></svg></div><div class="vars-tile-label">Kids Area</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="5" r="1.6"/><path d="M12 7v5"/><path d="M7 21l5-9 5 9"/><path d="M8 16h8"/></svg></div><div class="vars-tile-label">Yoga Room</div></div>
-                                            </div>
-                                            <div class="vars-section-title">Book Services</div>
-                                            <div class="vars-tile-grid">
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M6 12V7a6 6 0 0112 0v5"/><rect x="4" y="12" width="16" height="6" rx="1.5"/><path d="M10 18v3M14 18v3"/></svg></div><div class="vars-tile-label">Plumbing</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg></div><div class="vars-tile-label">Electrician</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><path d="M4 20h16"/><path d="M5 20V11l7-5 7 5v9"/><rect x="9" y="14" width="6" height="6"/></svg></div><div class="vars-tile-label">Housekeeping</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M5 10h14M5 14h14"/></svg></div><div class="vars-tile-label">AC Repair</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></div><div class="vars-tile-label">Pest Control</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><div class="vars-tile-label">Locksmith</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M4 20L12 4l8 16"/><path d="M8 15h8"/><path d="M12 15v6"/></svg></div><div class="vars-tile-label">Painter</div></div>
-                                                <div class="vars-tile"><div class="vars-tile-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5550" stroke-width="1.5" stroke-linejoin="round"><path d="M14 6c-1 1-1 3 0 4l-8 8a2 2 0 11-2-2l8-8c1-1 3-1 4 0z"/><path d="M15 5l4 4"/></svg></div><div class="vars-tile-label">Carpenter</div></div>
-                                            </div>
-                                            <div class="vars-section-title">Amenity Bookings</div>
-                                            <div class="vars-booking-list">
-                                                <div class="vars-booking-row">
-                                                    <div class="vars-booking-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
-                                                    </div>
-                                                    <div class="vars-booking-info">
-                                                        <div class="vars-booking-title">Gym</div>
-                                                        <div class="vars-booking-meta">16 Apr · 21:07 · 1 hour<br>1 person</div>
-                                                    </div>
-                                                    <div class="vars-chev">›</div>
-                                                </div>
-                                                <div class="vars-booking-row">
-                                                    <div class="vars-booking-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
-                                                    </div>
-                                                    <div class="vars-booking-info">
-                                                        <div class="vars-booking-title">Kids Area</div>
-                                                        <div class="vars-booking-meta">12 Apr · 08:35 · 2 hours<br>1 person</div>
-                                                    </div>
-                                                    <div class="vars-booking-status">Completed</div>
-                                                </div>
-                                                <div class="vars-booking-row last">
-                                                    <div class="vars-booking-avatar">
-                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(26,26,26,0.4)" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
-                                                    </div>
-                                                    <div class="vars-booking-info">
-                                                        <div class="vars-booking-title">Table Tennis</div>
-                                                        <div class="vars-booking-meta">9 Apr · 12:21 · 1 hour<br>1 person</div>
-                                                    </div>
-                                                    <div class="vars-booking-status">Completed</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vars-tab-bar">
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>
-                                                <span>Home</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M22 20c0-2.5-2-4.5-4.5-4.5"/></svg>
-                                                <span>Visitors</span>
-                                            </div>
-                                            <div class="vars-tab active">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#1a1a1a"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="3" y="4" width="18" height="5" fill="#1a1a1a"/><rect x="8" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/><rect x="14.5" y="2" width="1.5" height="4" rx="0.6" fill="#fff"/></svg>
-                                                <span>Book</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-                                                <span>Payments</span>
-                                            </div>
-                                            <div class="vars-tab">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M22 20c0-2.3-1.7-4.3-4-4.5"/></svg>
-                                                <span>My Household</span>
-                                            </div>
-                                        </div>
-                                        <div class="vars-home-indicator"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="phone-carousel-dots" style="display:none;">
-                        <button class="phone-carousel-dot active" onclick="phoneCarousel(0)"></button>
-                        <button class="phone-carousel-dot" onclick="phoneCarousel(1)"></button>
-                        <button class="phone-carousel-dot" onclick="phoneCarousel(2)"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-stack-spacer"></div>
         </div>
     </div>
 
-    <!-- ===== WHY VARS — DIFFERENTIATION ===== -->
-    <section id="why" class="reveal">
+    <!-- ===== WHAT VARS COVERS — FEATURE GRID ===== -->
+    <section id="coverage" class="coverage-section reveal">
         <div class="container">
-            <div style="text-align:center; margin-bottom: 1rem;">
-                <h2 data-i18n="why_title">Why VARS?</h2>
-                <p class="hero-subtext" style="color: var(--text-dark-secondary)" data-i18n="why_sub">Built specifically for UAE property management companies. Not another generic tool.</p>
-            </div>
-            <div class="diff-grid">
-                <div class="diff-card">
-                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">01</div>
-                    <h3 data-i18n="why_1_title">Three Apps, One Platform</h3>
-                    <p data-i18n="why_1_desc">PMC managers, security guards, and residents each get their own dedicated app — all synced in real time. No more juggling separate systems.</p>
+            <h2 class="coverage-heading" data-i18n="coverage_heading">What VARS covers.</h2>
+            <div class="coverage-grid">
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_1_title">Visitor Access</div>
+                    <div class="coverage-card-desc" data-i18n="cov_1_desc">Emirates ID scan, QR pre-approval, entry/exit logging — every gate, every shift</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_1_benefit">Standardised access policy across buildings. Full audit trail.</div>
                 </div>
-                <div class="diff-card">
-                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">02</div>
-                    <h3 data-i18n="why_2_title">Built for the UAE</h3>
-                    <p data-i18n="why_2_desc">Designed around local regulations, Arabic language support, and the specific workflows of UAE property management companies.</p>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_2_title">Service Charge Collection</div>
+                    <div class="coverage-card-desc" data-i18n="cov_2_desc">Real-time arrears by unit, payment tracking, automated reminders</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_2_benefit">No more spreadsheets. PMs see who owes what, right now.</div>
                 </div>
-                <div class="diff-card">
-                    <div class="diff-icon" style="font-size:1.5rem;font-weight:500;color:var(--text-dark);font-style:normal">03</div>
-                    <h3 data-i18n="why_3_title">End-to-End Security</h3>
-                    <p data-i18n="why_3_desc">Guard shift management, visitor pre-registration, digital check-in, and a complete audit trail. Full control from gate to unit.</p>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_3_title">Service Requests</div>
+                    <div class="coverage-card-desc" data-i18n="cov_3_desc">Residents raise, PMs track, contractors resolve — one workflow</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_3_benefit">Structured SLA tracking. Issues resolved before residents escalate.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_4_title">Community Notices</div>
+                    <div class="coverage-card-desc" data-i18n="cov_4_desc">Building-wide announcements with read receipts</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_4_benefit">Confirm who saw what. Replace paper notices and WhatsApp groups.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_5_title">Amenity Booking</div>
+                    <div class="coverage-card-desc" data-i18n="cov_5_desc">Pool, gym, event spaces — calendar-based availability</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_5_benefit">No phone calls, no double bookings, no manual logs.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_6_title">Portfolio Dashboard</div>
+                    <div class="coverage-card-desc" data-i18n="cov_6_desc">KPIs, escalations, and activity across every building in one view</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_6_benefit">Portfolio-level oversight without calling individual building managers.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_7_title">Portfolio Insights</div>
+                    <div class="coverage-card-desc" data-i18n="cov_7_desc">Pattern detection — arrears trends, access anomalies, SLA performance</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_7_benefit">Spot problems across buildings before they become escalations.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_8_title">Property &amp; Unit Database</div>
+                    <div class="coverage-card-desc" data-i18n="cov_8_desc">Centralised unit registry with resident records, synced across all interfaces</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_8_benefit">One source of truth. Update once, reflected everywhere.</div>
+                </div>
+                <div class="coverage-card">
+                    <div class="coverage-card-title" data-i18n="cov_9_title">System Integration</div>
+                    <div class="coverage-card-desc" data-i18n="cov_9_desc">API-ready for existing ERPs. CSV upload for day one</div>
+                    <div class="coverage-card-benefit" data-i18n="cov_9_benefit">No rip-and-replace. Works alongside what you already use.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== DOCUMENTS ===== -->
-    <section id="documents" class="reveal">
+    <!-- ===== THESIS ===== -->
+    <section class="reveal" style="padding: 6rem 2rem; background:#fff;">
+        <div class="container" style="text-align:center;">
+            <h2 style="font-size:clamp(1.75rem, 4vw, 3rem); font-weight:400; letter-spacing:-0.053em; line-height:1.1; color:var(--text-dark); max-width:22ch; margin:0 auto;" data-i18n="thesis_line">Premium communities don't feel controlled. They feel effortless.</h2>
+        </div>
+    </section>
+
+    <!-- ===== CONFIGURED TO HOW YOU OPERATE ===== -->
+    <section id="platform-config" class="reveal" style="background:#f5f3f0;">
         <div class="container">
             <div class="documents-layout">
                 <div class="documents-left">
-                    <h2 class="documents-heading"><span class="doc-heading-dark" data-i18n="doc_heading_1">Data</span><br><span class="doc-heading-light" data-i18n="doc_heading_2">Security</span></h2>
-                    <p class="documents-desc" data-i18n="doc_desc">End-to-end encrypted and fully compliant with UAE data protection law — your building data, secured.</p>
+                    <h2 class="documents-heading"><span class="doc-heading-dark" data-i18n="config_heading_1">Configured to</span><br><span class="doc-heading-light" data-i18n="config_heading_2">how you operate.</span></h2>
+                    <p class="documents-desc" data-i18n="config_desc">Every PMC runs differently. VARS adapts to your operational structure. Configure the modules your buildings need. The system enforces them consistently across every gate, every shift.</p>
                 </div>
                 <div class="documents-right">
                     <div class="doc-row">
                         <div class="doc-row-num">01</div>
-                        <div class="doc-row-title" data-i18n="doc_1_title">End-to-End Encryption</div>
-                        <div class="doc-row-desc" data-i18n="doc_1_desc">AES-256 at rest, TLS 1.3 in transit. Bank-grade protection for all data.</div>
+                        <div class="doc-row-title" data-i18n="config_1_title">Access policy engine</div>
+                        <div class="doc-row-desc" data-i18n="config_1_desc">Visitor rules by type, time, and building. Applied at every gate automatically. One configuration covers every scenario.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">02</div>
-                        <div class="doc-row-title" data-i18n="doc_2_title">UAE Data Protection Law</div>
-                        <div class="doc-row-desc" data-i18n="doc_2_desc">Fully aligned with UAE PDPL (Federal Decree-Law No. 45/2021). Data hosted on UAE infrastructure.</div>
+                        <div class="doc-row-title" data-i18n="config_2_title">Portfolio operations</div>
+                        <div class="doc-row-desc" data-i18n="config_2_desc">Occupancy, arrears, title deeds, and Tawtheeq. One view across all buildings. Export to your existing ERP.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">03</div>
-                        <div class="doc-row-title" data-i18n="doc_3_title">Role-Based Access Control</div>
-                        <div class="doc-row-desc" data-i18n="doc_3_desc">Granular permissions with every action logged by user, timestamp, and IP.</div>
+                        <div class="doc-row-title" data-i18n="config_3_title">Community and services</div>
+                        <div class="doc-row-desc" data-i18n="config_3_desc">Notices, amenities, service requests, and a vetted marketplace. Everything resident-facing, in one app.</div>
                     </div>
                     <div class="doc-row">
                         <div class="doc-row-num">04</div>
-                        <div class="doc-row-title" data-i18n="doc_4_title">Visitor Logs & Audit Trail</div>
-                        <div class="doc-row-desc" data-i18n="doc_4_desc">Encrypted visitor records with entry/exit times and resident approval history.</div>
-                    </div>
-                    <div class="doc-row">
-                        <div class="doc-row-num">05</div>
-                        <div class="doc-row-title" data-i18n="doc_5_title">Maintenance Records</div>
-                        <div class="doc-row-desc" data-i18n="doc_5_desc">Tamper-proof work orders and incident logs with digital signatures and automated retention.</div>
+                        <div class="doc-row-title" data-i18n="config_4_title">Modular by design</div>
+                        <div class="doc-row-desc" data-i18n="config_4_desc">FM workflows, contractor windows, apartment management, custom dashboards. Built to your operational structure, not the other way around.</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== ANNOUNCEMENTS ===== -->
-    <section id="announcements">
+    <!-- ===== WHY VARS — BUILT FOR UAE ===== -->
+    <section id="why" class="reveal">
         <div class="container">
-            <div class="announcements-wrapper">
-                <div class="split-text">
-                    <h2 data-i18n-html="ann_title">Keep residents<br>informed.</h2>
-                    <p data-i18n="ann_desc">Push announcements to all residents instantly. Urgent alerts, community updates, and maintenance schedules.</p>
+            <div class="documents-layout">
+                <div class="documents-left">
+                    <h2 class="documents-heading"><span class="doc-heading-dark" data-i18n="why_heading_1">Built for</span><br><span class="doc-heading-light" data-i18n="why_heading_2">UAE operations.</span></h2>
+                    <p class="documents-desc" data-i18n="why_desc">Emirates ID. Arabic and English. Tawtheeq-aware. Designed for UAE community rhythms and compliant with federal data protection law.</p>
                 </div>
-                <div>
-                    <div class="announcement-cards">
-                        <div class="announcement"><div class="announcement-title" data-i18n="ann_1_title">Water Maintenance</div><div data-i18n="ann_1_desc">Water supply disruption tomorrow 8 AM – 12 PM in Tower A.</div></div>
-                        <div class="announcement"><div class="announcement-title" data-i18n="ann_2_title">New Parking Policy</div><div data-i18n="ann_2_desc">All vehicles must display resident stickers starting next week.</div></div>
-                        <div class="announcement"><div class="announcement-title" data-i18n="ann_3_title">Community BBQ</div><div data-i18n="ann_3_desc">This Friday 6 PM at the poolside area. All residents welcome.</div></div>
+                <div class="documents-right">
+                    <div class="doc-row">
+                        <div class="doc-row-num">01</div>
+                        <div class="doc-row-title" data-i18n="why_1_title">UAE-native</div>
+                        <div class="doc-row-desc" data-i18n="why_1_desc">Emirates ID-first. Arabic and English. Tawtheeq-aware. Designed around UAE community rhythms. Data hosted on UAE infrastructure, compliant with PDPL (Federal Decree-Law No. 45/2021).</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">02</div>
+                        <div class="doc-row-title" data-i18n="why_2_title">Hardware-light</div>
+                        <div class="doc-row-desc" data-i18n="why_2_desc">Runs on existing tablets. Start with one gate, one shift. No hardware swap. No six-month deployment. Phased rollout on your schedule.</div>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-row-num">03</div>
+                        <div class="doc-row-title" data-i18n="why_3_title">Audit-ready</div>
+                        <div class="doc-row-desc" data-i18n="why_3_desc">Every decision logged with context. Who approved. When. Why. End-to-end encrypted. Role-based access control. Bank-grade data security.</div>
                     </div>
                 </div>
             </div>
@@ -2754,13 +2904,55 @@
     </section>
 
     <!-- ===== CTA ===== -->
-    <section id="cta" class="reveal">
-        <div class="cta-content">
-            <h1 data-i18n-html="cta_title">Ready to simplify<br>property management?</h1>
-            <p class="hero-subtext" style="color: var(--text-dark-secondary); margin-bottom:2.5rem" data-i18n="cta_sub">The unified platform built for UAE property management companies.</p>
-            <button onclick="openContactForm()" data-i18n="cta_btn">Contact</button>
+    <section id="cta" class="reveal" style="padding: 3rem 2rem 2rem;">
+        <div class="container">
+            <div style="border-radius:20px; overflow:hidden; background:linear-gradient(180deg, #d3dce0 0%, #b0bdc1 50%, #283034 100%); color:#fff; padding: clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem); display:grid; grid-template-columns: 1.4fr 1fr; gap:3rem; align-items:end;">
+                <div>
+                    <h2 style="color:#fff; font-size:clamp(1.75rem, 4vw, 3rem); font-weight:400; letter-spacing:-0.053em; line-height:1.06; max-width:16ch;" data-i18n="cta_title">See the full platform.</h2>
+                    <p style="color:rgba(255,255,255,0.8); max-width:44ch; margin-top:1.5rem; font-size:16px; line-height:1.55; letter-spacing:-0.03em;" data-i18n="cta_sub">Thirty minutes. Live data. A founder walks your portfolio on screen.</p>
+                </div>
+                <div>
+                    <button onclick="openContactForm()" style="background:#fff; color:#1a1a1a; border:none; padding:1rem 2.5rem; border-radius:999px; font-weight:500; font-size:14px; cursor:pointer; font-family:inherit; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''" data-i18n="cta_btn">Book a demo</button>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="padding:6rem 0 3rem; border-top:1px solid rgba(0,0,0,0.08);">
+        <div class="container" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:60px;">
+            <div>
+                <div style="font-size:32px; letter-spacing:-0.035em; font-weight:500; margin-bottom:1.25rem;">VARS</div>
+                <p style="font-size:14px; color:var(--text-dark-secondary); line-height:1.5;">Community operations for premium UAE residences. Built in Abu Dhabi.</p>
+            </div>
+            <div>
+                <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Platform</h5>
+                <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">PM Dashboard</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Security App</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Resident App</a>
+                </div>
+            </div>
+            <div>
+                <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Company</h5>
+                <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
+                    <a onclick="scrollToSection('why')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Why VARS</a>
+                    <a onclick="openContactForm()" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Contact</a>
+                </div>
+            </div>
+            <div>
+                <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Contact</h5>
+                <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
+                    <span style="color:var(--text-dark-secondary);">founders@vars.live</span>
+                    <span style="color:var(--text-dark-secondary);">Abu Dhabi, UAE</span>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top:4rem; padding-top:2rem; border-top:1px solid rgba(0,0,0,0.08); display:flex; justify-content:space-between; font-size:11px; letter-spacing:0.1em; color:var(--text-dark-secondary); text-transform:uppercase;">
+            <span>© 2026 VARS</span>
+            <span>Abu Dhabi</span>
+        </div>
+    </footer>
 
     <script>
         // ===== HERO GRADIENT CROSS-FADE SLIDER (door.com style) =====
@@ -2820,7 +3012,7 @@
                     document.querySelectorAll('section.visible').forEach(section => {
                         const rect = section.getBoundingClientRect();
                         const offset = rect.top + rect.height/2 - window.innerHeight/2;
-                        const mockup = section.querySelector('.laptop-mockup, .iphone-mockup');
+                        const mockup = section.querySelector('.laptop-mockup, .iphone-mockup, .ipad-mockup');
                         if (mockup && Math.abs(offset) < window.innerHeight) {
                             mockup.style.transform = `translateY(${offset * 0.03}px)`;
                         }
@@ -2954,28 +3146,61 @@
             // Nav
             nav_platform: 'المنصة',
             nav_why: 'لماذا VARS',
-            nav_security: 'أمن البيانات',
             nav_contact: 'تواصل معنا',
             nav_login: 'تسجيل دخول المؤسسات',
+            nav_demo: 'احجز عرضاً',
 
             // Hero
-            hero_title: 'إدارة العقارات.<br>بكل بساطة.',
-            hero_sub: 'ثلاثة تطبيقات. منصة واحدة. تحكّم كامل في عقاراتك وأمنك وسكانك في جميع أنحاء الإمارات.',
+            hero_title: 'عمليات مجتمعية موحدة<br>للمجمعات السكنية الفاخرة في الإمارات.',
+            hero_sub: 'رؤية شاملة للمحفظة. تحكم على مستوى البوابة. نظام واحد لمديري العقارات والأمن والسكان.',
+            hero_cta: 'احجز عرضاً توضيحياً',
+            hero_cta_sub: 'التجربة تبدأ من بوابة واحدة. بدون تغيير أجهزة.',
+            thesis_line: 'المجمعات الفاخرة لا تشعرك بالسيطرة. بل تشعرك بالسلاسة.',
             pill_pmc: 'لوحة تحكم الإدارة',
             pill_security: 'تطبيق حراس الأمن',
             pill_resident: 'تطبيق السكان',
 
             // Slider
-            slider_title: 'ثلاثة تطبيقات. نظام واحد متكامل.',
-            slider_sub: 'لوحة تحكم الإدارة، تطبيق السكان، وتطبيق حراس الأمن — جميعها متصلة في الوقت الفعلي.',
+            slider_title: 'نظام واحد. ثلاث واجهات.',
+            slider_sub: 'يُضبط من لوحة التحكم. يُطبّق عند البوابة. يُوافق عليه من الهاتف.',
 
             // Cards
             card_pmc_title: 'كل محفظتك العقارية.<br>في لوحة واحدة.',
-            card_pmc_desc: 'راقب معدلات الإشغال والإيرادات وتعيينات الحراس وأداء العقارات عبر جميع مبانيك في الوقت الفعلي.',
-            card_sec_title: 'إدارة أمنية<br>متكاملة.',
+            card_pmc_desc: 'رؤية شاملة للمحفظة تشمل الوصول والخدمات وعمليات المجتمع. تحليلات المحفظة تكشف ما يحتاج اهتمامك — مدعومة بالذكاء الاصطناعي، مبنية على بيانات لم تكن متاحة من قبل.',
+            card_sec_title: 'تحكم منظم بالوصول.',
             card_sec_desc: 'ملفات الحراس، جداول المناوبات، تسجيل دخول الزوار، ومسار تدقيق كامل. فريقك الأمني يحصل على تطبيقه الخاص.',
             card_res_title: 'كل ما يحتاجه<br>السكان. تطبيق واحد.',
-            card_res_desc: 'تسجيل الزوار مسبقاً، استلام الإعلانات، إدارة المستندات، والتواصل مع إدارة العقار — كل ذلك من هواتفهم.',
+            card_res_desc: 'اعتمد الزوار مسبقاً، ادفع رسوم الخدمات، احجز المرافق، واستلم إعلانات المجتمع — كل ذلك من تطبيق واحد.',
+
+            // Coverage grid — What VARS covers
+            coverage_heading: 'ما يغطيه VARS.',
+            cov_1_title: 'وصول الزوار',
+            cov_1_desc: 'مسح الهوية الإماراتية، الموافقة المسبقة عبر QR، تسجيل الدخول والخروج — كل بوابة، كل مناوبة',
+            cov_1_benefit: 'سياسة وصول موحدة عبر المباني. مسار تدقيق كامل.',
+            cov_2_title: 'تحصيل رسوم الخدمات',
+            cov_2_desc: 'متابعة المتأخرات لكل وحدة بشكل فوري، تتبع المدفوعات، تذكيرات آلية',
+            cov_2_benefit: 'لا مزيد من جداول البيانات. مدراء العقارات يرون من يدين بماذا، الآن.',
+            cov_3_title: 'طلبات الخدمة',
+            cov_3_desc: 'السكان يرفعون، المدراء يتابعون، المقاولون يحلّون — سير عمل واحد',
+            cov_3_benefit: 'تتبع منظم لاتفاقيات مستوى الخدمة. حلّ المشاكل قبل تصعيد السكان.',
+            cov_4_title: 'إعلانات المجتمع',
+            cov_4_desc: 'إعلانات على مستوى المبنى مع إيصالات قراءة',
+            cov_4_benefit: 'تأكيد من رأى ماذا. استبدال الإعلانات الورقية ومجموعات واتساب.',
+            cov_5_title: 'حجز المرافق',
+            cov_5_desc: 'المسبح، الصالة الرياضية، قاعات المناسبات — توفر مبني على التقويم',
+            cov_5_benefit: 'لا مكالمات هاتفية، لا حجوزات مزدوجة، لا سجلات يدوية.',
+            cov_6_title: 'لوحة المحفظة',
+            cov_6_desc: 'مؤشرات الأداء، التصعيدات، والنشاط عبر كل مبنى في عرض واحد',
+            cov_6_benefit: 'إشراف على مستوى المحفظة دون الاتصال بمدراء المباني الفرديين.',
+            cov_7_title: 'تحليلات المحفظة',
+            cov_7_desc: 'اكتشاف الأنماط — اتجاهات المتأخرات، شذوذ الوصول، أداء اتفاقيات الخدمة',
+            cov_7_benefit: 'اكتشاف المشاكل عبر المباني قبل أن تتحول إلى تصعيدات.',
+            cov_8_title: 'قاعدة بيانات العقارات والوحدات',
+            cov_8_desc: 'سجل وحدات مركزي مع سجلات السكان، متزامن عبر كل الواجهات',
+            cov_8_benefit: 'مصدر واحد للحقيقة. حدّث مرة واحدة، ينعكس في كل مكان.',
+            cov_9_title: 'تكامل الأنظمة',
+            cov_9_desc: 'جاهز للتكامل مع أنظمة ERP القائمة. رفع CSV من اليوم الأول',
+            cov_9_benefit: 'لا حاجة للاستبدال. يعمل جنباً إلى جنب مع ما تستخدمه بالفعل.',
 
             // Mobile features PMC
             mf_pmc_1: 'نظرة عامة على المحفظة',
@@ -2989,45 +3214,34 @@
             mf_sec_2: 'تسجيل الدخول الرقمي',
             mf_sec_3: 'سجل الزوار',
 
-            // Why VARS
-            why_title: 'لماذا VARS؟',
-            why_sub: 'مصممة خصيصاً لشركات إدارة العقارات في الإمارات. ليست مجرد أداة عامة.',
-            why_1_title: 'ثلاثة تطبيقات، منصة واحدة',
-            why_1_desc: 'مديرو العقارات وحراس الأمن والسكان — كل منهم يحصل على تطبيقه المخصص — وجميعها متزامنة في الوقت الفعلي. لا مزيد من الأنظمة المتفرقة.',
-            why_2_title: 'مصممة للإمارات',
-            why_2_desc: 'مصممة وفقاً للأنظمة المحلية، مع دعم اللغة العربية، وسير العمل الخاص بشركات إدارة العقارات في الإمارات.',
-            why_3_title: 'أمن شامل من البداية للنهاية',
-            why_3_desc: 'إدارة مناوبات الحراس، تسجيل الزوار المسبق، التسجيل الرقمي، ومسار تدقيق كامل. تحكم كامل من البوابة إلى الوحدة.',
+            // Configured to how you operate
+            config_heading_1: 'مُهيأ حسب',
+            config_heading_2: 'طريقة عملك.',
+            config_desc: 'كل شركة إدارة عقارات تعمل بطريقة مختلفة. VARS يتكيف مع هيكلك التشغيلي. اضبط الوحدات التي تحتاجها مبانيك. النظام يطبقها بشكل متسق عبر كل بوابة وكل مناوبة.',
+            config_1_title: 'محرك سياسة الوصول',
+            config_1_desc: 'قواعد الزوار حسب النوع والوقت والمبنى. تُطبّق تلقائياً عند كل بوابة. إعداد واحد يغطي كل السيناريوهات.',
+            config_2_title: 'عمليات المحفظة',
+            config_2_desc: 'الإشغال والمتأخرات وسندات الملكية وتوثيق. عرض واحد لجميع المباني. تصدير إلى نظام ERP الحالي.',
+            config_3_title: 'المجتمع والخدمات',
+            config_3_desc: 'الإعلانات والمرافق وطلبات الخدمة وسوق مقدمي الخدمات المعتمدين. كل ما يخص السكان في تطبيق واحد.',
+            config_4_title: 'تصميم وحدات مرن',
+            config_4_desc: 'سير عمل إدارة المرافق ونوافذ المقاولين وإدارة الشقق ولوحات تحكم مخصصة. مبني حسب هيكلك التشغيلي.',
 
-            // Documents
-            doc_heading_1: 'أمن',
-            doc_heading_2: 'البيانات',
-            doc_desc: 'تشفير شامل ومتوافق تماماً مع قانون حماية البيانات في الإمارات — بيانات مبناك محمية.',
-            doc_1_title: 'تشفير شامل',
-            doc_1_desc: 'AES-256 أثناء التخزين، TLS 1.3 أثناء النقل. حماية بمستوى البنوك لجميع البيانات.',
-            doc_2_title: 'قانون حماية البيانات الإماراتي',
-            doc_2_desc: 'متوافق تماماً مع قانون حماية البيانات الشخصية (مرسوم بقانون اتحادي رقم 45/2021). البيانات مستضافة على بنية تحتية إماراتية.',
-            doc_3_title: 'التحكم بالوصول حسب الأدوار',
-            doc_3_desc: 'صلاحيات دقيقة مع تسجيل كل إجراء بالمستخدم والوقت وعنوان IP.',
-            doc_4_title: 'سجلات الزوار ومسار التدقيق',
-            doc_4_desc: 'سجلات زوار مشفرة مع أوقات الدخول/الخروج وتاريخ موافقات السكان.',
-            doc_5_title: 'سجلات الصيانة',
-            doc_5_desc: 'أوامر عمل مقاومة للتلاعب وسجلات حوادث مع توقيعات رقمية واحتفاظ تلقائي.',
-
-            // Announcements
-            ann_title: 'أبقِ السكان<br>على اطلاع.',
-            ann_desc: 'أرسل إعلانات لجميع السكان فوراً. تنبيهات عاجلة وتحديثات مجتمعية وجداول صيانة.',
-            ann_1_title: 'صيانة المياه',
-            ann_1_desc: 'انقطاع إمداد المياه غداً من 8 صباحاً حتى 12 ظهراً في البرج A.',
-            ann_2_title: 'سياسة مواقف جديدة',
-            ann_2_desc: 'يجب على جميع المركبات عرض ملصقات السكان بدءاً من الأسبوع القادم.',
-            ann_3_title: 'حفل شواء مجتمعي',
-            ann_3_desc: 'هذا الجمعة الساعة 6 مساءً بجانب المسبح. جميع السكان مدعوون.',
+            // Why VARS — Built for UAE
+            why_heading_1: 'مصممة',
+            why_heading_2: 'لعمليات الإمارات.',
+            why_desc: 'الهوية الإماراتية. عربي وإنجليزي. متوافق مع توثيق. مصمم لإيقاع المجتمعات الإماراتية ومتوافق مع قانون حماية البيانات الاتحادي.',
+            why_1_title: 'مصممة للإمارات',
+            why_1_desc: 'الهوية الإماراتية أولاً. عربي وإنجليزي. متوافق مع توثيق. مصمم لإيقاع المجتمعات الإماراتية. البيانات مستضافة على بنية تحتية إماراتية.',
+            why_2_title: 'بدون أجهزة إضافية',
+            why_2_desc: 'يعمل على الأجهزة اللوحية الحالية. ابدأ ببوابة واحدة ومناوبة واحدة. بدون تبديل أجهزة. نشر تدريجي حسب جدولك.',
+            why_3_title: 'جاهز للتدقيق',
+            why_3_desc: 'كل قرار مسجل بالسياق. من وافق. متى. لماذا. تشفير شامل. تحكم بالوصول حسب الأدوار. أمن بمستوى البنوك.',
 
             // CTA
-            cta_title: 'مستعد لتبسيط<br>إدارة العقارات؟',
-            cta_sub: 'المنصة الموحدة المصممة لشركات إدارة العقارات في الإمارات.',
-            cta_btn: 'تواصل معنا',
+            cta_title: 'شاهد المنصة الكاملة.',
+            cta_sub: 'ثلاثون دقيقة. بيانات حية. مؤسس يعرض محفظتك على الشاشة.',
+            cta_btn: 'احجز عرضاً توضيحياً',
         }
     };
 
@@ -3129,7 +3343,21 @@
         'Avg Resolution': 'متوسط الحل',
         'SLA Compliance Trend': 'اتجاه الالتزام بالأداء',
         'SLA by Category': 'الأداء حسب الفئة',
+        'Portfolio Insight': 'تحليل المحفظة',
         'AI Insight': 'تحليل ذكي',
+        'Portfolio Insights': 'تحليلات المحفظة',
+        'Powered by AI · Data you\'ve never had before': 'مدعوم بالذكاء الاصطناعي · بيانات لم تكن متاحة من قبل',
+        'Community & Operations': 'المجتمع والعمليات',
+        'Visitor Access': 'وصول الزوار',
+        'Community Engagement': 'المشاركة المجتمعية',
+        'Services': 'الخدمات',
+        'Visitor volume by hour': 'حجم الزوار حسب الساعة',
+        'Gate response time': 'وقت استجابة البوابة',
+        'Notice read rate by building': 'معدل قراءة الإعلانات حسب المبنى',
+        'Amenity utilisation': 'استخدام المرافق',
+        'Open Requests': 'طلبات مفتوحة',
+        'SLA Compliance': 'الامتثال للاتفاقية',
+        'Vendor Rating': 'تقييم المورد',
 
         // PMC Screen 5 - Financial
         'Financial Overview': 'النظرة المالية',
@@ -3273,7 +3501,7 @@
         if (toLang === 'ar') {
             if (!mockupOriginals.length) {
                 // Collect originals on first translation
-                document.querySelectorAll('.laptop-mockup, .iphone-mockup').forEach(mockup => {
+                document.querySelectorAll('.laptop-mockup, .iphone-mockup, .ipad-mockup').forEach(mockup => {
                     const textNodes = collectTextNodes(mockup);
                     textNodes.forEach(n => {
                         mockupOriginals.push({ node: n, original: n.textContent });

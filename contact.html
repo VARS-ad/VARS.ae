@@ -56,6 +56,26 @@
         }
         .form-logo-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
         .form-logo-box svg { display: block; }
+        .contact-nav-links { list-style: none; display: flex; gap: 2rem; align-items: center; }
+        .contact-nav-links a {
+            color: var(--text-dark); text-decoration: none; font-size: 14px;
+            font-weight: 400; letter-spacing: -0.01em; cursor: pointer;
+            transition: opacity 0.25s ease; opacity: 0.75;
+        }
+        .contact-nav-links a:hover { opacity: 1; }
+        .contact-nav-right { display: flex; align-items: center; gap: 1rem; }
+        .enterprise-login-btn {
+            color: var(--text-dark);
+            border: 1px solid rgba(26,26,26,0.25);
+            border-radius: 6px;
+            padding: 0.4rem 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .enterprise-login-btn:hover { background: var(--text-dark); color: #ffffff; border-color: var(--text-dark); }
         .form-side h1 {
             font-size: clamp(2.2rem, 4vw, 3.4rem);
             font-weight: 400;
@@ -156,7 +176,6 @@
 
         /* ===== RIGHT: DESIGN PANEL ===== */
         .design-side {
-            background: linear-gradient(160deg, #e8e4e0 0%, #c4b8b0 25%, #928989 55%, #5a5050 85%, #2a2226 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -166,73 +185,8 @@
             margin: 1.5rem;
         }
 
-        /* Floating glass elements */
-        .float-el {
-            position: absolute;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .float-1 { width: 140px; height: 140px; top: 8%; right: 5%; border-radius: 24px; animation: f1 8s ease-in-out infinite; }
-        .float-2 { width: 90px; height: 90px; bottom: 12%; left: 8%; border-radius: 20px; animation: f2 10s ease-in-out infinite; }
-        .float-3 { width: 60px; height: 60px; top: 45%; left: 25%; border-radius: 50%; animation: f3 7s ease-in-out infinite; }
-        .float-4 { display: none; }
-        .float-5 { display: none; }
-
-        @keyframes f1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-25px) rotate(3deg)} }
-        @keyframes f2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(20px) rotate(-4deg)} }
-        @keyframes f3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(12px,-18px) scale(1.08)} }
-        @keyframes f4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
-        @keyframes f5 { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(-8px,15px) rotate(8deg)} }
-
-        /* Floating stat cards */
-        .float-card {
-            position: absolute;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.14);
-            padding: 10px 14px;
-            z-index: 2;
-        }
-        .float-card-value {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: white;
-            letter-spacing: -0.03em;
-            margin-bottom: 1px;
-        }
-        .float-card-label {
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.55);
-        }
-        .card-a { top: 14%; left: 10%; animation: f2 11s ease-in-out infinite; }
-        .card-b { bottom: 14%; right: 8%; animation: f1 9s ease-in-out infinite; }
-        .card-c { top: 58%; right: 12%; animation: f3 13s ease-in-out infinite; }
-
-        /* Center brand */
-        .brand-center {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        .brand-center svg {
-            filter: drop-shadow(0 12px 40px rgba(0,0,0,0.25));
-        }
-        .brand-center span {
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 500;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            opacity: 0.6;
-        }
+        .design-side { background: #ffffff; }
+        #contact-network-canvas canvas { display: block; }
 
         /* ===== SUCCESS STATE ===== */
         .form-success {
@@ -286,6 +240,9 @@
             .lang-toggle svg { width: 14px; height: 14px; }
             .lang-toggle-label { font-size: 12px; }
             .lang-toggle-arrow { font-size: 8px; }
+            #contact-network-canvas { height: 280px; }
+            .contact-nav-links { display: none; }
+            .enterprise-login-btn { font-size: 13px; padding: 0.35rem 0.75rem; }
         }
         @media (max-width: 480px) {
             .form-side { padding: 4.5rem 1.25rem 2rem; }
@@ -345,22 +302,32 @@
         html[dir="rtl"] .lang-toggle { direction: ltr; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <div class="form-nav">
         <div style="display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto;width:100%;">
-            <a href="index.html" class="form-logo">
-                <div class="form-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
-                <span>VARS</span>
-            </a>
-            <div class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <span class="lang-toggle-label" id="langLabel">EN</span>
-                <span class="lang-toggle-arrow">▾</span>
-                <div class="lang-dropdown" id="langDropdown">
-                    <div class="lang-option active" data-lang="en" onclick="event.stopPropagation();selectLang('en')">English</div>
-                    <div class="lang-option" data-lang="ar" onclick="event.stopPropagation();selectLang('ar')">العربية</div>
+            <div style="display:flex;align-items:center;gap:2.5rem;">
+                <a href="index.html" class="form-logo">
+                    <div class="form-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                    <span>VARS</span>
+                </a>
+                <ul class="contact-nav-links">
+                    <li><a href="index.html#slider" data-i18n="nav_platform">Platform</a></li>
+                    <li><a href="index.html#why" data-i18n="nav_why">Why VARS</a></li>
+                </ul>
+            </div>
+            <div class="contact-nav-right">
+                <div class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span class="lang-toggle-label" id="langLabel">EN</span>
+                    <span class="lang-toggle-arrow">▾</span>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option active" data-lang="en" onclick="event.stopPropagation();selectLang('en')">English</div>
+                        <div class="lang-option" data-lang="ar" onclick="event.stopPropagation();selectLang('ar')">العربية</div>
+                    </div>
                 </div>
+                <a href="https://vars-ad.github.io/VARS/" target="_blank" class="enterprise-login-btn" data-i18n="nav_login">Enterprise Login</a>
             </div>
         </div>
     </div>
@@ -392,36 +359,7 @@
 
         <!-- RIGHT: Design panel -->
         <div class="design-side">
-            <div class="float-el float-1"></div>
-            <div class="float-el float-2"></div>
-            <div class="float-el float-3"></div>
-            <div class="float-el float-4"></div>
-            <div class="float-el float-5"></div>
-
-            <div class="float-card card-a">
-                <div class="float-card-value">1,240</div>
-                <div class="float-card-label" data-i18n="fc_units">Units managed</div>
-            </div>
-            <div class="float-card card-b">
-                <div class="float-card-value">99.8%</div>
-                <div class="float-card-label" data-i18n="fc_uptime">Platform uptime</div>
-            </div>
-            <div class="float-card card-c">
-                <div class="float-card-value">24/7</div>
-                <div class="float-card-label" data-i18n="fc_security">Security coverage</div>
-            </div>
-            <div class="float-card" style="bottom:12%;left:15%;animation:f5 9s ease-in-out infinite;">
-                <div class="float-card-value">87%</div>
-                <div class="float-card-label" data-i18n="fc_occupancy">Occupancy rate</div>
-            </div>
-
-            <div class="brand-center">
-                <svg width="90" height="90" viewBox="0 0 100 100" fill="none">
-                    <rect width="100" height="100" rx="4" fill="var(--bg-warm-dark)"/>
-                    <path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/>
-                </svg>
-                <span>VARS</span>
-            </div>
+            <div id="contact-network-canvas" style="position:absolute;inset:0;overflow:hidden;"></div>
         </div>
     </div>
 
@@ -475,6 +413,9 @@
     // ===== CONTACT PAGE TRANSLATION SYSTEM =====
     const translations = {
         ar: {
+            nav_platform: 'المنصة',
+            nav_why: 'لماذا VARS',
+            nav_login: 'تسجيل دخول المؤسسات',
             cf_title: 'مفتاحك للمباني<br>الذكية.',
             cf_sub: 'نساعد المالكين والمشغلين على تحسين الأداء المالي، وتبسيط سير العمل المتفرق، وتقديم تجربة المعيشة العصرية التي يتوقعها السكان.',
             cf_fname: 'الاسم الأول*',
@@ -486,10 +427,21 @@
             cf_thanks: 'شكراً لك!',
             cf_thanks_desc: 'لقد استلمنا طلبك. سيتواصل فريقنا معك خلال 24 ساعة.',
             cf_back: 'العودة إلى VARS',
-            fc_units: 'وحدة تحت الإدارة',
-            fc_uptime: 'وقت تشغيل المنصة',
-            fc_security: 'تغطية أمنية',
-            fc_occupancy: 'نسبة الإشغال',
+            cp_d1: 'نظرة عامة على المحفظة',
+            cp_d2: 'رسوم الخدمة',
+            cp_d3: 'مسار التدقيق',
+            cp_d4: 'الإعلانات',
+            cp_d5: 'المرافق',
+            cp_s1: 'مسح الهوية الإماراتية',
+            cp_s2: 'موافقة مسبقة بـ QR',
+            cp_s3: 'قواعد الوصول',
+            cp_s4: 'تسجيل الدخول',
+            cp_s5: 'تجاوز يدوي',
+            cp_r1: 'موافقة بنقرة واحدة',
+            cp_r2: 'دفع الرسوم',
+            cp_r3: 'حجز المرافق',
+            cp_r4: 'الإعلانات',
+            cp_r5: 'سوق الخدمات',
         }
     };
     const enOriginals = {};
@@ -579,6 +531,146 @@
     storeOriginals();
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('lang') === 'ar') setLang('ar');
+    </script>
+    <script>
+    // ===== CONTACT 3D NETWORK (REVOLVING IN PLACE) =====
+    (function() {
+        var container = document.getElementById('contact-network-canvas');
+        if (!container || typeof THREE === 'undefined') return;
+        function boot() {
+            var W = container.clientWidth, H = container.clientHeight;
+            if (W < 20 || H < 20) { setTimeout(boot, 120); return; }
+            var scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff);
+            scene.fog = new THREE.FogExp2(0xffffff, 0.008);
+            var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 1000);
+            // Fixed far-back camera so the whole city is visible
+            camera.position.set(0, 7, 34);
+            var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(W, H);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+            var group = new THREE.Group();
+            scene.add(group);
+            var nodes = [];
+            var buildings = [
+                { x:-9, z:-4, floors:10, units:6, w:2.8, d:1.6 },
+                { x:-3, z:-1, floors:14, units:8, w:3.2, d:2.0 },
+                { x:4, z:-3, floors:12, units:6, w:2.6, d:1.8 },
+                { x:10, z:0, floors:8, units:5, w:2.4, d:1.4 },
+                { x:-5, z:5, floors:11, units:7, w:3.0, d:1.6 },
+                { x:3, z:6, floors:9, units:5, w:2.2, d:1.4 },
+                { x:9, z:5, floors:7, units:4, w:2.0, d:1.2 }
+            ];
+            var FS = 0.7;
+            buildings.forEach(function(b) {
+                var sg = new THREE.SphereGeometry(0.18, 10, 10);
+                var sm = new THREE.MeshBasicMaterial({ color: 0x3a3a3a });
+                var s = new THREE.Mesh(sg, sm);
+                s.position.set(b.x, -0.5, b.z);
+                s.userData = { type:'sec', bldg:b, bX:b.x, bY:-0.5, bZ:b.z, ds:0.15, do:Math.random()*6.28 };
+                group.add(s); nodes.push(s);
+                for (var f=0; f<b.floors; f++) {
+                    var y = f * FS;
+                    var cols = Math.ceil(Math.sqrt(b.units));
+                    for (var u=0; u<b.units; u++) {
+                        var col = u % cols;
+                        var row = Math.floor(u / cols);
+                        var rows = Math.ceil(b.units / cols);
+                        var fx = b.x + (col/(cols-1||1)-0.5)*b.w + (Math.random()-0.5)*0.2;
+                        var fy = y + (Math.random()-0.5)*0.12;
+                        var fz = b.z + (row/(rows-1||1)-0.5)*b.d + (Math.random()-0.5)*0.2;
+                        var sz = 0.04 + Math.random()*0.03;
+                        var gr = 0.45 + Math.random()*0.3;
+                        var g = new THREE.SphereGeometry(sz, 6, 6);
+                        var m = new THREE.MeshBasicMaterial({ color: new THREE.Color(gr,gr,gr) });
+                        var mesh = new THREE.Mesh(g, m);
+                        mesh.position.set(fx, fy, fz);
+                        mesh.userData = { type:'res', bldg:b, bX:fx, bY:fy, bZ:fz, ds:0.1+Math.random()*0.25, do:Math.random()*6.28 };
+                        group.add(mesh); nodes.push(mesh);
+                    }
+                }
+            });
+            var pmcG = new THREE.SphereGeometry(0.3, 14, 14);
+            var pmcM = new THREE.MeshBasicMaterial({ color: 0x1a1a1a });
+            var pmc = new THREE.Mesh(pmcG, pmcM);
+            pmc.position.set(0.5, 12, 1);
+            pmc.userData = { type:'pmc', bX:0.5, bY:12, bZ:1, ds:0.08, do:0 };
+            group.add(pmc); nodes.push(pmc);
+            var ring1 = new THREE.Mesh(new THREE.RingGeometry(0.5,0.55,32), new THREE.MeshBasicMaterial({ color:0x1a1a1a, transparent:true, opacity:0.12, side:THREE.DoubleSide }));
+            ring1.position.copy(pmc.position); group.add(ring1);
+            var ring2 = new THREE.Mesh(new THREE.RingGeometry(0.75,0.78,32), new THREE.MeshBasicMaterial({ color:0x1a1a1a, transparent:true, opacity:0.06, side:THREE.DoubleSide }));
+            ring2.position.copy(pmc.position); group.add(ring2);
+            var conns = [];
+            for (var i=0;i<nodes.length;i++) {
+                for (var j=i+1;j<nodes.length;j++) {
+                    var a=nodes[i], b2=nodes[j];
+                    var dist = a.position.distanceTo(b2.position);
+                    var same = a.userData.bldg === b2.userData.bldg;
+                    var hasPmc = a.userData.type==='pmc'||b2.userData.type==='pmc';
+                    if (same && dist<2.8) conns.push({i:i,j:j,cross:false});
+                    else if (!same && !hasPmc && dist<6.5 && Math.random()<0.025) conns.push({i:i,j:j,cross:true});
+                    else if (hasPmc && dist<16 && Math.random()<0.05) conns.push({i:i,j:j,cross:true});
+                }
+            }
+            function buildLines(subset, opacity) {
+                var p = new Float32Array(subset.length*6);
+                subset.forEach(function(c,idx){
+                    var a=nodes[c.i].position, b2=nodes[c.j].position;
+                    p[idx*6]=a.x;p[idx*6+1]=a.y;p[idx*6+2]=a.z;
+                    p[idx*6+3]=b2.x;p[idx*6+4]=b2.y;p[idx*6+5]=b2.z;
+                });
+                var g=new THREE.BufferGeometry();
+                g.setAttribute('position', new THREE.BufferAttribute(p,3));
+                var m=new THREE.LineBasicMaterial({color:0x1a1a1a, transparent:true, opacity:opacity});
+                var l=new THREE.LineSegments(g,m);
+                group.add(l);
+                return {mesh:l, conns:subset};
+            }
+            var inner = conns.filter(function(c){return !c.cross});
+            var cross = conns.filter(function(c){return c.cross});
+            var innerL = buildLines(inner, 0.06);
+            var crossL = buildLines(cross, 0.04);
+            group.position.y = -4;
+
+            function animate(time) {
+                requestAnimationFrame(animate);
+                var t = time * 0.001;
+                camera.lookAt(0.5, 3.5, 0);
+                group.rotation.y = t * 0.12;
+                nodes.forEach(function(n){
+                    var d=n.userData;
+                    n.position.x = d.bX + Math.sin(t*d.ds+d.do)*0.05;
+                    n.position.y = d.bY + Math.cos(t*d.ds*0.8+d.do)*0.03;
+                    n.position.z = d.bZ + Math.sin(t*d.ds*0.5+d.do+2)*0.04;
+                });
+                ring1.position.copy(pmc.position); ring1.lookAt(camera.position);
+                ring2.position.copy(pmc.position); ring2.lookAt(camera.position);
+                function updateLines(lObj) {
+                    var p = lObj.mesh.geometry.attributes.position.array;
+                    lObj.conns.forEach(function(c,idx){
+                        var a=nodes[c.i].position, b2=nodes[c.j].position;
+                        p[idx*6]=a.x;p[idx*6+1]=a.y;p[idx*6+2]=a.z;
+                        p[idx*6+3]=b2.x;p[idx*6+4]=b2.y;p[idx*6+5]=b2.z;
+                    });
+                    lObj.mesh.geometry.attributes.position.needsUpdate = true;
+                }
+                updateLines(innerL);
+                updateLines(crossL);
+                renderer.render(scene, camera);
+            }
+            animate(performance.now());
+
+            window.addEventListener('resize', function(){
+                var w=container.clientWidth, h2=container.clientHeight;
+                if (w < 20 || h2 < 20) return;
+                camera.aspect=w/h2;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w,h2);
+            });
+        }
+        boot();
+    })();
     </script>
 </body>
 </html>
