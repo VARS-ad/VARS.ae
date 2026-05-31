@@ -280,8 +280,18 @@
             .float-card-label { font-size: 0.55rem; }
             .brand-center svg { width: 60px; height: 60px; }
             .brand-center span { font-size: 0.85rem; }
-            /* Phone-sized panel can't fit 7 overlapping cards - hide them, keep brand-center clean */
+            /* Phone-sized panel: hide all stat cards, then re-show two strategic ones that don't overlap */
             .float-card { display: none; }
+            .float-card.card-a {
+                display: block;
+                top: 18%; left: 6%;
+                animation: none;
+            }
+            .float-card.card-c {
+                display: block;
+                top: 18%; right: 6%; left: auto;
+                animation: none;
+            }
             /* Lang toggle on mobile */
             .lang-toggle { padding: 5px 8px; gap: 4px; }
             .lang-toggle svg { width: 14px; height: 14px; }
