@@ -280,6 +280,8 @@
             .float-card-label { font-size: 0.55rem; }
             .brand-center svg { width: 60px; height: 60px; }
             .brand-center span { font-size: 0.85rem; }
+            /* Phone-sized panel can't fit 7 overlapping cards - hide them, keep brand-center clean */
+            .float-card { display: none; }
             /* Lang toggle on mobile */
             .lang-toggle { padding: 5px 8px; gap: 4px; }
             .lang-toggle svg { width: 14px; height: 14px; }
@@ -349,7 +351,7 @@
     <div class="form-nav">
         <div style="display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto;width:100%;">
             <a href="index.html" class="form-logo">
-                <div class="form-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="#000000"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                <div class="form-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="#3E4C59"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
                 <span>VARS</span>
             </a>
             <div class="lang-toggle" id="langToggle" onclick="toggleLangDropdown()">
@@ -368,8 +370,8 @@
         <!-- LEFT: Form -->
         <div class="form-side">
             <div id="formArea">
-                <h1 data-i18n-html="cf_title">Your key to smart<br>buildings.</h1>
-                <p class="form-subtitle" data-i18n="cf_sub">One smooth FM process — from request to signed work order. Built for supervisors, technicians, and residents across the UAE.</p>
+                <h1 data-i18n-html="cf_title">Talk to us about<br>your portfolio.</h1>
+                <p class="form-subtitle" data-i18n="cf_sub">One platform for the whole mix - leases, payments, costs, documents. Built for landlords and operators across the UAE.</p>
                 <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
                     <div class="form-row">
                         <input type="text" name="firstName" data-i18n-placeholder="cf_fname" placeholder="First Name*" required>
@@ -398,37 +400,37 @@
             <div class="float-el float-5"></div>
 
             <div class="float-card card-a">
-                <div class="float-card-value">12,400</div>
-                <div class="float-card-label" data-i18n="fc_workorders">Work orders processed</div>
+                <div class="float-card-value">AED 2.1M</div>
+                <div class="float-card-label" data-i18n="fc_collected">Collected this month</div>
             </div>
             <div class="float-card card-b">
-                <div class="float-card-value">96%</div>
-                <div class="float-card-label" data-i18n="fc_sla">SLA on time</div>
+                <div class="float-card-value">3</div>
+                <div class="float-card-label" data-i18n="fc_residential">Residential buildings</div>
             </div>
             <div class="float-card card-c">
-                <div class="float-card-value">340</div>
-                <div class="float-card-label" data-i18n="fc_technicians">Active technicians</div>
+                <div class="float-card-value">2</div>
+                <div class="float-card-label" data-i18n="fc_commercial">Commercial buildings</div>
             </div>
             <div class="float-card" style="bottom:12%;left:15%;animation:f5 9s ease-in-out infinite;">
-                <div class="float-card-value">4.8★</div>
-                <div class="float-card-label" data-i18n="fc_rating">Resident rating</div>
+                <div class="float-card-value">3</div>
+                <div class="float-card-label" data-i18n="fc_villas">Villas</div>
             </div>
             <div class="float-card" style="top:12%;right:14%;animation:f4 12s ease-in-out infinite;">
-                <div class="float-card-value">2.4h</div>
-                <div class="float-card-label" data-i18n="fc_avgtime">Avg resolution time</div>
+                <div class="float-card-value">1</div>
+                <div class="float-card-label" data-i18n="fc_land">Commercial land</div>
             </div>
             <div class="float-card" style="top:46%;left:6%;animation:f1 11s ease-in-out infinite;">
-                <div class="float-card-value">85</div>
-                <div class="float-card-label" data-i18n="fc_procedures">Procedures in library</div>
+                <div class="float-card-value">6</div>
+                <div class="float-card-label" data-i18n="fc_maintenance">Maintenance contracts</div>
             </div>
             <div class="float-card" style="bottom:32%;left:42%;animation:f3 13s ease-in-out infinite;">
-                <div class="float-card-value">−62%</div>
-                <div class="float-card-label" data-i18n="fc_complaints">Fewer complaints</div>
+                <div class="float-card-value">38</div>
+                <div class="float-card-label" data-i18n="fc_units">Units managed</div>
             </div>
 
             <div class="brand-center">
                 <svg width="90" height="90" viewBox="0 0 100 100" fill="none">
-                    <rect width="100" height="100" rx="4" fill="#000000"/>
+                    <rect width="100" height="100" rx="4" fill="#3E4C59"/>
                     <path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/>
                 </svg>
                 <span>VARS</span>
@@ -486,8 +488,8 @@
     // ===== CONTACT PAGE TRANSLATION SYSTEM =====
     const translations = {
         ar: {
-            cf_title: 'مفتاحك للمباني<br>الذكية.',
-            cf_sub: 'عملية إدارة مرافق سلسة — من الطلب إلى أمر العمل الموقّع. مصممة للمشرفين والفنيين والسكان في الإمارات.',
+            cf_title: 'تحدّث معنا عن<br>محفظتك.',
+            cf_sub: 'منصة واحدة لكل أنواع الأصول - العقود، المدفوعات، التكاليف، المستندات. مصمَّمة للملّاك ومشغّلي العقارات في الإمارات.',
             cf_fname: 'الاسم الأول*',
             cf_lname: 'اسم العائلة*',
             cf_phone: 'رقم الهاتف*',
@@ -497,13 +499,13 @@
             cf_thanks: 'شكراً لك!',
             cf_thanks_desc: 'لقد استلمنا طلبك. سيتواصل فريقنا معك خلال 24 ساعة.',
             cf_back: 'العودة إلى VARS',
-            fc_workorders: 'أوامر عمل منجزة',
-            fc_sla: 'الالتزام بالوقت',
-            fc_technicians: 'الفنيون النشطون',
-            fc_rating: 'تقييم الساكن',
-            fc_avgtime: 'متوسط وقت الحل',
-            fc_procedures: 'إجراءات في المكتبة',
-            fc_complaints: 'انخفاض الشكاوى',
+            fc_collected: 'المحصَّل هذا الشهر',
+            fc_residential: 'مبانٍ سكنية',
+            fc_commercial: 'مبانٍ تجارية',
+            fc_villas: 'فلل',
+            fc_land: 'أراضٍ تجارية',
+            fc_maintenance: 'عقود صيانة',
+            fc_units: 'الوحدات المُدارة',
         }
     };
     const enOriginals = {};

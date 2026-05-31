@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VARS — Facility Management Platform for the UAE</title>
+    <title>VARS - Property Management Platform for the UAE</title>
+    <meta name="description" content="Leases, tenants, rent, maintenance, and owner reporting. One system for property managers and operators across the UAE.">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -44,7 +46,7 @@
         html[dir="rtl"] .announcements-wrapper .split-text { text-align: right; }
         html[dir="rtl"] .doc-row-desc { text-align: right; }
 
-        /* Language switcher — globe dropdown (matches app login style) */
+        /* Language switcher - globe dropdown (matches app login style) */
         .lang-toggle {
             position: relative; display: flex; align-items: center; gap: 6px;
             cursor: pointer; padding: 6px 12px; border-radius: 8px;
@@ -76,7 +78,7 @@
         .lang-option.active::after { content: '✓'; font-size: 12px; color: var(--bg-warm-dark); }
         .lang-option + .lang-option { border-top: 1px solid rgba(0,0,0,0.05); }
 
-        /* On scrolled nav — slightly tighter */
+        /* On scrolled nav - slightly tighter */
         nav.scrolled .lang-toggle { padding: 5px 10px; }
 
         /* RTL adjustments */
@@ -157,6 +159,12 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
+        /* ========= PRODUCT SWITCHER (Property Mgmt / Facility Mgmt) ========= */
+        .product-switcher { display: inline-flex; background: rgba(0,0,0,0.05); border-radius: 999px; padding: 3px; gap: 2px; }
+        .product-tab { display: inline-flex; align-items: center; padding: 0.4rem 0.95rem; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-dark-secondary); text-decoration: none; white-space: nowrap; transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+        .product-tab:hover { color: var(--text-dark); }
+        .product-tab.active { background: #fff; color: var(--text-dark); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
         /* ========= SECTIONS ========= */
         section {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
@@ -201,7 +209,7 @@
 
         .container { max-width: 1400px; width: 100%; margin: 0 auto; }
 
-        /* ========= TYPOGRAPHY — door.com style ========= */
+        /* ========= TYPOGRAPHY - door.com style ========= */
         h1 {
             font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 400;
@@ -259,14 +267,14 @@
         .split-text h2 { color: var(--text-dark); }
         .split-text p { font-size: 18px; color: var(--text-dark-secondary); margin-bottom: 2rem; line-height: 1.55; letter-spacing: -0.03em; font-weight: 400; }
 
-        /* ========= MACBOOK PRO — PHOTOREALISTIC ========= */
+        /* ========= MACBOOK PRO - PHOTOREALISTIC ========= */
         .laptop-mockup {
             position: relative; width: 100%; max-width: 950px; margin: 0 auto;
             transform: none;
             transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* Layered shadows — laptop sitting on surface */
+            /* Layered shadows - laptop sitting on surface */
             filter: drop-shadow(0 1px 2px rgba(0,0,0,0.06))
                     drop-shadow(0 20px 60px rgba(0,0,0,0.10))
                     drop-shadow(0 60px 120px rgba(0,0,0,0.06));
@@ -275,7 +283,7 @@
 
         /* ===== LID (Display Assembly) ===== */
         .laptop-screen {
-            /* Aluminum frame around bezel — starlight warm tint */
+            /* Aluminum frame around bezel - starlight warm tint */
             background: linear-gradient(
                 175deg,
                 #d4cdc2 0%,
@@ -308,7 +316,7 @@
             /* Bezel padding: top has notch area, sides thinner */
             padding: 22px 12px 0;
         }
-        /* Screen glass reflection — subtle matte anti-glare */
+        /* Screen glass reflection - subtle matte anti-glare */
         .laptop-display::after {
             content: '';
             position: absolute; inset: 0; z-index: 10;
@@ -384,7 +392,7 @@
             position: relative;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
         }
-        /* Hinge is narrower than lid — centered strip */
+        /* Hinge is narrower than lid - centered strip */
         .laptop-hinge::before {
             content: '';
             position: absolute; top: 0; bottom: 0;
@@ -396,7 +404,7 @@
         /* ===== BASE (Keyboard Deck) ===== */
         .laptop-base {
             height: 12px;
-            /* Aluminum base — warm starlight tone matching lid */
+            /* Aluminum base - warm starlight tone matching lid */
             background: linear-gradient(180deg, #ccc5ba 0%, #c0b8ac 60%, #b8b0a4 100%);
             border-radius: 0 0 6px 6px;
             margin: 0;
@@ -406,7 +414,7 @@
                 0 8px 30px rgba(0,0,0,0.12),
                 0 2px 6px rgba(0,0,0,0.08);
         }
-        /* Front edge chamfer — the shiny beveled highlight */
+        /* Front edge chamfer - the shiny beveled highlight */
         .laptop-base::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg,
@@ -428,7 +436,7 @@
         .laptop-feet { display: none; }
         .laptop-foot { display: none; }
 
-        /* ========= DASHBOARD INSIDE LAPTOP — warm palette ========= */
+        /* ========= DASHBOARD INSIDE LAPTOP - warm palette ========= */
         .dash { display: flex; flex-direction: column; height: 100%; background: #faf8f6; overflow: hidden; }
         /* Top nav bar */
         .dash-nav { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ebe7e3; flex-shrink: 0; }
@@ -588,7 +596,7 @@
             pointer-events: none;
             z-index: 0;
         }
-        /* Hair-line inner border — crisp edge, signals premium */
+        /* Hair-line inner border - crisp edge, signals premium */
         .card-stack-item::after {
             content: '';
             position: absolute; inset: 0;
@@ -604,10 +612,148 @@
         .card-stack-item:nth-child(2) { transition-delay: 0.2s; }
         .card-stack-item:nth-child(3) { transition-delay: 0.3s; }
 
-        /* Card gradients — preserved brand palette */
+        /* Card gradients - preserved brand palette */
         .card-pmc { background: linear-gradient(180deg, #d0c6cd 0%, #9a8e97 55%, #302b35 100%); }
         .card-security { background: linear-gradient(180deg, #d3dce0 0%, #b0bdc1 32%, #5b6468 80%, #283034 100%); }
         .card-resident { background: linear-gradient(180deg, #e8dada 0%, #b8afaf 36%, #625959 100%); }
+
+        /* ========= 3-COLUMN COMPARISON (Card 3: Right-sized) ========= */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+        .compare-col {
+            padding: 22px 18px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.14);
+            color: rgba(255,255,255,0.86);
+            font-size: 13px;
+            line-height: 1.45;
+            position: relative;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), background 0.35s ease, border-color 0.35s ease;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .compare-col:hover {
+                transform: translateY(-10px);
+                background: rgba(255,255,255,0.14);
+                border-color: rgba(255,255,255,0.26);
+                box-shadow: 0 18px 44px rgba(0,0,0,0.24);
+            }
+        }
+        .compare-col-vars {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.36);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+            transform: translateY(-14px);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .compare-col-vars:hover {
+                transform: translateY(-24px);
+                background: rgba(255,255,255,0.30);
+                border-color: rgba(255,255,255,0.48);
+                box-shadow: 0 30px 70px rgba(0,0,0,0.38);
+            }
+        }
+        .compare-col-badge {
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #1a1a1a;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+        .compare-col-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(255,255,255,0.62);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .compare-col-vars .compare-col-label {
+            color: #fff;
+        }
+        .compare-col-price {
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 14px;
+            letter-spacing: -0.01em;
+        }
+        .compare-col-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+        .compare-col-list li {
+            padding: 8px 0;
+            font-size: 12.5px;
+            line-height: 1.4;
+            border-top: 1px solid rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.85);
+        }
+        .compare-col-list li:first-child { border-top: none; }
+        .compare-col-vars .compare-col-list li { color: #fff; }
+        @media (max-width: 768px) {
+            .compare-grid { grid-template-columns: 1fr; gap: 22px; }
+            .compare-col-vars { transform: none; }
+        }
+
+        /* Logo chips for comparison columns (Excel/WhatsApp · VARS · Enterprise PM) */
+        .compare-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            min-height: 26px;
+            margin-bottom: 14px;
+        }
+        .compare-logo-chip {
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            display: inline-flex;
+            overflow: hidden;
+            flex-shrink: 0;
+            opacity: 0.72;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .compare-col:hover .compare-logo-chip { opacity: 0.95; }
+        .compare-logo-chip-vars {
+            opacity: 1;
+            width: 28px;
+            height: 28px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.28);
+        }
+        .compare-logo-chip svg { display: block; width: 100%; height: 100%; }
+        .compare-col-tag {
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, 'Courier New', monospace;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .compare-col-vars .compare-col-tag { color: rgba(255,255,255,0.85); }
 
         .card-text { color: var(--text-light); z-index: 2; position: relative; }
         .card-text-label {
@@ -656,7 +802,7 @@
             align-items: center;
             position: relative;
         }
-        /* Soft ambient glow behind mockup — adds depth without being showy */
+        /* Soft ambient glow behind mockup - adds depth without being showy */
         .mockup-stage::before {
             content: '';
             position: absolute;
@@ -676,7 +822,7 @@
             transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s cubic-bezier(0.16,1,0.3,1);
             will-change: transform;
         }
-        /* Supervisor: cropped to browser viewport — layered shadow for depth */
+        /* Supervisor: cropped to browser viewport - layered shadow for depth */
         .mockup-img-laptop {
             max-height: 560px;
             box-shadow:
@@ -708,7 +854,7 @@
         @media (max-width: 768px) {
             .mockup-img-laptop, .mockup-img-phone { max-height: 420px; }
         }
-        /* Per-screen caption (used for supervisor card only — below the mockup) */
+        /* Per-screen caption (used for supervisor card only - below the mockup) */
         .mockup-caption {
             text-align: center;
             max-width: 60ch;
@@ -739,7 +885,7 @@
             max-width: 460px;
         }
 
-        /* Refined capsule switcher — feels like a control panel widget */
+        /* Refined capsule switcher - feels like a control panel widget */
         .mockup-switcher {
             display: inline-flex;
             align-items: center;
@@ -843,7 +989,7 @@
         /* Hide the big "9:41" on the left since the Dynamic Island occupies that area */
         .phone-showcase .iphone-statusbar > span:first-child { visibility: hidden; }
         .phone-showcase .iphone-statusbar { padding-top: 11px; }
-        /* Side buttons — black */
+        /* Side buttons - black */
         .phone-showcase .iphone-mockup .btn-power,
         .phone-showcase .iphone-mockup .btn-vol-up,
         .phone-showcase .iphone-mockup .btn-vol-down,
@@ -864,7 +1010,7 @@
             align-items: center;
             padding: 36px 12px 12px;
             color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
+            font-family: - apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
         }
         .phone-showcase .lock-date {
             font-size: 11px;
@@ -976,14 +1122,14 @@
             fill: #fff;
             opacity: 0.9;
         }
-        /* ===== VARS App Screen (Phone 2 — HD) ===== */
+        /* ===== VARS App Screen (Phone 2 - HD) ===== */
         .phone-showcase .vars-app-screen {
             position: relative;
             background: #f7f2ea;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
+            font-family: - apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Arial, sans-serif;
             color: #1a1a1a;
         }
         .phone-showcase .vars-app-header {
@@ -1361,8 +1507,8 @@
         .diff-card p { font-size: 16px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.02em; }
 
         /* ========= DOCUMENTS ========= */
-        /* Documents — door.com split style */
-        /* Documents — door.com numbered rows style */
+        /* Documents - door.com split style */
+        /* Documents - door.com numbered rows style */
         .documents-layout { display: grid; grid-template-columns: 380px 1fr; gap: 5rem; align-items: start; }
         .documents-left { position: sticky; top: 100px; }
         .documents-heading { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.053em; margin-bottom: 1.5rem; }
@@ -1455,7 +1601,7 @@
         button:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
 
         /* ========= ANIMATIONS ========= */
-        /* fadeInDown removed — replaced by slideUp */
+        /* fadeInDown removed - replaced by slideUp */
         @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.95);filter:blur(4px)} to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)} }
         @keyframes slideInFromRight { from{opacity:0;transform:translateX(80px) scale(0.9);filter:blur(6px)} to{opacity:1;transform:translateX(0) scale(1);filter:blur(0)} }
         @keyframes slideInFromLeft { from{opacity:0;transform:translateX(-80px) scale(0.9);filter:blur(6px)} to{opacity:1;transform:translateX(0) scale(1);filter:blur(0)} }
@@ -1478,11 +1624,12 @@
             .cta-float-3, .cta-float-4 { display: none; }
             .cta-float-1 { width: 120px; height: 120px; }
             .cta-float-2 { width: 80px; height: 80px; }
-            /* Tablet nav — tighten spacing */
+            /* Tablet nav - tighten spacing */
             .nav-left { gap: 1.5rem; }
             .nav-links { gap: 1.5rem; }
             .nav-links a { font-size: 13px; }
             .enterprise-login-btn { font-size: 13px; padding: 0.35rem 0.75rem; }
+            .product-tab { padding: 0.35rem 0.7rem; font-size: 12px; }
         }
 
         /* --- Mobile (max 768px) --- */
@@ -1506,7 +1653,10 @@
             .nav-links.active a { font-size: 16px; color: var(--text-dark); }
             .enterprise-login-btn { display: none; }
             .mobile-only-link { display: list-item; }
-            /* Lang toggle — smaller on mobile */
+            /* Product switcher - tighter on mobile, sits between logo and hamburger */
+            .product-switcher { padding: 2px; }
+            .product-tab { padding: 0.3rem 0.6rem; font-size: 11px; }
+            /* Lang toggle - smaller on mobile */
             .lang-toggle { padding: 5px 8px; }
             .lang-toggle svg { width: 14px; height: 14px; }
             .lang-toggle-label { font-size: 12px; }
@@ -1533,9 +1683,12 @@
             .card-text p { font-size: 15px; }
             .card-stack-spacer { height: 40px; }
 
-            /* Hide laptop mockups & slide navs on mobile — show feature lists instead */
+            /* Hide laptop mockups & slide navs on mobile - show feature lists instead */
             .card-pmc .card-visual > *:not(.mobile-feature-list),
-            .card-security .card-visual > *:not(.mobile-feature-list) { display: none !important; }
+            .card-security .card-visual > *:not(.mobile-feature-list),
+            .card-resident .card-visual > *:not(.mobile-feature-list) { display: none !important; }
+            /* Hide per-slide captions on mobile (stale since carousels are hidden) */
+            .mockup-caption-side { display: none !important; }
             .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
             .mobile-feature-item {
                 display: flex; align-items: center; gap: 0.75rem;
@@ -1714,9 +1867,9 @@
         /* ========= PRICING ========= */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+            max-width: 880px;
             margin: 0 auto;
         }
         .pricing-card {
@@ -1828,6 +1981,59 @@
         }
         .pricing-card-featured .pricing-feature { color: rgba(255,255,255,0.92); }
         .pricing-card-featured .pricing-feature::before { color: #fff; }
+
+        /* Unified single-card pricing (two tiers + shared feature list) */
+        .pricing-unified {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 18px;
+            padding: clamp(2rem, 4vw, 3.5rem);
+            max-width: 980px;
+            margin: 0 auto;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.10);
+        }
+        .pricing-tiers-row {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: clamp(1.5rem, 3vw, 2.75rem);
+            align-items: flex-start;
+        }
+        .pricing-tier-col { display: flex; flex-direction: column; min-width: 0; }
+        .pricing-tier-col .pricing-desc { min-height: 0; }
+        .pricing-tier-col .pricing-per { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .pricing-tier-divider {
+            background: rgba(0,0,0,0.08);
+            align-self: stretch;
+            min-height: 160px;
+        }
+        .pricing-shared-divider {
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+            margin: clamp(2rem, 4vw, 3rem) 0 clamp(1.5rem, 3vw, 2.25rem);
+        }
+        .pricing-features-shared { max-width: 760px; margin: 0 auto; }
+        .pricing-features-shared .pricing-feature-header {
+            text-align: center;
+            font-family: 'JetBrains Mono', ui-monospace, Menlo, 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-dark-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .pricing-features-shared .pricing-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px 28px;
+            margin-bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .pricing-tiers-row { grid-template-columns: 1fr; gap: 2rem; }
+            .pricing-tier-divider { display: none; }
+            .pricing-features-shared .pricing-features { grid-template-columns: 1fr; }
+        }
+        html[dir="rtl"] .pricing-features-shared .pricing-feature { text-align: right; }
         .pricing-btn {
             background: transparent;
             color: var(--text-dark);
@@ -1872,7 +2078,7 @@
             }
         }
 
-        /* ========= COVERAGE GRID — What VARS covers ========= */
+        /* ========= COVERAGE GRID - What VARS covers ========= */
         .coverage-section { padding: 6rem 2rem; background: #f5f3f0; }
         .coverage-heading { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.053em; color: var(--text-dark); margin-bottom: 4rem; max-width: 22ch; }
         .coverage-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(0,0,0,0.08); border-left: 1px solid rgba(0,0,0,0.08); }
@@ -1911,14 +2117,13 @@
         <nav-content>
             <div class="nav-left">
                 <div class="nav-logo">
-                    <div class="nav-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="#000000"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
+                    <div class="nav-logo-box"><svg width="32" height="32" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="4" fill="#3E4C59"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="white"/></svg></div>
                     <span>VARS</span>
                 </div>
                 <ul class="nav-links" id="navLinks">
                     <li><a onclick="scrollToSection('slider')" data-i18n="nav_platform">Platform</a></li>
                     <li><a onclick="scrollToSection('pricing')" data-i18n="nav_pricing">Pricing</a></li>
-                    <li><a onclick="openContactForm()" data-i18n="nav_contact">Contact</a></li>
-                    <li class="mobile-only-link"><a href="https://vars-app.vercel.app/" target="_blank" data-i18n="nav_login">Enterprise Login</a></li>
+                    <li class="mobile-only-link"><a href="https://demo.vars.live/" target="_blank" data-i18n="nav_login">Live Demo</a></li>
                 </ul>
             </div>
             <div class="nav-right">
@@ -1935,7 +2140,7 @@
                         <div class="lang-option" data-lang="ar" onclick="event.stopPropagation();selectLang('ar')">العربية</div>
                     </div>
                 </div>
-                <a href="https://vars-app.vercel.app/" target="_blank" class="enterprise-login-btn" data-i18n="nav_login">Enterprise Login</a>
+                <a href="https://demo.vars.live/" target="_blank" class="enterprise-login-btn" data-i18n="nav_login">Live Demo</a>
             </div>
         </nav-content>
     </nav>
@@ -1949,8 +2154,8 @@
             <div class="hero-bg-slide hero-bg-warm"></div>
         </div>
         <div class="container" style="position:relative;z-index:1;">
-            <h1 data-i18n-html="hero_title">Facility management<br>without the spreadsheets.</h1>
-            <p class="hero-subtext" data-i18n="hero_sub">Work orders, PPM, assets, and SLAs. One system for FM companies and in-house teams across the UAE.</p>
+            <h1 data-i18n-html="hero_title">An asset portfolio<br>you can actually see.</h1>
+            <p class="hero-subtext" data-i18n="hero_sub">For portfolios owned or managed across the UAE. Leases, payments, costs, and documents in one place. No more Excel or WhatsApp threads.</p>
             <div class="scroll-indicator">
                 <div class="scroll-mouse"></div>
             </div>
@@ -1960,8 +2165,8 @@
     <!-- ===== STACKED CARD SLIDER (door.com style) ===== -->
     <div class="slider-section" id="slider">
         <div class="slider-header">
-            <h2 data-i18n="slider_title">From intake to close-out. One system.</h2>
-            <p data-i18n="slider_sub">Raised by occupants. Dispatched from the dashboard. Resolved on a phone.</p>
+            <h2 data-i18n="slider_title">The whole portfolio, in your pocket.</h2>
+            <p data-i18n="slider_sub">Every asset, every payment, every cost - at a glance, then drill in.</p>
         </div>
 
         <div class="card-stack">
@@ -1969,32 +2174,28 @@
             <!-- Card 1: Supervisor App -->
             <div class="card-stack-item card-pmc reveal">
                 <div class="card-text">
-                    <div class="card-text-label"><span data-i18n="card_sup_label">Supervisor</span> · 01</div>
-                    <h2 data-i18n-html="card_sup_title">The command center<br>for your FM operation.</h2>
-                    <p data-i18n="card_sup_desc">Receive requests, create work orders, and assign the right technician — by skill, by experience, by workload. Track every job through to quality sign-off. PPM, asset register, and FM analytics, all in one place.</p>
-                    <div class="mockup-caption-side" id="pmcCaption">Daily overview — KPIs across all active work, with the open queue ready to triage.</div>
+                    <div class="card-text-label"><span data-i18n="card_sup_label">Portfolio Overview</span> · 01</div>
+                    <h2 data-i18n-html="card_sup_title">Your whole portfolio.<br>One screen.</h2>
+                    <p data-i18n="card_sup_desc">Every building, villa, and plot you manage - in one view. Click any asset to drill into its leases, tenants, payments, and history.</p>
+                    <div class="mockup-caption-side" id="pmcCaption">Residential & commercial - every building in one view, with this month's collection per asset.</div>
                 </div>
                 <div class="card-visual" style="flex-direction:column;justify-content:center;">
                     <div class="mockup-stage mockup-stage-laptop">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/01-dashboard.png" alt="Supervisor — Dashboard">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/02-new-work-order.png" alt="Supervisor — New Work Order" style="display:none;">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/03-work-execution.png" alt="Supervisor — Work Execution" style="display:none;">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/04-approve-reject.png" alt="Supervisor — Approve or Reject" style="display:none;">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/05-procedure-library.png" alt="Supervisor — Procedure Library" style="display:none;">
-                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups/supervisor/06-materials-catalog.png" alt="Supervisor — Materials Catalog" style="display:none;">
+                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/portfolio/02-portfolio.png" alt="Portfolio - Residential & commercial">
+                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/portfolio/villas.png" alt="Portfolio - Villas" style="display:none;">
+                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/portfolio/commercial.png" alt="Portfolio - Commercial buildings" style="display:none;">
+                        <img class="pmc-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/portfolio/lands.png" alt="Portfolio - Lands" style="display:none;">
                     </div>
                     <div class="mockup-switcher">
                         <button onclick="pmcSlide(-1)" class="mockup-switcher-btn">‹</button>
-                        <span id="pmcCounter" class="mockup-switcher-counter">1/6</span>
+                        <span id="pmcCounter" class="mockup-switcher-counter">1/4</span>
                         <button onclick="pmcSlide(1)" class="mockup-switcher-btn">›</button>
                     </div>
                     <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_sup_1">Dashboard</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_sup_2">Create Work Order</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_sup_3">Assign Technician</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_sup_4">Approve or Reject</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">05</span><span class="mf-title" data-i18n="mf_sup_5">Procedure Library</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">06</span><span class="mf-title" data-i18n="mf_sup_6">Materials Catalog</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_sup_1">Residential &amp; Commercial</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_sup_2">Villas</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_sup_3">Commercial Buildings</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_sup_4">Lands</span></div>
                     </div>
                 </div>
             </div>
@@ -2002,59 +2203,57 @@
             <!-- Card 2: Technician App -->
             <div class="card-stack-item card-security reveal">
                 <div class="card-text">
-                    <div class="card-text-label"><span data-i18n="card_tech_label">Technician</span> · 02</div>
-                    <h2 data-i18n-html="card_tech_title">Field work,<br>fully documented.</h2>
-                    <p data-i18n="card_tech_desc">Technicians accept or reject jobs with a reason. Document with photos, procedure checklists, and the materials used. Capture the resident signature at close-out. No more WhatsApp groups. No more guesswork.</p>
-                    <div class="mockup-caption-side" id="techCaption">Your jobs at a glance — open, in progress, on hold, completed, rejected.</div>
+                    <div class="card-text-label"><span data-i18n="card_tech_label">All in one system</span> · 02</div>
+                    <h2 data-i18n-html="card_tech_title">All your data.<br>One place.</h2>
+                    <p data-i18n="card_tech_desc">Every file about every asset - title deeds, contracts, invoices, contractor records, photos - in one searchable system. Upload or download in PDF, PNG, or any format. Nothing gets lost.</p>
+                    <div class="mockup-caption-side" id="techCaption">Document database - every photo, deed, layout, and contract grouped by asset.</div>
                 </div>
                 <div class="card-visual" style="flex-direction:column;justify-content:center;">
-                    <div class="mockup-stage mockup-stage-phone">
-                        <img class="tech-screen mockup-img mockup-img-phone" src="images/mockups/technician/01-main-menu.png" alt="Technician — Main Menu">
-                        <img class="tech-screen mockup-img mockup-img-phone" src="images/mockups/technician/02-accept-work.png" alt="Technician — Accept the Work" style="display:none;">
-                        <img class="tech-screen mockup-img mockup-img-phone" src="images/mockups/technician/03-job-execution.png" alt="Technician — Job Execution" style="display:none;">
-                        <img class="tech-screen mockup-img mockup-img-phone" src="images/mockups/technician/04-procedures-materials.png" alt="Technician — Procedures &amp; Materials" style="display:none;">
-                        <img class="tech-screen mockup-img mockup-img-phone" src="images/mockups/technician/05-wo-submission.png" alt="Technician — WO Submission" style="display:none;">
+                    <div class="mockup-stage mockup-stage-laptop">
+                        <img class="tech-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/documents/01-database.png" alt="All in one - Document database">
+                        <img class="tech-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/documents/02-unit-detail.png" alt="All in one - Unit record with attachments" style="display:none;">
+                        <img class="tech-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/documents/03-financial-reports.png" alt="All in one - Built-in financial reports" style="display:none;">
+                        <img class="tech-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/documents/04-pdf-report.png" alt="All in one - Branded PDF report" style="display:none;">
                     </div>
                     <div class="mockup-switcher">
                         <button onclick="techSlide(-1)" class="mockup-switcher-btn">‹</button>
-                        <span id="techCounter" class="mockup-switcher-counter">1/5</span>
+                        <span id="techCounter" class="mockup-switcher-counter">1/4</span>
                         <button onclick="techSlide(1)" class="mockup-switcher-btn">›</button>
                     </div>
                     <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_tech_1">My Jobs</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_tech_2">Accept or Reject</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_tech_3">En Route Timer</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_tech_4">Procedure &amp; Materials</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">05</span><span class="mf-title" data-i18n="mf_tech_5">Signature &amp; Close-out</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_tech_1">Document Database</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_tech_2">Unit Record &amp; Attachments</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_tech_3">Built-in Reports</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_tech_4">Branded PDF Exports</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 3: Resident App -->
+            <!-- Card 3: Operational Control -->
             <div class="card-stack-item card-resident reveal">
                 <div class="card-text">
-                    <div class="card-text-label"><span data-i18n="card_res_label">Resident</span> · 03</div>
-                    <h2 data-i18n-html="card_res_title">Issues raised<br>without the runaround.</h2>
-                    <p data-i18n="card_res_desc">Residents raise requests in seconds — photo, location, category, preferred time. They watch progress in real time, see who's coming, and rate the work when it's done. No security desk. No WhatsApp.</p>
-                    <div class="mockup-caption-side" id="resCaption">Your active and past requests, all in one place.</div>
+                    <div class="card-text-label"><span data-i18n="card_ops_label">Operational Control</span> · 03</div>
+                    <h2 data-i18n-html="card_ops_title">Operational control.<br>From anywhere.</h2>
+                    <p data-i18n="card_ops_desc">One queue for service requests, billing, announcements, and visitor or guard logs. See who's on-site, what's open, and what's done at every asset.</p>
+                    <div class="mockup-caption-side" id="opsCaption">Service requests - one queue across every asset, sorted by priority and status.</div>
                 </div>
                 <div class="card-visual" style="flex-direction:column;justify-content:center;">
-                    <div class="mockup-stage mockup-stage-phone">
-                        <img class="res-screen mockup-img mockup-img-phone" src="images/mockups/resident/01-my-requests.png" alt="Resident — My Requests">
-                        <img class="res-screen mockup-img mockup-img-phone" src="images/mockups/resident/02-create-request.png" alt="Resident — Create a Request" style="display:none;">
-                        <img class="res-screen mockup-img mockup-img-phone" src="images/mockups/resident/03-track-execution.png" alt="Resident — Track Task Execution" style="display:none;">
-                        <img class="res-screen mockup-img mockup-img-phone" src="images/mockups/resident/04-feedback.png" alt="Resident — Feedback" style="display:none;">
+                    <div class="mockup-stage mockup-stage-laptop">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/01-service-requests.png" alt="Operations - Service requests">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/02-announcements.png" alt="Operations - Announcements" style="display:none;">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/03-visitors.png" alt="Operations - Visitors" style="display:none;">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/04-guards.png" alt="Operations - Guards" style="display:none;">
                     </div>
                     <div class="mockup-switcher">
-                        <button onclick="resSlide(-1)" class="mockup-switcher-btn">‹</button>
-                        <span id="resCounter" class="mockup-switcher-counter">1/4</span>
-                        <button onclick="resSlide(1)" class="mockup-switcher-btn">›</button>
+                        <button onclick="opsSlide(-1)" class="mockup-switcher-btn">‹</button>
+                        <span id="opsCounter" class="mockup-switcher-counter">1/4</span>
+                        <button onclick="opsSlide(1)" class="mockup-switcher-btn">›</button>
                     </div>
                     <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_res_1">My Requests</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_res_2">Raise a Request</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_res_3">Track Progress</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_res_4">Rate the Work</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_ops_1">Service Requests</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_ops_2">Announcements</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_ops_3">Visitors</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_ops_4">Guards</span></div>
                     </div>
                 </div>
             </div>
@@ -2062,114 +2261,120 @@
         </div>
     </div>
 
-    <!-- ===== WHAT VARS COVERS — FEATURE GRID ===== -->
-    <section id="coverage" class="coverage-section reveal">
-        <div class="container">
-            <h2 class="coverage-heading" data-i18n="coverage_heading">What VARS covers.</h2>
-            <div class="coverage-grid">
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_1_title">Occupant Requests</div>
-                    <div class="coverage-card-desc" data-i18n="cov_1_desc">Tenants and staff raise issues from a phone — photo, location, category, urgency</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_1_benefit">Every request lands in the queue with the right context. No more WhatsApp triage.</div>
-                </div>
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_2_title">Work Orders</div>
-                    <div class="coverage-card-desc" data-i18n="cov_2_desc">Intake, dispatch, status, and close-out — one queue across every trade and contractor</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_2_benefit">Coordinators see what's open, who's on it, and how long it's been. No spreadsheets.</div>
-                </div>
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_3_title">Planned Preventive Maintenance</div>
-                    <div class="coverage-card-desc" data-i18n="cov_3_desc">Calendar-driven recurring tasks against assets — generated, assigned, and tracked automatically</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_3_benefit">PPM compliance you can prove. Auditable evidence for every visit.</div>
-                </div>
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_4_title">Asset Register</div>
-                    <div class="coverage-card-desc" data-i18n="cov_4_desc">Every chiller, lift, pump, and panel — location, warranty, service history</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_4_benefit">One source of truth. New work orders link to the asset, not just an address.</div>
-                </div>
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_5_title">FM Analytics</div>
-                    <div class="coverage-card-desc" data-i18n="cov_5_desc">MTTR, first-time fix rate, PPM compliance, open-WO aging, SLA breaches</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_5_benefit">Spot patterns across buildings before they become escalations.</div>
-                </div>
-                <div class="coverage-card">
-                    <div class="coverage-card-title" data-i18n="cov_6_title">System Integration</div>
-                    <div class="coverage-card-desc" data-i18n="cov_6_desc">API-ready for existing ERPs and CMMS. CSV upload for day one</div>
-                    <div class="coverage-card-benefit" data-i18n="cov_6_benefit">No rip-and-replace. Works alongside what you already use.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ===== PRICING ===== -->
-    <section id="pricing" class="reveal" style="padding: 7rem 2rem; background:#fff;">
+    <section id="pricing" class="reveal" style="padding: 7rem 2rem; background: linear-gradient(180deg, #3E4C59 0%, #5e6873 18%, #818b96 50%, #b1b9c2 78%, #d3d9df 100%);">
         <div class="container">
-            <div style="text-align:center; max-width:680px; margin:0 auto 4rem;">
-                <h2 data-i18n="pricing_heading" style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.053em; color: var(--text-dark); margin-bottom: 1.25rem;">Transparent pricing.</h2>
-                <p data-i18n="pricing_sub" style="font-size:18px; color:var(--text-dark-secondary); line-height:1.55; letter-spacing:-0.03em;">Billed monthly per active user. Resident accounts are always free — you only pay for staff who work in the system.</p>
+            <!-- Positioning: cheaper than enterprise, more capable than Excel -->
+            <div style="text-align:center; max-width:760px; margin:0 auto 2.5rem;">
+                <h2 data-i18n-html="pricing_compare_heading" style="font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.05em; color: #fff; margin-bottom: 1.25rem;">Cheaper than enterprise.<br>More capable than Excel.</h2>
+                <p data-i18n="pricing_compare_sub" style="font-size:18px; color: rgba(255,255,255,0.78); line-height:1.55; letter-spacing:-0.03em;">Real software at a fraction of the cost - without the months-long implementation project.</p>
             </div>
-            <div class="pricing-grid">
-                <!-- Basic -->
-                <div class="pricing-card">
-                    <div class="pricing-tier" data-i18n="price_basic_tier">Basic</div>
-                    <div class="pricing-desc" data-i18n="price_basic_desc">For small teams digitising work-order tracking for the first time.</div>
-                    <div class="pricing-price">
-                        <span class="pricing-currency">AED</span>
-                        <span class="pricing-amount">70</span>
+
+            <!-- 3-column comparison: Excel/WhatsApp · VARS · Enterprise PM -->
+            <!-- Bullets are row-aligned: 1. Setup · 2. Asset-level P&L · 3. Documents · 4. Customization -->
+            <div class="compare-grid" style="margin-bottom: 5rem;">
+                <div class="compare-col">
+                    <div class="compare-logos">
+                        <span class="compare-logo-chip" title="Microsoft Excel"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="5" fill="#107C41"/><path d="M8.3 7l3.1 4.9L8.1 17h2.5l2-3.4 2.1 3.4h2.6l-3.3-5.2L16.7 7h-2.5l-1.9 3.2L10.6 7z" fill="#fff"/></svg></span>
+                        <span class="compare-logo-chip" title="WhatsApp"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="5" fill="#25D366"/><path d="M16.95 7.05A6.96 6.96 0 0 0 12 5c-3.86 0-7 3.14-7 7 0 1.22.32 2.42.93 3.47L5 19l3.65-.96A6.97 6.97 0 0 0 12 19c3.86 0 7-3.14 7-7 0-1.87-.73-3.62-2.05-4.95zM12 17.8c-1.07 0-2.12-.29-3.04-.83l-.22-.13-2.27.59.61-2.21-.14-.23A5.82 5.82 0 0 1 6.2 12c0-3.2 2.6-5.8 5.8-5.8 1.55 0 3.01.6 4.1 1.7a5.77 5.77 0 0 1 1.7 4.1c0 3.2-2.6 5.8-5.8 5.8zm3.18-4.34c-.18-.09-1.04-.51-1.2-.57-.16-.06-.28-.09-.4.09-.12.18-.45.57-.55.69-.1.12-.2.13-.38.04-.18-.09-.74-.27-1.42-.87-.52-.46-.88-1.04-.98-1.21-.1-.18-.01-.27.08-.36.08-.08.18-.21.27-.32.09-.11.12-.18.18-.3.06-.12.03-.22-.01-.31-.04-.09-.4-.96-.55-1.32-.14-.34-.29-.3-.4-.3-.1 0-.22-.01-.34-.01-.12 0-.31.04-.47.22-.16.18-.62.6-.62 1.47s.63 1.7.72 1.82c.09.12 1.24 1.89 3 2.65.42.18.74.29.99.37.41.13.79.11 1.08.07.33-.05 1.04-.43 1.18-.84.15-.41.15-.76.1-.84-.04-.07-.16-.11-.34-.2z" fill="#fff"/></svg></span>
                     </div>
-                    <div class="pricing-per" data-i18n="price_per">per active user / month</div>
-                    <div class="pricing-features">
-                        <div class="pricing-feature" data-i18n="price_basic_1">Up to 10 active users</div>
-                        <div class="pricing-feature" data-i18n="price_basic_2">Work orders</div>
-                        <div class="pricing-feature" data-i18n="price_basic_3">Procedures</div>
-                        <div class="pricing-feature" data-i18n="price_basic_5">Base analytics</div>
-                    </div>
+                    <div class="compare-col-label" data-i18n="cmp_excel_label">Excel &amp; WhatsApp</div>
+                    <div class="compare-col-tag" data-i18n="cmp_excel_tag">Manual</div>
+                    <ul class="compare-col-list">
+                        <li data-i18n="cmp_excel_1">Instant - but no system</li>
+                        <li data-i18n="cmp_excel_2">Lost across spreadsheets</li>
+                        <li data-i18n="cmp_excel_3">PDFs &amp; contracts get lost</li>
+                        <li data-i18n="cmp_excel_4">No customization</li>
+                    </ul>
                 </div>
-                <!-- Pro (featured) -->
-                <div class="pricing-card pricing-card-featured">
-                    <div class="pricing-badge" data-i18n="pricing_popular">Preferred for small &amp; medium FM companies</div>
-                    <div class="pricing-tier" data-i18n="price_pro_tier">Pro</div>
-                    <div class="pricing-desc" data-i18n="price_pro_desc">For mid-size operations needing recurring jobs and deeper analytics.</div>
-                    <div class="pricing-price">
-                        <span class="pricing-currency">AED</span>
-                        <span class="pricing-amount">100</span>
+                <div class="compare-col compare-col-vars">
+                    <div class="compare-col-badge" data-i18n="cmp_vars_badge">You're here</div>
+                    <div class="compare-logos">
+                        <span class="compare-logo-chip compare-logo-chip-vars" title="VARS"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="4" fill="#3E4C59"/><path d="M33.3 16.7 L50 16.7 L58.1 25.2 L66.7 33.3 L66.7 83.3 L50 83.3 L33.3 66.7 Z" fill="#fff"/></svg></span>
                     </div>
-                    <div class="pricing-per" data-i18n="price_per">per active user / month</div>
-                    <div class="pricing-feature-header" data-i18n="price_includes_basic">Everything in Basic, plus:</div>
-                    <div class="pricing-features">
-                        <div class="pricing-feature" data-i18n="price_pro_1">Up to 300 active users</div>
-                        <div class="pricing-feature" data-i18n="price_pro_2">Recurring work orders</div>
-                        <div class="pricing-feature" data-i18n="price_pro_5">Inventory management</div>
-                        <div class="pricing-feature" data-i18n="price_pro_3">Advanced analytics</div>
-                        <div class="pricing-feature" data-i18n="price_pro_4">Cost tracking</div>
-                    </div>
+                    <div class="compare-col-label" data-i18n="cmp_vars_label">VARS</div>
+                    <div class="compare-col-tag" data-i18n="cmp_vars_tag">UAE-built</div>
+                    <ul class="compare-col-list">
+                        <li data-i18n="cmp_vars_1">Up and running in weeks</li>
+                        <li data-i18n="cmp_vars_2">Portfolio overview + asset detail</li>
+                        <li data-i18n="cmp_vars_3">Every document in one place</li>
+                        <li data-i18n="cmp_vars_4">Tailored to your portfolio</li>
+                    </ul>
                 </div>
-                <!-- Enterprise -->
-                <div class="pricing-card">
-                    <div class="pricing-tier" data-i18n="price_ent_tier">Enterprise</div>
-                    <div class="pricing-desc" data-i18n="price_ent_desc">For large operations needing AI insights, unlimited scale, and dedicated support.</div>
-                    <div class="pricing-price">
-                        <span class="pricing-currency">AED</span>
-                        <span class="pricing-amount">140</span>
+                <div class="compare-col">
+                    <div class="compare-logos">
+                        <span class="compare-logo-chip" title="IBM Maximo"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="5" fill="#0530AD"/><g fill="#fff"><rect x="3" y="7" width="3.5" height="1"/><rect x="8.5" y="7" width="6" height="1"/><rect x="16.5" y="7" width="4.5" height="1"/><rect x="3" y="8.6" width="3.5" height="1"/><rect x="8.5" y="8.6" width="6" height="1"/><rect x="16.5" y="8.6" width="4.5" height="1"/><rect x="3" y="10.2" width="3.5" height="1"/><rect x="8.5" y="10.2" width="6" height="1"/><rect x="16.5" y="10.2" width="4.5" height="1"/><rect x="3" y="11.8" width="3.5" height="1"/><rect x="8.5" y="11.8" width="6" height="1"/><rect x="16.5" y="11.8" width="4.5" height="1"/><rect x="3" y="13.4" width="3.5" height="1"/><rect x="8.5" y="13.4" width="6" height="1"/><rect x="16.5" y="13.4" width="4.5" height="1"/><rect x="3" y="15" width="3.5" height="1"/><rect x="8.5" y="15" width="6" height="1"/><rect x="16.5" y="15" width="4.5" height="1"/><rect x="3" y="16.6" width="3.5" height="1"/><rect x="8.5" y="16.6" width="6" height="1"/><rect x="16.5" y="16.6" width="4.5" height="1"/></g></svg></span>
+                        <span class="compare-logo-chip" title="Oracle"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="5" fill="#C74634"/><text x="12" y="14.5" font-family="Helvetica, Arial, sans-serif" font-size="5.2" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="0.2">ORACLE</text></svg></span>
+                        <span class="compare-logo-chip" title="MRI Software"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="5" fill="#003E7E"/><text x="12" y="15.5" font-family="Helvetica, Arial, sans-serif" font-size="7.5" font-weight="800" fill="#fff" text-anchor="middle">MRI</text></svg></span>
+                        <span class="compare-logo-chip" title="SAP"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sapG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#008FD3"/><stop offset="1" stop-color="#0058A3"/></linearGradient></defs><rect width="24" height="24" rx="5" fill="url(#sapG)"/><text x="12" y="15.5" font-family="Helvetica, Arial, sans-serif" font-size="7" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="-0.3">SAP</text></svg></span>
                     </div>
-                    <div class="pricing-per" data-i18n="price_per">per active user / month</div>
-                    <div class="pricing-feature-header" data-i18n="price_includes_pro">Everything in Pro, plus:</div>
-                    <div class="pricing-features">
-                        <div class="pricing-feature" data-i18n="price_ent_1">Unlimited active users</div>
-                        <div class="pricing-feature" data-i18n="price_ent_2">AI-powered analytics</div>
-                        <div class="pricing-feature" data-i18n="price_ent_3">Dedicated customer support manager</div>
-                    </div>
+                    <div class="compare-col-label" data-i18n="cmp_ent_label">Enterprise PM</div>
+                    <div class="compare-col-tag" data-i18n="cmp_ent_tag">Heavy</div>
+                    <ul class="compare-col-list">
+                        <li data-i18n="cmp_ent_1">3-6 month rollout</li>
+                        <li data-i18n="cmp_ent_2">Yes - after long config</li>
+                        <li data-i18n="cmp_ent_3">Possible - heavy setup</li>
+                        <li data-i18n="cmp_ent_4">Consultants required</li>
+                    </ul>
                 </div>
             </div>
+
+            <!-- Transition into pricing tiers -->
+            <div style="text-align:center; max-width:680px; margin:0 auto 3rem;">
+                <h3 data-i18n="pricing_heading" style="font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 400; line-height: 1.12; letter-spacing: -0.04em; color: #fff; margin-bottom: 0.6rem; text-shadow: 0 1px 12px rgba(0,0,0,0.18);">Transparent pricing.</h3>
+                <p data-i18n="pricing_sub" style="font-size:16px; color: rgba(255,255,255,0.85); line-height:1.55; letter-spacing:-0.02em; text-shadow: 0 1px 10px rgba(0,0,0,0.15);">Simple per-asset pricing. Billed monthly.</p>
+            </div>
+            <!-- Unified pricing: two tiers + shared feature list -->
+            <div class="pricing-unified">
+                <div class="pricing-tiers-row">
+                    <div class="pricing-tier-col">
+                        <div class="pricing-tier" data-i18n="price_bldg_tier">Residential &amp; Commercial Buildings</div>
+                        <div class="pricing-desc" data-i18n="price_bldg_desc">For apartment buildings, mixed-use, and commercial towers.</div>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">AED</span>
+                            <span class="pricing-amount">400</span>
+                        </div>
+                        <div class="pricing-per" data-i18n="price_bldg_per">per building / month · up to 70 units</div>
+                        <div class="pricing-per" style="margin-top:6px; font-size:13px; opacity:0.75;" data-i18n="price_bldg_overage">+ AED 10 per unit / month above 70</div>
+                    </div>
+                    <div class="pricing-tier-divider"></div>
+                    <div class="pricing-tier-col">
+                        <div class="pricing-tier" data-i18n="price_villa_tier">Villas &amp; Land Plots</div>
+                        <div class="pricing-desc" data-i18n="price_villa_desc">For individual villas, townhouses, and land plots under management.</div>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">AED</span>
+                            <span class="pricing-amount">150</span>
+                        </div>
+                        <div class="pricing-per" data-i18n="price_villa_per">per asset / month</div>
+                    </div>
+                </div>
+
+                <div class="pricing-shared-divider"></div>
+
+                <div class="pricing-features-shared">
+                    <div class="pricing-feature-header" data-i18n="price_includes_both">Both tiers include</div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature" data-i18n="price_feat_1">All features - leases, tenants, rent, maintenance, contractors, costs &amp; reporting</div>
+                        <div class="pricing-feature" data-i18n="price_feat_2">Full portfolio visibility across every asset</div>
+                        <div class="pricing-feature" data-i18n="price_feat_3">Landlord, owner &amp; property-manager accounts - create as many as you need</div>
+                        <div class="pricing-feature" data-i18n="price_feat_4">Full data export in any format you need</div>
+                        <div class="pricing-feature" data-i18n="price_feat_5">Initial setup &amp; standard customization</div>
+                        <div class="pricing-feature" data-i18n="price_feat_6">Unlimited tenant &amp; security accounts - free</div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align:center; margin: 2.5rem auto 0; max-width:680px; font-size:14px; color: rgba(255,255,255,0.68); line-height:1.55;" data-i18n="price_addons_note">Customization beyond the initial setup is billed separately. Talk to us for portfolio bundles.</p>
         </div>
     </section>
 
-    <!-- ===== THESIS + CTA (combined) ===== -->
-    <section id="cta" class="reveal" style="padding: 7rem 2rem; background: linear-gradient(180deg, #d3dce0 0%, #b0bdc1 32%, #5b6468 80%, #283034 100%);">
-        <div class="container" style="text-align:center;">
-            <h2 style="font-size:clamp(1.75rem, 4vw, 3rem); font-weight:400; letter-spacing:-0.053em; line-height:1.1; color:#fff; max-width:22ch; margin:0 auto;" data-i18n="thesis_line">Great facility management is invisible. Everything just works.</h2>
-            <div style="margin-top: 2.5rem;">
-                <button onclick="openContactForm()" style="background:#fff; color:#1a1a1a; border:none; padding:1rem 2.5rem; border-radius:999px; font-weight:500; font-size:14px; cursor:pointer; font-family:inherit; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''" data-i18n="cta_btn">Book a demo</button>
+    <!-- ===== LIVE DEMO + CONTACT CTA ===== -->
+    <section id="demo" class="reveal" style="padding: clamp(3.5rem, 8vw, 7rem) clamp(1.25rem, 4vw, 2rem); background: #f5f3f0;">
+        <div class="container" style="text-align:center; max-width: 820px; margin: 0 auto;">
+            <h2 data-i18n-html="demo_title" style="font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.05em; color: var(--text-dark); margin-bottom: 1.25rem;">See it before you decide.</h2>
+            <p data-i18n="demo_sub" style="font-size: 17px; color: var(--text-dark-secondary); line-height: 1.55; letter-spacing: -0.02em; margin: 0 auto 2.25rem; max-width: 600px;">Open the app right now with a sample portfolio already loaded. Browse leases, run a report, drill into any asset - see how it actually works.</p>
+            <a href="https://demo.vars.live/" target="_blank" data-i18n="demo_btn" style="display: inline-block; background: var(--bg-warm-dark); color: var(--text-light); border: none; padding: 1rem 2.5rem; border-radius: 999px; font-weight: 500; font-size: 14px; cursor: pointer; font-family: inherit; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1); text-decoration: none;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 16px 40px rgba(146,137,137,0.35)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Open the live demo →</a>
+            <div style="margin-top: 1.5rem;">
+                <a onclick="openContactForm()" data-i18n="demo_contact" style="display:inline-block; color: var(--text-dark-secondary); text-decoration: none; font-size: 14px; cursor: pointer; border-bottom: 1px solid rgba(26,26,26,0.25); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.color='var(--text-dark)';this.style.borderColor='var(--text-dark)'" onmouseout="this.style.color='var(--text-dark-secondary)';this.style.borderColor='rgba(26,26,26,0.25)'">Or contact us →</a>
             </div>
         </div>
     </section>
@@ -2179,14 +2384,14 @@
         <div class="container" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:60px;">
             <div>
                 <div style="font-size:32px; letter-spacing:-0.035em; font-weight:500; margin-bottom:1.25rem;">VARS</div>
-                <p style="font-size:14px; color:var(--text-dark-secondary); line-height:1.5;">Facility management for UAE buildings. Built in Abu Dhabi.</p>
+                <p style="font-size:14px; color:var(--text-dark-secondary); line-height:1.5;">Portfolio management for UAE landlords and operators. Built in Abu Dhabi.</p>
             </div>
             <div>
                 <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Platform</h5>
                 <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
-                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Supervisor</a>
-                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Technician</a>
-                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Resident</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Portfolio Overview</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">All in One System</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Operational Control</a>
                 </div>
             </div>
             <div>
@@ -2199,7 +2404,10 @@
                 <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Contact</h5>
                 <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
                     <a href="mailto:info@vars.live" style="color:var(--text-dark); text-decoration:underline;">info@vars.live</a>
-                    <a href="tel:+971504967084" style="color:var(--text-dark); text-decoration:underline;">+971 50 496 7084</a>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <a href="tel:+971504967084" style="color:var(--text-dark); text-decoration:underline;">+971 50 496 7084</a>
+                        <a href="https://wa.me/971504967084" target="_blank" title="Chat on WhatsApp" aria-label="Chat on WhatsApp" style="display:inline-flex; align-items:center; color:var(--text-dark-secondary); text-decoration:none; transition:color 0.2s ease;" onmouseover="this.style.color='var(--text-dark)'" onmouseout="this.style.color='var(--text-dark-secondary)'"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+                    </div>
                     <span style="color:var(--text-dark-secondary);">Abu Dhabi, UAE</span>
                 </div>
             </div>
@@ -2291,50 +2499,44 @@
         const mockupCaptions = {
             sup: {
                 en: [
-                    "Daily overview — KPIs across all active work, with the open queue ready to triage.",
-                    "Create a work order in seconds — location, category, priority, description.",
-                    "Assign the right technician — by skill, by experience, by current workload.",
-                    "Review completed work — photos, materials, resident signature, then approve or reject.",
-                    "Reusable procedure templates — define once, apply to every relevant job.",
-                    "Master materials catalog — parts and consumables technicians can pick on close-out."
+                    "Residential & commercial - every building in one view, with this month's collection per asset.",
+                    "Villas - operating revenue, occupancy, and open service requests per villa.",
+                    "Commercial buildings - units, occupancy, and revenue for every commercial asset.",
+                    "Lands - commercial plots and the revenue each one generates."
                 ],
                 ar: [
-                    "نظرة يومية — مؤشرات الأداء عبر كل الأعمال النشطة، مع قائمة المفتوحات جاهزة للفرز.",
-                    "أنشئ أمر عمل في ثوانٍ — الموقع، الفئة، الأولوية، الوصف.",
-                    "عيّن الفني المناسب — حسب المهارة والخبرة وعبء العمل الحالي.",
-                    "راجع العمل المكتمل — الصور، المواد، توقيع الساكن، ثم وافق أو ارفض.",
-                    "قوالب إجراءات قابلة لإعادة الاستخدام — عرّفها مرة واحدة، طبّقها على كل مهمة ذات صلة.",
-                    "كتالوج المواد الرئيسي — الأجزاء والمستهلكات التي يختارها الفنيون عند الإغلاق."
+                    "السكني والتجاري - كل مبنى في عرض واحد، مع تحصيل هذا الشهر لكل أصل.",
+                    "الفلل - الإيرادات التشغيلية، الإشغال، وطلبات الخدمة المفتوحة لكل فلة.",
+                    "المباني التجارية - الوحدات، الإشغال، والإيرادات لكل أصل تجاري.",
+                    "الأراضي - قطع الأراضي التجارية والإيرادات التي تولّدها."
                 ]
             },
             tech: {
                 en: [
-                    "Your jobs at a glance — open, in progress, on hold, completed, rejected.",
-                    "Read the brief, see the photos, then accept or reject with a reason.",
-                    "Timer starts the moment you accept. Location, issue, due time — all in view.",
-                    "Tick off each procedure step, log the materials you actually used.",
-                    "After-photos, resident signature, total time on job — submit and you're done."
+                    "Document database - every photo, deed, layout, and contract grouped by asset.",
+                    "Unit record + attachments - owner, resident, lease, plus every file attached to the unit.",
+                    "Built-in financial reports - collected, overdue, upcoming, with revenue by asset type.",
+                    "Branded PDF exports - clean portfolio reports in your company's style."
                 ],
                 ar: [
-                    "مهامك في لمحة — مفتوحة، قيد التنفيذ، معلقة، مكتملة، مرفوضة.",
-                    "اقرأ الملخص، شاهد الصور، ثم اقبل أو ارفض مع تقديم السبب.",
-                    "يبدأ المؤقت لحظة القبول. الموقع، المشكلة، وقت الاستحقاق — كلها في المرأى.",
-                    "حدد كل خطوة من خطوات الإجراء، وسجّل المواد التي استخدمتها فعلياً.",
-                    "صور ما بعد العمل، توقيع الساكن، إجمالي الوقت — أرسل وانتهيت."
+                    "قاعدة بيانات المستندات - كل صورة وصك ومخطط وعقد مُجمَّعة حسب الأصل.",
+                    "سجل الوحدة والمرفقات - المالك، الساكن، الإيجار، وكل ملف مرفق بالوحدة.",
+                    "تقارير مالية مدمجة - المُحصَّل، المتأخر، القادم، مع الإيرادات حسب نوع الأصل.",
+                    "تقارير PDF بهوية شركتك - ملخصات محفظة نظيفة بأسلوب علامتك التجارية."
                 ]
             },
-            res: {
+            ops: {
                 en: [
-                    "Your active and past requests, all in one place.",
-                    "Raise a request in under a minute — photo, location, preferred time.",
-                    "See exactly where your request is — every step, every timestamp.",
-                    "Rate the work when it's done. Five stars and a quick note."
+                    "Service requests - one queue across every asset, sorted by priority and status.",
+                    "Announcements - schedule notices to one building, one floor, or the whole portfolio.",
+                    "Visitors - every check-in logged live, by guest type and unit.",
+                    "Guards - know who's on shift, where they're posted, and how to reach them."
                 ],
                 ar: [
-                    "طلباتك النشطة والسابقة، كلها في مكان واحد.",
-                    "ارفع طلباً في أقل من دقيقة — صورة، موقع، الوقت المفضل.",
-                    "اعرف بالضبط أين وصل طلبك — كل خطوة، كل وقت.",
-                    "قيّم العمل عند انتهائه. خمس نجوم وملاحظة سريعة."
+                    "طلبات الخدمة - قائمة موحّدة لكل الأصول، مرتّبة حسب الأولوية والحالة.",
+                    "الإعلانات - جدولة الإشعارات لمبنى واحد، طابق واحد، أو المحفظة بأكملها.",
+                    "الزوار - كل تسجيل دخول لحظة بلحظة، حسب نوع الزائر والوحدة.",
+                    "الحراسة - من في الخدمة، أين هم متمركزون، وكيف تتواصل معهم."
                 ]
             }
         };
@@ -2343,14 +2545,14 @@
             return (document.documentElement.getAttribute('lang') || 'en') === 'ar' ? 'ar' : 'en';
         }
         function refreshCaption(kind, idx) {
-            const idMap = { sup: 'pmcCaption', tech: 'techCaption', res: 'resCaption' };
+            const idMap = { sup: 'pmcCaption', tech: 'techCaption', ops: 'opsCaption' };
             const el = document.getElementById(idMap[kind]);
             if (el) el.textContent = mockupCaptions[kind][_currentLang()][idx];
         }
         function refreshAllCaptions() {
             refreshCaption('sup', pmcIndex);
             refreshCaption('tech', techIndex);
-            refreshCaption('res', resIndex);
+            refreshCaption('ops', opsIndex);
         }
 
         // Supervisor Screen Switcher (uses pmc-screen class for legacy CSS compatibility)
@@ -2375,15 +2577,15 @@
             refreshCaption('tech', techIndex);
         }
 
-        // Resident Screen Switcher
-        let resIndex = 0;
-        function resSlide(dir) {
-            const screens = document.querySelectorAll('.res-screen');
-            screens[resIndex].style.display = 'none';
-            resIndex = (resIndex + dir + screens.length) % screens.length;
-            screens[resIndex].style.display = '';
-            document.getElementById('resCounter').textContent = (resIndex + 1) + '/' + screens.length;
-            refreshCaption('res', resIndex);
+        // Operations Screen Switcher
+        let opsIndex = 0;
+        function opsSlide(dir) {
+            const screens = document.querySelectorAll('.ops-screen');
+            screens[opsIndex].style.display = 'none';
+            opsIndex = (opsIndex + dir + screens.length) % screens.length;
+            screens[opsIndex].style.display = '';
+            document.getElementById('opsCounter').textContent = (opsIndex + 1) + '/' + screens.length;
+            refreshCaption('ops', opsIndex);
         }
 
         /* Scroll-triggered reveal animations */
@@ -2412,101 +2614,117 @@
             nav_platform: 'المنصة',
             nav_pricing: 'الأسعار',
             nav_contact: 'تواصل معنا',
-            nav_login: 'تسجيل دخول المؤسسات',
+            nav_login: 'تجربة مباشرة',
+            nav_prod_pm: 'إدارة العقارات',
+            nav_prod_fm: 'إدارة المرافق',
 
             // Hero
-            hero_title: 'إدارة المرافق<br>بدون جداول البيانات.',
-            hero_sub: 'أوامر العمل، الصيانة الوقائية، الأصول، واتفاقيات مستوى الخدمة. نظام واحد لشركات إدارة المرافق والفرق الداخلية في الإمارات.',
-            thesis_line: 'إدارة المرافق الجيدة غير مرئية. كل شيء يعمل ببساطة.',
+            hero_title: 'محفظة أصول<br>تستطيع رؤيتها فعلاً.',
+            hero_sub: 'لمحافظ الأصول المملوكة أو المُدارة في الإمارات. العقود، المدفوعات، التكاليف، والمستندات في مكان واحد. لا مزيد من إكسل أو محادثات واتساب.',
+            thesis_line: 'المحفظة التي تستطيع رؤيتها هي المحفظة التي تستطيع إدارتها.',
 
             // Slider
-            slider_title: 'من الاستلام إلى الإغلاق. نظام واحد.',
-            slider_sub: 'يرفعها الشاغلون. تُوزّع من لوحة التحكم. تُحلّ من الهاتف.',
+            slider_title: 'كل المحفظة، في جيبك.',
+            slider_sub: 'كل أصل، كل دفعة، كل تكلفة - في لمحة، ثم ادخل في التفاصيل.',
 
             // Cards
-            card_sup_label: 'المشرف',
-            card_tech_label: 'الفني',
-            card_res_label: 'الساكن',
-            card_sup_title: 'مركز قيادة<br>عملية إدارة المرافق.',
-            card_sup_desc: 'استلام الطلبات، إنشاء أوامر العمل، وتعيين الفني المناسب — حسب المهارة والخبرة وعبء العمل. تتبع كل مهمة حتى الاعتماد النهائي. الصيانة الوقائية وسجل الأصول وتحليلات إدارة المرافق، كل ذلك في مكان واحد.',
-            card_tech_title: 'العمل الميداني،<br>موثّق بالكامل.',
-            card_tech_desc: 'الفنيون يقبلون أو يرفضون المهام مع تقديم السبب. يوثّقون بالصور وقوائم الإجراءات والمواد المستخدمة. يحصلون على توقيع الساكن عند الإنهاء. لا مزيد من مجموعات واتساب. لا مزيد من التخمين.',
-            card_res_title: 'طلبات مرفوعة<br>بدون عناء.',
-            card_res_desc: 'السكان يرفعون الطلبات في ثوانٍ — صورة، موقع، فئة، الوقت المفضل. يتابعون التقدم لحظة بلحظة، ويرون من قادم، ويقيّمون العمل عند الانتهاء. لا مكتب أمن. لا واتساب.',
+            card_sup_label: 'نظرة شاملة على المحفظة',
+            card_tech_label: 'كل البيانات في نظام واحد',
+            card_res_label: 'الحجم المناسب',
+            card_sup_title: 'كل محفظتك.<br>على شاشة واحدة.',
+            card_sup_desc: 'كل مبنى وفلة وقطعة أرض تديرها - في عرض واحد. اضغط على أي أصل للدخول إلى عقوده ومستأجريه ومدفوعاته وسجله.',
+            card_tech_title: 'كل بياناتك.<br>في مكان واحد.',
+            card_tech_desc: 'كل ملف عن كل أصل - صكوك الملكية، العقود، الفواتير، سجلات المقاولين، الصور - في نظام واحد قابل للبحث. ارفع أو نزّل بصيغة PDF أو PNG أو أي صيغة أخرى. لا شيء يضيع.',
+            card_res_title: 'أرخص من المؤسسات.<br>أقدر من إكسل.',
+            card_res_desc: 'للمحافظ التي ليست بحجم المؤسسات لكنها تجاوزت إمكانيات جداول البيانات. احصل على بنية برمجية حقيقية بجزء يسير من التكلفة - دون مشروع تطبيق يمتد لشهور.',
 
-            // Coverage grid — What VARS covers
-            coverage_heading: 'ما يغطيه VARS.',
-            cov_1_title: 'طلبات الشاغلين',
-            cov_1_desc: 'يرفع المستأجرون والموظفون المشاكل من الهاتف — صورة، موقع، فئة، أولوية',
-            cov_1_benefit: 'كل طلب يصل إلى القائمة بالسياق الصحيح. لا مزيد من فرز واتساب.',
-            cov_2_title: 'أوامر العمل',
-            cov_2_desc: 'الاستلام، التوزيع، الحالة، والإغلاق — قائمة واحدة عبر كل التخصصات والمقاولين',
-            cov_2_benefit: 'المنسقون يرون ما هو مفتوح، ومن يعمل عليه، ومنذ متى. بدون جداول بيانات.',
-            cov_3_title: 'الصيانة الوقائية المخططة',
-            cov_3_desc: 'مهام دورية مبنية على التقويم مقابل الأصول — تُنشأ وتُوزّع وتُتابَع تلقائياً',
-            cov_3_benefit: 'التزام بالصيانة الوقائية يمكن إثباته. أدلة قابلة للتدقيق لكل زيارة.',
-            cov_4_title: 'سجل الأصول',
-            cov_4_desc: 'كل مكيف ومصعد ومضخة ولوحة كهربائية — الموقع، الضمان، سجل الصيانة',
-            cov_4_benefit: 'مصدر واحد للحقيقة. أوامر العمل الجديدة ترتبط بالأصل، وليس مجرد عنوان.',
-            cov_5_title: 'تحليلات إدارة المرافق',
-            cov_5_desc: 'متوسط وقت الحل، نسبة الإصلاح من المحاولة الأولى، الالتزام بالصيانة الوقائية، عمر الطلبات المفتوحة، خروقات اتفاقيات الخدمة',
-            cov_5_benefit: 'اكتشاف الأنماط عبر المباني قبل أن تتحول إلى تصعيدات.',
-            cov_6_title: 'تكامل الأنظمة',
-            cov_6_desc: 'جاهز للتكامل مع أنظمة ERP وCMMS القائمة. رفع CSV من اليوم الأول',
-            cov_6_benefit: 'لا حاجة للاستبدال. يعمل جنباً إلى جنب مع ما تستخدمه بالفعل.',
+            // Comparison columns (Card 3)
+            cmp_excel_label: 'إكسل وواتساب',
+            cmp_excel_price: '0 درهم',
+            cmp_excel_1: 'فوري - لكن بلا نظام',
+            cmp_excel_2: 'مفقود بين جداول البيانات',
+            cmp_excel_3: 'ملفات PDF والعقود تضيع',
+            cmp_excel_4: 'لا تخصيص',
+            cmp_vars_badge: 'أنت هنا',
+            cmp_vars_label: 'VARS',
+            cmp_vars_price: 'من 100 درهم/شهرياً',
+            cmp_vars_1: 'جاهز للعمل خلال أسابيع',
+            cmp_vars_2: 'نظرة شاملة على المحفظة + تفاصيل كل أصل',
+            cmp_vars_3: 'كل مستند في مكانه',
+            cmp_vars_4: 'مفصّل لمحفظتك',
+            cmp_ent_label: 'برامج المؤسسات',
+            cmp_ent_price: '1000+ درهم/شهرياً + إعداد',
+            cmp_ent_1: 'تطبيق 3-6 أشهر',
+            cmp_ent_2: 'نعم - بعد إعداد طويل',
+            cmp_ent_3: 'ممكن - إعداد ثقيل',
+            cmp_ent_4: 'استشاريون مطلوبون',
+            cmp_excel_tag: 'يدوي',
+            cmp_vars_tag: 'صُنع في الإمارات',
+            cmp_ent_tag: 'ثقيل',
+
+            // Card 3: Operational Control (replaces Right-sized card)
+            card_ops_label: 'التحكم التشغيلي',
+            card_ops_title: 'تحكّم تشغيلي.<br>من أي مكان.',
+            card_ops_desc: 'قائمة واحدة لطلبات الخدمة، الفواتير، الإعلانات، وسجلات الزوار والحراسة. اعرف من في الموقع، وما هو قيد التنفيذ، وما تم إنجازه في كل أصل.',
+            mf_ops_1: 'طلبات الخدمة',
+            mf_ops_2: 'الإعلانات',
+            mf_ops_3: 'الزوار',
+            mf_ops_4: 'الحراسة',
+
+            // Pricing section - new positioning lead
+            pricing_eyebrow: 'بالحجم المناسب لمحفظتك',
+            pricing_compare_heading: 'أرخص من المؤسسات.<br>أقدر من إكسل.',
+            pricing_compare_sub: 'برنامج حقيقي بجزء يسير من التكلفة - دون مشروع تطبيق يمتد لشهور.',
+
+            // Live demo section
+            demo_title: 'جرّبه قبل أن تقرر.',
+            demo_sub: 'افتح التطبيق الآن مع محفظة تجريبية محمّلة مسبقاً. تصفّح العقود، شغّل تقريراً، ادخل إلى أي أصل - شاهد كيف يعمل فعلاً.',
+            demo_btn: 'افتح التجربة المباشرة ←',
+            demo_contact: 'أو تواصل معنا ←',
 
             // Pricing
             pricing_heading: 'أسعار شفافة.',
-            pricing_sub: 'فوترة شهرية لكل مستخدم نشط. حسابات السكان مجانية دائماً — تدفع فقط مقابل الموظفين الذين يعملون في النظام.',
-            price_per: 'لكل مستخدم نشط / شهرياً',
-            pricing_popular: 'الخيار المفضل لشركات إدارة المرافق الصغيرة والمتوسطة',
-            // Basic
-            price_basic_tier: 'أساسي',
-            price_basic_desc: 'للفرق الصغيرة التي تبدأ رقمنة تتبع أوامر العمل لأول مرة.',
-            price_basic_1: 'حتى 10 مستخدمين نشطين',
-            price_basic_2: 'أوامر العمل',
-            price_basic_3: 'الإجراءات',
-            price_basic_5: 'تحليلات أساسية',
-            // Pro
-            price_pro_tier: 'برو',
-            price_pro_desc: 'للعمليات متوسطة الحجم التي تحتاج مهام متكررة وتحليلات أعمق.',
-            price_includes_basic: 'كل ما في الأساسي، بالإضافة إلى:',
-            price_pro_1: 'حتى 300 مستخدم نشط',
-            price_pro_2: 'أوامر العمل المتكررة',
-            price_pro_3: 'تحليلات متقدمة',
-            price_pro_4: 'تتبع التكاليف',
-            price_pro_5: 'إدارة المخزون',
-            // Enterprise
-            price_ent_tier: 'المؤسسات',
-            price_ent_desc: 'للعمليات الكبيرة التي تحتاج تحليلات الذكاء الاصطناعي وتوسعاً غير محدود ودعماً مخصصاً.',
-            price_includes_pro: 'كل ما في برو، بالإضافة إلى:',
-            price_ent_1: 'مستخدمون نشطون غير محدودين',
-            price_ent_2: 'تحليلات مدعومة بالذكاء الاصطناعي',
-            price_ent_3: 'مدير دعم عملاء مخصص',
+            pricing_sub: 'تسعير بسيط لكل أصل. فوترة شهرية.',
+            price_includes: 'يشمل:',
+            price_includes_both: 'تشمل كلتا الباقتين',
+            price_addons_note: 'أي تخصيصات إضافية بعد الإعداد الأولي تُحتسب بشكل منفصل. تواصل معنا لباقات المحافظ.',
+            // Buildings
+            price_bldg_tier: 'المباني السكنية والتجارية',
+            price_bldg_desc: 'للمباني السكنية والمختلطة الاستخدام والأبراج التجارية.',
+            price_bldg_per: 'لكل مبنى / شهرياً · حتى 70 وحدة',
+            price_bldg_overage: '+ 10 درهم لكل وحدة / شهرياً فوق 70',
+            // Villas & Land
+            price_villa_tier: 'الفلل وقطع الأراضي',
+            price_villa_desc: 'للفلل المستقلة والتاون هاوس وقطع الأراضي قيد الإدارة.',
+            price_villa_per: 'لكل أصل / شهرياً',
+            // Shared features (both tiers)
+            price_feat_1: 'جميع الميزات - العقود، المستأجرون، الإيجار، الصيانة، المقاولون، التكاليف والتقارير',
+            price_feat_2: 'رؤية كاملة للمحفظة عبر كل أصل',
+            price_feat_3: 'حسابات الملّاك والمالكين وشركات إدارة العقارات - أنشئ ما تحتاج دون حدود',
+            price_feat_4: 'تصدير كامل للبيانات بأي صيغة تحتاجها',
+            price_feat_5: 'إعداد أولي وتخصيص قياسي',
+            price_feat_6: 'حسابات المستأجرين والأمن غير محدودة - مجاناً',
 
-            // Mobile features — Supervisor
-            mf_sup_1: 'لوحة التحكم',
-            mf_sup_2: 'إنشاء أمر عمل',
-            mf_sup_3: 'تعيين الفني',
-            mf_sup_4: 'الموافقة أو الرفض',
-            mf_sup_5: 'مكتبة الإجراءات',
-            mf_sup_6: 'كتالوج المواد',
+            // Mobile features - Portfolio Overview (by asset type)
+            mf_sup_1: 'السكني والتجاري',
+            mf_sup_2: 'الفلل',
+            mf_sup_3: 'المباني التجارية',
+            mf_sup_4: 'الأراضي',
 
-            // Mobile features — Technician
-            mf_tech_1: 'مهامي',
-            mf_tech_2: 'القبول أو الرفض',
-            mf_tech_3: 'مؤقت في الطريق',
-            mf_tech_4: 'الإجراء والمواد',
-            mf_tech_5: 'التوقيع والإغلاق',
+            // Mobile features - All in one system
+            mf_tech_1: 'قاعدة بيانات المستندات',
+            mf_tech_2: 'سجل الوحدة والمرفقات',
+            mf_tech_3: 'تقارير مدمجة',
+            mf_tech_4: 'تقارير PDF بهوية شركتك',
 
-            // Mobile features — Resident
-            mf_res_1: 'طلباتي',
-            mf_res_2: 'رفع طلب',
-            mf_res_3: 'تتبع التقدم',
-            mf_res_4: 'تقييم العمل',
+            // Mobile features - Right-sized
+            mf_res_1: 'أرخص من المؤسسات',
+            mf_res_2: 'أقدر من إكسل',
+            mf_res_3: 'جاهز في يوم واحد',
+            mf_res_4: 'بالحجم المناسب لمحفظتك',
 
             // CTA
-            cta_btn: 'احجز عرضاً توضيحياً',
+            cta_btn: 'تواصل معنا',
         }
     };
 
