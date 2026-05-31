@@ -1705,19 +1705,25 @@
             /* Hide per-slide captions on mobile (stale since carousels are hidden) */
             .mockup-caption-side { display: none !important; }
             .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
-            /* Card 1 (Portfolio): show all 4 phone screens in a 2x2 grid (no scroll, no shadows) */
+            /* Card 1 (Portfolio): horizontal swipe carousel - one big phone at a time */
             .card-pmc .mobile-feature-list { display: none !important; }
             .card-pmc .mobile-phone-stage {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-                width: 100%;
+                display: flex !important;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 14px;
                 padding: 0;
-            }
-            .mobile-phone-img {
                 width: 100%;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+            .card-pmc .mobile-phone-stage::-webkit-scrollbar { display: none; }
+            .mobile-phone-img {
+                flex: 0 0 88%;
+                max-width: 340px;
                 height: auto;
-                border-radius: 12px;
+                scroll-snap-align: center;
+                border-radius: 14px;
                 display: block;
             }
             .mobile-feature-item {
