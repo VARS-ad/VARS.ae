@@ -1665,11 +1665,13 @@
 
             /* Sections */
             section { padding: 3rem 1.25rem; min-height: auto; }
-            section#hero { padding: 5rem 1.25rem 3rem; }
+            /* Hero takes the full first screen so the headline dominates */
+            section#hero { padding: 6rem 1.25rem 4rem; min-height: 100vh; }
 
             /* Hero */
             h1 { font-size: 2rem; }
-            .hero-subtext { font-size: 0.95rem; max-width: 100%; }
+            #hero h1 { font-size: clamp(2.75rem, 10vw, 3.75rem) !important; line-height: 1.04 !important; letter-spacing: -0.045em !important; }
+            .hero-subtext { font-size: 1.05rem; max-width: 100%; line-height: 1.45; }
             .feature-pills { gap: 0.5rem; }
             .pill { padding: 0.5rem 1rem; font-size: 12px; }
             .scroll-indicator { display: none; }
@@ -1789,6 +1791,8 @@
         /* --- Small mobile (max 480px) --- */
         @media (max-width: 480px) {
             h1 { font-size: 1.6rem; }
+            #hero h1 { font-size: clamp(2.5rem, 11vw, 3.25rem) !important; }
+            .hero-subtext { font-size: 1rem; }
             h2 { font-size: 1.35rem; }
             .card-text h2 { font-size: clamp(1.8rem, 7vw, 2.25rem) !important; }
             .logo-box-large { width: 48px; height: 48px; font-size: 1.5rem; }
