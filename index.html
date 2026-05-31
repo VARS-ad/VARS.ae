@@ -1748,10 +1748,10 @@
             .slider-header h2 { font-size: clamp(2.25rem, 7vw, 2.75rem) !important; line-height: 1.08; letter-spacing: -0.04em; }
             .slider-header p { font-size: 1rem; max-width: 36ch; margin: 0.5rem auto 0; }
             .card-stack-item { top: 70px; padding: 2.25rem 1.5rem 2.5rem; gap: 1.5rem; border-radius: 14px; min-height: calc(100vh - 80px); align-content: center; }
-            /* Cards with phone carousel + full text - let them grow naturally, align top so all content is visible and scrollable */
+            /* Cards with phone carousel + full text - at least one screen tall so each card visibly ends before the next slides up */
             .card-pmc.card-stack-item,
             .card-security.card-stack-item,
-            .card-resident.card-stack-item { min-height: auto; align-content: start; padding-top: 2rem; padding-bottom: 2.5rem; }
+            .card-resident.card-stack-item { min-height: calc(100vh - 80px); align-content: start; padding-top: 2rem; padding-bottom: 2.5rem; }
             .card-text-label { font-size: 11px !important; margin-bottom: 1.25rem !important; }
             .card-text h2 { font-size: clamp(2.25rem, 7.5vw, 2.75rem) !important; margin-bottom: 1rem !important; line-height: 1.06 !important; letter-spacing: -0.04em !important; }
             .card-text p { font-size: 16px !important; line-height: 1.55 !important; }
