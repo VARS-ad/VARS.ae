@@ -795,6 +795,9 @@
         .card-visual .laptop-mockup { max-width: 1100px; }
 
         /* ========= MOCKUP IMAGE STAGE (PNG-based card mockups) ========= */
+        /* Mobile-only phone-mockup carousel (Card 1). Hidden on desktop. */
+        .mobile-phone-stage { display: none; }
+
         .mockup-stage {
             width: 100%;
             display: flex;
@@ -1692,12 +1695,36 @@
             .card-stack-spacer { height: 40px; }
 
             /* Hide laptop mockups & slide navs on mobile - show feature lists instead */
-            .card-pmc .card-visual > *:not(.mobile-feature-list),
+            .card-pmc .card-visual > *:not(.mobile-feature-list):not(.mobile-phone-stage),
             .card-security .card-visual > *:not(.mobile-feature-list),
             .card-resident .card-visual > *:not(.mobile-feature-list) { display: none !important; }
             /* Hide per-slide captions on mobile (stale since carousels are hidden) */
             .mockup-caption-side { display: none !important; }
             .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
+            /* Card 1 (Portfolio): use the phone-mockup carousel instead of the text feature list */
+            .card-pmc .mobile-feature-list { display: none !important; }
+            .card-pmc .mobile-phone-stage {
+                display: flex !important;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 14px;
+                padding: 6px 4px 18px;
+                width: 100%;
+                margin: 0 -1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+            .card-pmc .mobile-phone-stage::-webkit-scrollbar { display: none; }
+            .mobile-phone-img {
+                flex: 0 0 78%;
+                max-width: 320px;
+                height: auto;
+                scroll-snap-align: center;
+                border-radius: 22px;
+                box-shadow: 0 18px 44px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+            }
             .mobile-feature-item {
                 display: flex; align-items: center; gap: 0.75rem;
                 padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -2213,6 +2240,13 @@
                         <button onclick="pmcSlide(-1)" class="mockup-switcher-btn">‹</button>
                         <span id="pmcCounter" class="mockup-switcher-counter">1/4</span>
                         <button onclick="pmcSlide(1)" class="mockup-switcher-btn">›</button>
+                    </div>
+                    <!-- Mobile-only: swipeable phone-mockup carousel (replaces the feature list on Card 1) -->
+                    <div class="mobile-phone-stage" id="pmcPhoneStage">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-portfolio/01-residential.png" alt="Portfolio - Residential & commercial (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-portfolio/02-villas.png" alt="Portfolio - Villas (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-portfolio/03-commercial.png" alt="Portfolio - Commercial buildings (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-portfolio/04-lands.png" alt="Portfolio - Lands (phone)">
                     </div>
                     <div class="mobile-feature-list" style="display:none;">
                         <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_sup_1">Residential &amp; Commercial</span></div>
