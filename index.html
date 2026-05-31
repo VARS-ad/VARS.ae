@@ -1705,31 +1705,20 @@
             /* Hide per-slide captions on mobile (stale since carousels are hidden) */
             .mockup-caption-side { display: none !important; }
             .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
-            /* Card 1 (Portfolio): use the phone-mockup carousel instead of the text feature list */
+            /* Card 1 (Portfolio): show all 4 phone screens in a 2x2 grid (no scroll, no shadows) */
             .card-pmc .mobile-feature-list { display: none !important; }
             .card-pmc .mobile-phone-stage {
-                display: flex !important;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                gap: 14px;
-                padding: 6px 4px 18px;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
                 width: 100%;
-                margin: 0 -1.5rem;
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                scrollbar-width: none;
-                -webkit-overflow-scrolling: touch;
+                padding: 0;
             }
-            .card-pmc .mobile-phone-stage::-webkit-scrollbar { display: none; }
             .mobile-phone-img {
-                flex: 0 0 58%;
-                max-width: 220px;
+                width: 100%;
                 height: auto;
-                max-height: 360px;
-                object-fit: contain;
-                scroll-snap-align: center;
-                border-radius: 18px;
-                box-shadow: 0 14px 36px rgba(0,0,0,0.32), 0 0 0 1px rgba(255,255,255,0.06);
+                border-radius: 12px;
+                display: block;
             }
             .mobile-feature-item {
                 display: flex; align-items: center; gap: 0.75rem;
