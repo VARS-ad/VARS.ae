@@ -1615,8 +1615,10 @@
         @media (max-width: 1024px) {
             .card-stack-item { grid-template-columns: 1fr; min-height: auto; padding: 2rem; }
             .card-visual { order: -1; }
-            /* Card 1 (Portfolio): flip the order so title + description sit on top, phone carousel below */
-            .card-pmc .card-visual { order: 0; }
+            /* Cards with phone carousels: flip the order so title + description sit on top, phone carousel below */
+            .card-pmc .card-visual,
+            .card-security .card-visual,
+            .card-resident .card-visual { order: 0; }
             .phone-showcase .iphone-mockup { max-width: 150px; }
             .phone-showcase .iphone-mockup:nth-child(2) { max-width: 170px; }
             .diff-grid { grid-template-columns: 1fr; }
@@ -1691,26 +1693,34 @@
             .slider-header h2 { font-size: clamp(2.25rem, 7vw, 2.75rem) !important; line-height: 1.08; letter-spacing: -0.04em; }
             .slider-header p { font-size: 1rem; max-width: 36ch; margin: 0.5rem auto 0; }
             .card-stack-item { top: 70px; padding: 2.25rem 1.5rem 2.5rem; gap: 1.5rem; border-radius: 14px; min-height: calc(100vh - 80px); align-content: center; }
-            /* Card 1 has the phone carousel + full text - let it grow naturally, align top so all content is visible and scrollable */
-            .card-pmc.card-stack-item { min-height: auto; align-content: start; padding-top: 2rem; padding-bottom: 2.5rem; }
+            /* Cards with phone carousel + full text - let them grow naturally, align top so all content is visible and scrollable */
+            .card-pmc.card-stack-item,
+            .card-security.card-stack-item,
+            .card-resident.card-stack-item { min-height: auto; align-content: start; padding-top: 2rem; padding-bottom: 2.5rem; }
             .card-text-label { font-size: 11px !important; margin-bottom: 1.25rem !important; }
             .card-text h2 { font-size: clamp(2.25rem, 7.5vw, 2.75rem) !important; margin-bottom: 1rem !important; line-height: 1.06 !important; letter-spacing: -0.04em !important; }
             .card-text p { font-size: 16px !important; line-height: 1.55 !important; }
             .card-stack-spacer { height: 40px; }
 
-            /* Hide laptop mockups & slide navs on mobile - show feature lists instead */
+            /* Hide laptop mockups & slide navs on mobile - show feature lists / phone carousels instead */
             .card-pmc .card-visual > *:not(.mobile-feature-list):not(.mobile-phone-stage),
-            .card-security .card-visual > *:not(.mobile-feature-list),
-            .card-resident .card-visual > *:not(.mobile-feature-list) { display: none !important; }
+            .card-security .card-visual > *:not(.mobile-feature-list):not(.mobile-phone-stage),
+            .card-resident .card-visual > *:not(.mobile-feature-list):not(.mobile-phone-stage) { display: none !important; }
             /* Hide per-slide captions on mobile (stale since carousels are hidden) */
             .mockup-caption-side { display: none !important; }
             .mobile-feature-list { display: flex !important; flex-direction: column; gap: 0; width: 100%; }
-            /* Card 1 (Portfolio): horizontal swipe carousel - one phone at a time, real phone shape */
-            .card-pmc .mobile-feature-list { display: none !important; }
+            /* Cards 1, 2, 3: horizontal swipe carousel - one phone at a time, real phone shape */
+            .card-pmc .mobile-feature-list,
+            .card-security .mobile-feature-list,
+            .card-resident .mobile-feature-list { display: none !important; }
             /* Prevent grid/flex items from expanding past the card width */
             .card-stack-item, .card-text, .card-visual { min-width: 0; }
-            .card-pmc.card-stack-item { overflow-x: hidden; }
-            .card-pmc .mobile-phone-stage {
+            .card-pmc.card-stack-item,
+            .card-security.card-stack-item,
+            .card-resident.card-stack-item { overflow-x: hidden; }
+            .card-pmc .mobile-phone-stage,
+            .card-security .mobile-phone-stage,
+            .card-resident .mobile-phone-stage {
                 display: flex !important;
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
@@ -1725,7 +1735,9 @@
                 padding-left: calc(50% - 110px);
                 padding-right: calc(50% - 110px);
             }
-            .card-pmc .mobile-phone-stage::-webkit-scrollbar { display: none; }
+            .card-pmc .mobile-phone-stage::-webkit-scrollbar,
+            .card-security .mobile-phone-stage::-webkit-scrollbar,
+            .card-resident .mobile-phone-stage::-webkit-scrollbar { display: none; }
             .mobile-phone-img {
                 flex: 0 0 auto;
                 width: auto;
@@ -2289,6 +2301,14 @@
                         <span id="techCounter" class="mockup-switcher-counter">1/4</span>
                         <button onclick="techSlide(1)" class="mockup-switcher-btn">›</button>
                     </div>
+                    <!-- Mobile-only: swipeable phone-mockup carousel -->
+                    <div class="mobile-phone-stage" id="techPhoneStage">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-data/01-documents-overview.png" alt="Data - Documents overview (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-data/02-unit-files.png" alt="Data - Unit files (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-data/03-unit-grid.png" alt="Data - Unit grid (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-data/04-reports.png" alt="Data - Reports & KPIs (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-data/05-pdf-report.png" alt="Data - Branded PDF report (phone)">
+                    </div>
                     <div class="mobile-feature-list" style="display:none;">
                         <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_tech_1">Document Database</span></div>
                         <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_tech_2">Unit Record &amp; Attachments</span></div>
@@ -2317,6 +2337,13 @@
                         <button onclick="opsSlide(-1)" class="mockup-switcher-btn">‹</button>
                         <span id="opsCounter" class="mockup-switcher-counter">1/4</span>
                         <button onclick="opsSlide(1)" class="mockup-switcher-btn">›</button>
+                    </div>
+                    <!-- Mobile-only: swipeable phone-mockup carousel -->
+                    <div class="mobile-phone-stage" id="opsPhoneStage">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/01-service-requests.png" alt="Operations - Service requests (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/02-announcements.png" alt="Operations - Announcements (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/03-visitors.png" alt="Operations - Visitors (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/04-guards.png" alt="Operations - Guards (phone)">
                     </div>
                     <div class="mobile-feature-list" style="display:none;">
                         <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_ops_1">Service Requests</span></div>
