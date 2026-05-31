@@ -713,33 +713,35 @@
         .compare-col-list li:first-child { border-top: none; }
         .compare-col-vars .compare-col-list li { color: #fff; }
         @media (max-width: 768px) {
-            /* Compact 3-col comparison on mobile - all three columns visible on one screen */
+            /* 3-col comparison on mobile - bigger fonts, fewer rows (hide row 2 for breathing room) */
             .compare-grid {
                 grid-template-columns: 1fr 1fr 1fr !important;
-                gap: 6px !important;
+                gap: 8px !important;
                 max-width: 100% !important;
             }
             .compare-col {
-                padding: 14px 8px !important;
-                border-radius: 10px !important;
-                font-size: 11px !important;
+                padding: 18px 10px !important;
+                border-radius: 12px !important;
+                font-size: 12px !important;
             }
-            .compare-col-vars { transform: translateY(-6px); }
-            .compare-col-label { font-size: 10px !important; margin-bottom: 4px !important; line-height: 1.15 !important; }
-            .compare-col-tag { font-size: 7.5px !important; letter-spacing: 0.06em !important; margin-bottom: 8px !important; }
-            .compare-logos { margin-bottom: 8px !important; gap: 3px !important; min-height: 18px !important; }
-            .compare-logo-chip { width: 16px !important; height: 16px !important; }
-            .compare-logo-chip-vars { width: 18px !important; height: 18px !important; }
+            .compare-col-vars { transform: translateY(-8px); }
+            .compare-col-label { font-size: 11.5px !important; margin-bottom: 4px !important; line-height: 1.2 !important; font-weight: 600 !important; }
+            .compare-col-tag { font-size: 9px !important; letter-spacing: 0.08em !important; margin-bottom: 12px !important; }
+            .compare-logos { margin-bottom: 12px !important; gap: 4px !important; min-height: 22px !important; }
+            .compare-logo-chip { width: 20px !important; height: 20px !important; }
+            .compare-logo-chip-vars { width: 22px !important; height: 22px !important; border-radius: 4px; }
             .compare-col-list li {
-                font-size: 9.5px !important;
-                padding: 5px 0 !important;
-                line-height: 1.3 !important;
+                font-size: 11.5px !important;
+                padding: 7px 0 !important;
+                line-height: 1.32 !important;
             }
+            /* Hide row 2 (asset-level visibility) on mobile - keep Setup, Documents, Customization */
+            .compare-col-list li:nth-child(2) { display: none !important; }
             .compare-col-badge {
-                font-size: 7px !important;
-                padding: 3px 6px !important;
+                font-size: 8px !important;
+                padding: 4px 8px !important;
                 letter-spacing: 0.08em !important;
-                top: -7px !important;
+                top: -9px !important;
             }
         }
 
@@ -1845,15 +1847,23 @@
             .cta-stat-value { font-size: 1.5rem; }
             .cta-float { display: none; }
 
-            /* Pricing section - tighter so the comparison + pricing card each fit ~one screen */
+            /* Pricing section - comparison & pricing card each feel like ~one dedicated screen */
             section#pricing { padding: 4rem 1.25rem !important; }
             section#pricing h2[data-i18n-html="pricing_compare_heading"] {
-                font-size: clamp(1.85rem, 6.5vw, 2.5rem) !important;
-                margin-bottom: 0.75rem !important;
+                font-size: clamp(2rem, 7vw, 2.75rem) !important;
+                margin-bottom: 1rem !important;
+                line-height: 1.08 !important;
             }
-            section#pricing p[data-i18n="pricing_compare_sub"] { font-size: 14px !important; line-height: 1.5 !important; }
-            section#pricing h3[data-i18n="pricing_heading"] { font-size: 1.4rem !important; margin-bottom: 0.4rem !important; }
-            section#pricing p[data-i18n="pricing_sub"] { font-size: 13px !important; }
+            section#pricing p[data-i18n="pricing_compare_sub"] { font-size: 15px !important; line-height: 1.5 !important; }
+            /* "Transparent pricing" title - much bigger on mobile per user request */
+            section#pricing h3[data-i18n="pricing_heading"] {
+                font-size: clamp(2rem, 7vw, 2.5rem) !important;
+                margin-bottom: 0.6rem !important;
+                line-height: 1.08 !important;
+            }
+            section#pricing p[data-i18n="pricing_sub"] { font-size: 15px !important; line-height: 1.5 !important; }
+            /* Space between the two "screens" - the comparison and pricing card */
+            .compare-grid { margin-bottom: 4rem !important; }
 
             /* Footer mobile layout: single column, Platform then Contact, drop VARS block */
             footer { padding: 3.5rem 1.25rem 2.5rem !important; }
@@ -2138,21 +2148,24 @@
             margin-bottom: 0;
         }
         @media (max-width: 768px) {
-            /* Compact unified pricing card on mobile - both tiers + all features visible on one screen */
-            .pricing-unified { padding: 1.5rem 1.25rem !important; max-width: 100% !important; }
-            .pricing-tiers-row { grid-template-columns: 1fr 1px 1fr !important; gap: 0.75rem !important; }
-            .pricing-tier-divider { display: block !important; min-height: 100px; }
-            .pricing-unified .pricing-tier { font-size: 0.85rem !important; margin-bottom: 0.25rem !important; line-height: 1.15; }
-            .pricing-unified .pricing-desc { font-size: 10.5px !important; min-height: 0 !important; margin-bottom: 0.5rem !important; line-height: 1.35 !important; }
-            .pricing-unified .pricing-amount { font-size: 1.85rem !important; }
-            .pricing-unified .pricing-currency { font-size: 0.7rem !important; }
-            .pricing-unified .pricing-per { font-size: 10px !important; line-height: 1.3 !important; }
-            .pricing-shared-divider { margin: 1.5rem 0 1.25rem !important; }
+            /* Unified pricing card on mobile - bigger fonts, fewer features visible (4 of 6) */
+            .pricing-unified { padding: 1.75rem 1.25rem !important; max-width: 100% !important; }
+            .pricing-tiers-row { grid-template-columns: 1fr 1px 1fr !important; gap: 1rem !important; }
+            .pricing-tier-divider { display: block !important; min-height: 110px; }
+            .pricing-unified .pricing-tier { font-size: 1rem !important; margin-bottom: 0.35rem !important; line-height: 1.15; }
+            .pricing-unified .pricing-desc { font-size: 11.5px !important; min-height: 0 !important; margin-bottom: 0.6rem !important; line-height: 1.4 !important; }
+            .pricing-unified .pricing-amount { font-size: 2.25rem !important; }
+            .pricing-unified .pricing-currency { font-size: 0.8rem !important; }
+            .pricing-unified .pricing-per { font-size: 11px !important; line-height: 1.35 !important; }
+            .pricing-shared-divider { margin: 1.75rem 0 1.5rem !important; }
             .pricing-features-shared { max-width: 100% !important; }
-            .pricing-features-shared .pricing-features { grid-template-columns: 1fr 1fr !important; gap: 8px 12px !important; }
-            .pricing-features-shared .pricing-feature { font-size: 11px !important; line-height: 1.35 !important; gap: 6px !important; }
-            .pricing-features-shared .pricing-feature::before { font-size: 11px !important; }
-            .pricing-features-shared .pricing-feature-header { font-size: 9px !important; margin-bottom: 0.75rem !important; }
+            .pricing-features-shared .pricing-features { grid-template-columns: 1fr !important; gap: 14px !important; }
+            .pricing-features-shared .pricing-feature { font-size: 14px !important; line-height: 1.45 !important; gap: 10px !important; }
+            .pricing-features-shared .pricing-feature::before { font-size: 14px !important; }
+            .pricing-features-shared .pricing-feature-header { font-size: 11px !important; margin-bottom: 1.25rem !important; }
+            /* Hide 2 of 6 features on mobile (keep the 4 strongest selling points) */
+            .pricing-features-shared .pricing-feature:nth-child(2),
+            .pricing-features-shared .pricing-feature:nth-child(5) { display: none !important; }
         }
         html[dir="rtl"] .pricing-features-shared .pricing-feature { text-align: right; }
         .pricing-btn {
