@@ -727,6 +727,7 @@
                 font-size: 13px !important;
                 display: flex !important;
                 flex-direction: column !important;
+                min-height: 200px !important;  /* equal-ish heights across the 3 cards */
             }
             .compare-col-vars {
                 transform: none !important;  /* stacked layout - no lift needed */
@@ -764,6 +765,8 @@
                 font-size: 13px;
             }
             .compare-col-vars .compare-col-list li::before { color: rgba(255,255,255,0.85); }
+            /* Show only 3 bullets per card on mobile (hide row 2 - asset visibility) */
+            .compare-col-list li:nth-child(2) { display: none !important; }
             .compare-col-badge {
                 font-size: 9px !important;
                 padding: 4px 10px !important;
@@ -1882,9 +1885,10 @@
                 line-height: 1.08 !important;
             }
             section#pricing p[data-i18n="pricing_compare_sub"] { font-size: 15px !important; line-height: 1.5 !important; }
-            /* "Transparent pricing" title - much bigger on mobile per user request */
+            /* "Transparent pricing" title - same size as comparison h2 above, lighter weight */
             section#pricing h3[data-i18n="pricing_heading"] {
-                font-size: clamp(2rem, 7vw, 2.5rem) !important;
+                font-size: clamp(2rem, 7vw, 2.75rem) !important;
+                font-weight: 300 !important;
                 margin-bottom: 0.6rem !important;
                 line-height: 1.08 !important;
             }
@@ -2513,13 +2517,13 @@
                 <div class="pricing-tiers-row">
                     <div class="pricing-tier-col">
                         <div class="pricing-tier" data-i18n="price_bldg_tier">Residential &amp; Commercial Buildings</div>
-                        <div class="pricing-desc" data-i18n="price_bldg_desc">For apartment buildings, mixed-use, and commercial towers.</div>
+                        <div class="pricing-desc" data-i18n="price_bldg_desc">For apartment &amp; commercial buildings.</div>
                         <div class="pricing-price">
                             <span class="pricing-currency">AED</span>
-                            <span class="pricing-amount">400</span>
+                            <span class="pricing-amount">450</span>
                         </div>
-                        <div class="pricing-per" data-i18n="price_bldg_per">per building / month · up to 70 units</div>
-                        <div class="pricing-per" style="margin-top:6px; font-size:13px; opacity:0.75;" data-i18n="price_bldg_overage">+ AED 10 per unit / month above 70</div>
+                        <div class="pricing-per" data-i18n="price_bldg_per">per building / month · up to 90 units</div>
+                        <div class="pricing-per" style="margin-top:6px; font-size:13px; opacity:0.75;" data-i18n="price_bldg_overage">+ AED 10 per unit / month above 90</div>
                     </div>
                     <div class="pricing-tier-divider"></div>
                     <div class="pricing-tier-col">
@@ -2874,9 +2878,9 @@
             price_addons_note: 'أي تخصيصات إضافية بعد الإعداد الأولي تُحتسب بشكل منفصل. تواصل معنا لباقات المحافظ.',
             // Buildings
             price_bldg_tier: 'المباني السكنية والتجارية',
-            price_bldg_desc: 'للمباني السكنية والمختلطة الاستخدام والأبراج التجارية.',
-            price_bldg_per: 'لكل مبنى / شهرياً · حتى 70 وحدة',
-            price_bldg_overage: '+ 10 درهم لكل وحدة / شهرياً فوق 70',
+            price_bldg_desc: 'للمباني السكنية والتجارية.',
+            price_bldg_per: 'لكل مبنى / شهرياً · حتى 90 وحدة',
+            price_bldg_overage: '+ 10 درهم لكل وحدة / شهرياً فوق 90',
             // Villas & Land
             price_villa_tier: 'الفلل وقطع الأراضي',
             price_villa_desc: 'للفلل المستقلة والتاون هاوس وقطع الأراضي قيد الإدارة.',
