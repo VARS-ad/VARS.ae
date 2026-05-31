@@ -1667,6 +1667,10 @@
             section { padding: 3rem 1.25rem; min-height: auto; }
             /* Hero takes the full first screen so the headline dominates */
             section#hero { padding: 6rem 1.25rem 4rem; min-height: 100vh; }
+            /* Demo CTA also fills the screen on mobile (last content section before footer) */
+            section#demo { min-height: 100vh !important; display: flex !important; align-items: center; }
+            section#demo h2 { font-size: clamp(2.5rem, 9vw, 3.5rem) !important; line-height: 1.05 !important; }
+            section#demo p { font-size: 1.05rem !important; }
 
             /* Hero */
             h1 { font-size: 2rem; }
