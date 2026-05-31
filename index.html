@@ -1676,11 +1676,12 @@
 
             /* Card stack */
             .slider-section { padding: 2rem 1.25rem; }
-            .slider-header h2 { font-size: 1.75rem; }
-            .slider-header p { font-size: 0.95rem; }
-            .card-stack-item { top: 70px; padding: 2rem 1.5rem 2.25rem; gap: 1.5rem; border-radius: 14px; }
+            .slider-header { padding-top: 3.5rem !important; margin-bottom: 2.5rem !important; }
+            .slider-header h2 { font-size: clamp(2.25rem, 7vw, 2.75rem) !important; line-height: 1.08; letter-spacing: -0.04em; }
+            .slider-header p { font-size: 1rem; max-width: 36ch; margin: 0.5rem auto 0; }
+            .card-stack-item { top: 70px; padding: 2.25rem 1.5rem 2.5rem; gap: 1.5rem; border-radius: 14px; }
             .card-text-label { font-size: 11px !important; margin-bottom: 1.25rem !important; }
-            .card-text h2 { font-size: clamp(2rem, 7vw, 2.5rem) !important; margin-bottom: 1rem !important; line-height: 1.08 !important; }
+            .card-text h2 { font-size: clamp(2.25rem, 7.5vw, 2.75rem) !important; margin-bottom: 1rem !important; line-height: 1.06 !important; letter-spacing: -0.04em !important; }
             .card-text p { font-size: 16px !important; line-height: 1.55 !important; }
             .card-stack-spacer { height: 40px; }
 
@@ -1762,8 +1763,8 @@
             .cta-stat-value { font-size: 1.5rem; }
             .cta-float { display: none; }
 
-            /* Footer mobile layout: single column, reordered (Contact -> VARS centered -> Platform) */
-            footer { padding: 4rem 1.25rem 2.5rem !important; }
+            /* Footer mobile layout: single column, Platform then Contact, drop VARS block */
+            footer { padding: 3.5rem 1.25rem 2.5rem !important; }
             footer .container {
                 grid-template-columns: 1fr !important;
                 gap: 2.5rem !important;
@@ -1772,13 +1773,11 @@
             footer .container > div { display: flex !important; flex-direction: column; align-items: center; }
             footer .container > div > div[style*="flex-direction:column"],
             footer .container > div > div[style*="display:flex"] { align-items: center !important; justify-content: center !important; }
-            /* Reorder: Contact info -> VARS branding -> Platform; hide Company (duplicate) */
-            footer .container > div:nth-child(1) { order: 2; }  /* VARS branding (middle) */
-            footer .container > div:nth-child(2) { order: 3; }  /* Platform (below) */
-            footer .container > div:nth-child(3) { display: none !important; }  /* Company (hide) */
-            footer .container > div:nth-child(4) { order: 1; }  /* Contact info (top) */
-            footer .container > div > div[style*="font-size:32px"] { margin-bottom: 0.75rem; }
-            footer .container > div > p { max-width: 320px; }
+            /* Order: Platform (top), Contact (bottom); hide VARS branding & duplicate Company column */
+            footer .container > div:nth-child(1) { display: none !important; }  /* VARS branding (hide on mobile) */
+            footer .container > div:nth-child(2) { order: 1; }  /* Platform */
+            footer .container > div:nth-child(3) { display: none !important; }  /* Company (duplicate Contact link) */
+            footer .container > div:nth-child(4) { order: 2; }  /* Contact info */
             #cta .container > div { grid-template-columns: 1fr !important; }
 
             /* RTL mobile overrides */

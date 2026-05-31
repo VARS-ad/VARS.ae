@@ -270,28 +270,52 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
             .page-wrapper { grid-template-columns: 1fr; }
-            .design-side { min-height: 280px; margin: 0; border-radius: 0; order: -1; }
+            .design-side { min-height: 320px; margin: 0; border-radius: 0; order: -1; justify-content: center; padding-top: 30px; }
             .form-side { padding: 5rem 1.5rem 2rem; }
             .form-nav { padding: 1rem; }
             /* Smaller floating elements on mobile */
             .float-el { display: none; }
-            .float-card { padding: 8px 12px; border-radius: 8px; }
-            .float-card-value { font-size: 0.9rem; }
-            .float-card-label { font-size: 0.55rem; }
-            .brand-center svg { width: 60px; height: 60px; }
-            .brand-center span { font-size: 0.85rem; }
-            /* Phone-sized panel: hide all stat cards, then re-show two strategic ones that don't overlap */
-            .float-card { display: none; }
+            .float-card-value { font-size: 0.78rem !important; }
+            .float-card-label { font-size: 0.5rem !important; }
+            .brand-center { margin-top: 40px; }
+            .brand-center svg { width: 56px; height: 56px; }
+            .brand-center span { font-size: 0.95rem; }
+
+            /* VARS centered (slightly below middle) inside a subtle glass box */
+            .brand-center {
+                padding: 16px 26px 14px;
+                background: rgba(255,255,255,0.14);
+                backdrop-filter: blur(14px) saturate(140%);
+                -webkit-backdrop-filter: blur(14px) saturate(140%);
+                border: 1px solid rgba(255,255,255,0.22);
+                border-radius: 14px;
+                box-shadow: 0 10px 28px rgba(0,0,0,0.2);
+            }
+
+            /* Hide all 7 stat cards, then re-show 4 small ones at corners (won't cross) */
+            .float-card { display: none !important; padding: 6px 10px !important; border-radius: 8px !important; }
             .float-card.card-a {
-                display: block;
-                top: 18%; left: 6%;
-                animation: none;
+                display: block !important;
+                top: 8% !important; left: 4% !important; right: auto !important; bottom: auto !important;
+                animation: fmobA 6s ease-in-out infinite !important;
+            }
+            .float-card.card-b {
+                display: block !important;
+                top: 8% !important; right: 4% !important; left: auto !important; bottom: auto !important;
+                animation: fmobB 7s ease-in-out infinite !important;
             }
             .float-card.card-c {
-                display: block;
-                top: 18%; right: 6%; left: auto;
-                animation: none;
+                display: block !important;
+                bottom: 8% !important; right: 4% !important; top: auto !important; left: auto !important;
+                animation: fmobA 8s ease-in-out infinite !important;
             }
+            .float-card:nth-of-type(4) {
+                display: block !important;
+                bottom: 8% !important; left: 4% !important; top: auto !important; right: auto !important;
+                animation: fmobB 7.5s ease-in-out infinite !important;
+            }
+            @keyframes fmobA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+            @keyframes fmobB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
             /* Lang toggle on mobile */
             .lang-toggle { padding: 5px 8px; gap: 4px; }
             .lang-toggle svg { width: 14px; height: 14px; }
