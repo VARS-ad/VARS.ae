@@ -2232,9 +2232,10 @@
             .pricing-features-shared .pricing-feature { font-size: 13.5px !important; line-height: 1.45 !important; gap: 10px !important; }
             .pricing-features-shared .pricing-feature::before { font-size: 14px !important; }
             .pricing-features-shared .pricing-feature-header { font-size: 11px !important; margin-bottom: 1.25rem !important; }
-            /* Hide 2 of 6 features on mobile (keep the 4 strongest selling points) */
+            /* Show only 3 features on mobile: All features, Full data export, Landlord accounts */
             .pricing-features-shared .pricing-feature:nth-child(2),
-            .pricing-features-shared .pricing-feature:nth-child(5) { display: none !important; }
+            .pricing-features-shared .pricing-feature:nth-child(5),
+            .pricing-features-shared .pricing-feature:nth-child(6) { display: none !important; }
         }
         html[dir="rtl"] .pricing-features-shared .pricing-feature { text-align: right; }
         .pricing-btn {
@@ -2578,12 +2579,12 @@
                 <div class="pricing-shared-divider"></div>
 
                 <div class="pricing-features-shared">
-                    <div class="pricing-feature-header" data-i18n="price_includes_both">Both tiers include</div>
+                    <div class="pricing-feature-header" data-i18n="price_includes_both">What's included</div>
                     <div class="pricing-features">
                         <div class="pricing-feature" data-i18n="price_feat_1">All features - leases, tenants, rent, maintenance, contractors, costs &amp; reporting</div>
                         <div class="pricing-feature" data-i18n="price_feat_2">Full portfolio visibility across every asset</div>
-                        <div class="pricing-feature" data-i18n="price_feat_3">Landlord, owner &amp; property-manager accounts - create as many as you need</div>
                         <div class="pricing-feature" data-i18n="price_feat_4">Full data export in any format you need</div>
+                        <div class="pricing-feature" data-i18n="price_feat_3">Landlord, owner &amp; property-manager accounts - create as many as you need</div>
                         <div class="pricing-feature" data-i18n="price_feat_5">Initial setup &amp; standard customization</div>
                         <div class="pricing-feature" data-i18n="price_feat_6">Unlimited tenant &amp; security accounts - free</div>
                     </div>
@@ -2912,7 +2913,7 @@
             pricing_heading: 'أسعار شفافة.',
             pricing_sub: 'تسعير بسيط لكل أصل. فوترة شهرية.',
             price_includes: 'يشمل:',
-            price_includes_both: 'تشمل كلتا الباقتين',
+            price_includes_both: 'ما هو مشمول',
             price_addons_note: 'أي تخصيصات إضافية بعد الإعداد الأولي تُحتسب بشكل منفصل. تواصل معنا لباقات المحافظ.',
             // Buildings
             price_bldg_tier: 'المباني السكنية والتجارية',
