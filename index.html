@@ -2391,7 +2391,6 @@
     <div class="slider-section" id="slider">
         <div class="slider-header">
             <h2 data-i18n="slider_title">The whole portfolio. One system.</h2>
-            <p data-i18n="slider_sub">Every asset, every payment, every cost - at a glance, then drill in.</p>
         </div>
 
         <div class="card-stack">
@@ -2400,8 +2399,8 @@
             <div class="card-stack-item card-pmc reveal">
                 <div class="card-text">
                     <div class="card-text-label"><span data-i18n="card_sup_label">Portfolio Overview</span> · 01</div>
-                    <h2 data-i18n-html="card_sup_title">From overview to any detail.<br>In 2 clicks.</h2>
-                    <p data-i18n="card_sup_desc">Every building, villa, and plot you manage - in one view. Click any asset to drill into its leases, tenants, payments, and history.</p>
+                    <h2 data-i18n-html="card_sup_title">Every asset in one glance.</h2>
+                    <p data-i18n="card_sup_desc">Every building, villa, and plot in the portfolio - one view. Drill into any asset's leases, tenants, payments, and history.</p>
                     <div class="mockup-caption-side" id="pmcCaption">Residential & commercial - every building in one view, with this month's collection per asset.</div>
                 </div>
                 <div class="card-visual" style="flex-direction:column;justify-content:center;">
@@ -2433,12 +2432,48 @@
                 </div>
             </div>
 
-            <!-- Card 2: Technician App -->
+            <!-- Card 2: Operational Activity (was Card 3) -->
+            <div class="card-stack-item card-resident reveal">
+                <div class="card-text">
+                    <div class="card-text-label"><span data-i18n="card_ops_label">Operational activity</span> · 02</div>
+                    <h2 data-i18n-html="card_ops_title">Requests, announcements, visitors.<br>One queue.</h2>
+                    <p data-i18n="card_ops_desc">Stop juggling WhatsApp groups, emails, and notebooks. Every service request, announcement, and visitor log in one place - across the whole portfolio.</p>
+                    <div class="mockup-caption-side" id="opsCaption">Service requests - one queue across every asset, sorted by priority and status.</div>
+                </div>
+                <div class="card-visual" style="flex-direction:column;justify-content:center;">
+                    <div class="mockup-stage mockup-stage-laptop">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/01-service-requests.png" alt="Operations - Service requests">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/02-announcements.png" alt="Operations - Announcements" style="display:none;">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/03-visitors.png" alt="Operations - Visitors" style="display:none;">
+                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/04-guards.png" alt="Operations - Guards" style="display:none;">
+                    </div>
+                    <div class="mockup-switcher">
+                        <button onclick="opsSlide(-1)" class="mockup-switcher-btn">‹</button>
+                        <span id="opsCounter" class="mockup-switcher-counter">1/4</span>
+                        <button onclick="opsSlide(1)" class="mockup-switcher-btn">›</button>
+                    </div>
+                    <!-- Mobile-only: swipeable phone-mockup carousel -->
+                    <div class="mobile-phone-stage" id="opsPhoneStage">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/01-service-requests.png" alt="Operations - Service requests (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/02-announcements.png" alt="Operations - Announcements (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/03-visitors.png" alt="Operations - Visitors (phone)">
+                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/04-guards.png" alt="Operations - Guards (phone)">
+                    </div>
+                    <div class="mobile-feature-list" style="display:none;">
+                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_ops_1">Service Requests</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_ops_2">Announcements</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_ops_3">Visitors</span></div>
+                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_ops_4">Guards</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: All in One System - Documents & Reports (was Card 2) -->
             <div class="card-stack-item card-security reveal">
                 <div class="card-text">
-                    <div class="card-text-label"><span data-i18n="card_tech_label">All in one system</span> · 02</div>
-                    <h2 data-i18n-html="card_tech_title">All your data.<br>One place.</h2>
-                    <p data-i18n="card_tech_desc">Every file about every asset - deeds, contracts, invoices, photos - in one searchable system. Nothing gets lost.</p>
+                    <div class="card-text-label"><span data-i18n="card_tech_label">All in one system</span> · 03</div>
+                    <h2 data-i18n-html="card_tech_title">Every document. Every report.<br>One place.</h2>
+                    <p data-i18n="card_tech_desc">Deeds, contracts, invoices, photos, and every report the owner asks for - one searchable system. Nothing lost, nothing manually compiled.</p>
                     <div class="mockup-caption-side" id="techCaption">Document database - every photo, deed, layout, and contract grouped by asset.</div>
                 </div>
                 <div class="card-visual" style="flex-direction:column;justify-content:center;">
@@ -2466,42 +2501,6 @@
                         <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_tech_2">Unit Record &amp; Attachments</span></div>
                         <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_tech_3">Built-in Reports</span></div>
                         <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_tech_4">Branded PDF Exports</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Operational Control -->
-            <div class="card-stack-item card-resident reveal">
-                <div class="card-text">
-                    <div class="card-text-label"><span data-i18n="card_ops_label">Your day-to-day</span> · 03</div>
-                    <h2 data-i18n-html="card_ops_title">Tenants, requests, contractors.<br>One queue.</h2>
-                    <p data-i18n="card_ops_desc">Stop juggling WhatsApp groups, emails, and notebooks. Every service request, announcement, and visitor log in one place - across every building you manage.</p>
-                    <div class="mockup-caption-side" id="opsCaption">Service requests - one queue across every asset, sorted by priority and status.</div>
-                </div>
-                <div class="card-visual" style="flex-direction:column;justify-content:center;">
-                    <div class="mockup-stage mockup-stage-laptop">
-                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/01-service-requests.png" alt="Operations - Service requests">
-                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/02-announcements.png" alt="Operations - Announcements" style="display:none;">
-                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/03-visitors.png" alt="Operations - Visitors" style="display:none;">
-                        <img class="ops-screen mockup-img mockup-img-laptop" src="images/mockups-pmc/operations/04-guards.png" alt="Operations - Guards" style="display:none;">
-                    </div>
-                    <div class="mockup-switcher">
-                        <button onclick="opsSlide(-1)" class="mockup-switcher-btn">‹</button>
-                        <span id="opsCounter" class="mockup-switcher-counter">1/4</span>
-                        <button onclick="opsSlide(1)" class="mockup-switcher-btn">›</button>
-                    </div>
-                    <!-- Mobile-only: swipeable phone-mockup carousel -->
-                    <div class="mobile-phone-stage" id="opsPhoneStage">
-                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/01-service-requests.png" alt="Operations - Service requests (phone)">
-                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/02-announcements.png" alt="Operations - Announcements (phone)">
-                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/03-visitors.png" alt="Operations - Visitors (phone)">
-                        <img class="mobile-phone-img" src="images/mockups-pmc/phone-operations/04-guards.png" alt="Operations - Guards (phone)">
-                    </div>
-                    <div class="mobile-feature-list" style="display:none;">
-                        <div class="mobile-feature-item"><span class="mf-num">01</span><span class="mf-title" data-i18n="mf_ops_1">Service Requests</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">02</span><span class="mf-title" data-i18n="mf_ops_2">Announcements</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">03</span><span class="mf-title" data-i18n="mf_ops_3">Visitors</span></div>
-                        <div class="mobile-feature-item"><span class="mf-num">04</span><span class="mf-title" data-i18n="mf_ops_4">Guards</span></div>
                     </div>
                 </div>
             </div>
@@ -2630,14 +2629,14 @@
         <div class="container" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:60px;">
             <div>
                 <div style="font-size:32px; letter-spacing:-0.035em; font-weight:500; margin-bottom:1.25rem;">VARS</div>
-                <p style="font-size:14px; color:var(--text-dark-secondary); line-height:1.5;">Portfolio management for UAE landlords and operators. Built in Abu Dhabi.</p>
+                <p style="font-size:14px; color:var(--text-dark-secondary); line-height:1.5;">The property management system for UAE portfolios. Built in Abu Dhabi.</p>
             </div>
             <div>
                 <h5 style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dark-secondary); font-weight:500; margin-bottom:1.25rem;">Platform</h5>
                 <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;">
                     <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Portfolio Overview</a>
+                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Operational activity</a>
                     <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">All in One System</a>
-                    <a onclick="scrollToSection('slider')" style="color:var(--text-dark-secondary); text-decoration:none; cursor:pointer;">Operational Control</a>
                 </div>
             </div>
             <div>
@@ -2871,16 +2870,15 @@
 
             // Slider
             slider_title: 'المحفظة بالكامل. نظام واحد.',
-            slider_sub: 'كل أصل، كل دفعة، كل تكلفة - في لمحة، ثم ادخل في التفاصيل.',
 
             // Cards
             card_sup_label: 'نظرة شاملة على المحفظة',
             card_tech_label: 'كل البيانات في نظام واحد',
             card_res_label: 'الحجم المناسب',
-            card_sup_title: 'من النظرة الشاملة إلى أي تفصيل.<br>في نقرتين.',
-            card_sup_desc: 'كل مبنى وفلة وقطعة أرض تديرها - في عرض واحد. اضغط على أي أصل للدخول إلى عقوده ومستأجريه ومدفوعاته وسجله.',
-            card_tech_title: 'كل بياناتك.<br>في مكان واحد.',
-            card_tech_desc: 'كل ملف عن كل أصل - صكوك، عقود، فواتير، صور - في نظام واحد قابل للبحث. لا شيء يضيع.',
+            card_sup_title: 'كل أصل في لمحة.',
+            card_sup_desc: 'كل مبنى وفلة وقطعة أرض في المحفظة - عرض واحد. ادخل إلى عقود أي أصل، مستأجريه، مدفوعاته، وسجله.',
+            card_tech_title: 'كل مستند. كل تقرير.<br>مكان واحد.',
+            card_tech_desc: 'صكوك، عقود، فواتير، صور، وكل تقرير يطلبه المالك - نظام واحد قابل للبحث. لا شيء يضيع، لا شيء يُجمع يدوياً.',
             card_res_title: 'أرخص من المؤسسات.<br>أقدر من إكسل.',
             card_res_desc: 'للمحافظ التي ليست بحجم المؤسسات لكنها تجاوزت إمكانيات جداول البيانات. احصل على بنية برمجية حقيقية بجزء يسير من التكلفة - دون مشروع تطبيق يمتد لشهور.',
 
@@ -2909,9 +2907,9 @@
             cmp_ent_tag: 'مُعقَّد',
 
             // Card 3: Operational Control (replaces Right-sized card)
-            card_ops_label: 'يومك المعتاد',
-            card_ops_title: 'المستأجرون، الطلبات، المقاولون.<br>قائمة واحدة.',
-            card_ops_desc: 'توقف عن التنقل بين مجموعات واتساب والإيميلات والمفكرات. كل طلب صيانة، إعلان، وسجل زائر في مكان واحد - عبر كل مبنى تديره.',
+            card_ops_label: 'النشاط التشغيلي',
+            card_ops_title: 'الطلبات، الإعلانات، الزوار.<br>قائمة واحدة.',
+            card_ops_desc: 'توقف عن التنقل بين مجموعات واتساب والإيميلات والمفكرات. كل طلب صيانة، إعلان، وسجل زائر في مكان واحد - عبر المحفظة بالكامل.',
             mf_ops_1: 'طلبات الخدمة',
             mf_ops_2: 'الإعلانات',
             mf_ops_3: 'الزوار',
